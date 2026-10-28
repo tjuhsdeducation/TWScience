@@ -49,6 +49,7 @@ const SCORES_FOLDER_ID = '';   // leave empty: setup() creates the "TW Science L
 const ACTIVITIES = [
   ["Biology Labs", "Full lab", "Biology: The Case of the Poisoned Food Critic: A Macromolecule Mystery"],
   ["Biology Labs", "Full lab", "Biology: The Great Gummy Bear Soak: Osmosis and Cell Transport"],
+  ["Biology Labs", "Full lab", "Biology: Keeping the Balance: Homeostasis and Feedback Loops"],
   ["Biology Labs", "Full lab", "Biology: Elodea, Snails & Bromothymol Blue: Who Uses CO₂?"],
   ["Biology Labs", "Full lab", "Biology: Body Cells vs. Sex Cells: A Mitosis & Meiosis Lab"],
   ["Biology Labs", "Full lab", "Biology: From Gene to Trait: A Protein Synthesis Journey"],
@@ -56,7 +57,6 @@ const ACTIVITIES = [
   ["Biology Labs", "Full lab", "Biology: Hurricane Lizards: How Natural Selection Changes a Population"],
   ["Biology Labs", "Full lab", "Biology: Case File: Evidence of Evolution"],
   ["Biology Labs", "Full lab", "Biology: Boom and Bust: Predators, Prey, and Symbiosis"],
-  ["Biology Labs", "Full lab", "Biology: Keeping the Balance: Homeostasis and Feedback Loops"],
   ["Biology Labs", "Mini lab", "Biology: Mini Lab: Yeast Balloons (Macromolecules → Enzymes → Cellular Respiration)"],
   ["Biology Labs", "Mini lab", "Biology: Mini Lab: Sickle Cell & Malaria (DNA → Genetics → Evolution)"],
   ["Biology Labs", "Mini lab", "Biology: Mini Lab: Superbugs (Cells → Mutations → Natural Selection)"],

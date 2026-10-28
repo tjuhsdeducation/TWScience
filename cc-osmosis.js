@@ -57,18 +57,20 @@
   }
 
   /* a cute gummy bear, scaled about its feet */
-  function bear(cx, by, s, col) {
+  function bear(cx, by, s, col, wr) {
     const g = `<g transform="translate(${cx} ${by}) scale(${s.toFixed(3)}) translate(0 -46)">
       <circle cx="-9" cy="-16" r="5" fill="${col}"/><circle cx="9" cy="-16" r="5" fill="${col}"/>
       <ellipse cx="0" cy="-6" rx="12" ry="11" fill="${col}"/><ellipse cx="0" cy="18" rx="14" ry="17" fill="${col}"/>
       <ellipse cx="-15" cy="12" rx="5" ry="8" fill="${col}"/><ellipse cx="15" cy="12" rx="5" ry="8" fill="${col}"/>
       <ellipse cx="-8" cy="36" rx="6" ry="6" fill="${col}"/><ellipse cx="8" cy="36" rx="6" ry="6" fill="${col}"/>
       <circle cx="-4" cy="-8" r="1.6" fill="#2b2230"/><circle cx="4" cy="-8" r="1.6" fill="#2b2230"/><ellipse cx="0" cy="-3" rx="2.4" ry="1.6" fill="#2b2230" opacity=".7"/>
-      <ellipse cx="-5" cy="10" rx="3" ry="8" fill="#fff" opacity=".35"/></g>`;
+      <ellipse cx="-5" cy="10" rx="3" ry="8" fill="#fff" opacity=".35"/>${wr ? `<g fill="none" stroke="#3b2316" stroke-width="1.6" stroke-linecap="round" opacity="${wr.toFixed(2)}"><path d="M-8 6 q4 -3 8 0 q4 3 8 0"/><path d="M-9 16 q4 -3 9 0 q4 3 9 0"/><path d="M-8 26 q4 -3 8 0 q4 3 8 0"/><path d="M-5 -12 q2.5 -2 5 0 q2.5 2 5 0"/></g>` : ""}</g>`;
     return g;
   }
+  /* Size changes with the mass. Shrinking bears scale a bit more strongly so the change is easy to see. */
   function beaker(sol, i, frac) {
-    const ratio = 1 + (sol.end / sol.start - 1) * frac, s = Math.pow(ratio, 0.42) * 0.82;
+    const ratio = 1 + (sol.end / sol.start - 1) * frac, s0 = 0.82;
+    const s = ratio >= 1 ? Math.pow(ratio, 0.42) * s0 : Math.pow(ratio, 3) * s0;
     return `<svg viewBox="0 0 100 130" aria-label="${sol.name} beaker"><path d="M14 10 V112 a10 10 0 0 0 10 10 H76 a10 10 0 0 0 10 -10 V10" fill="#fff" stroke="#6b7280" stroke-width="3"/>
       <path d="M17 34 V111 a8 8 0 0 0 8 8 H75 a8 8 0 0 0 8 -8 V34 Z" fill="${sol.liq}"/><line x1="17" y1="34" x2="83" y2="34" stroke="#9aa6b2" stroke-width="2"/>
       ${bear(50, 116, s, BEARC[i])}<text x="50" y="26" text-anchor="middle" font-size="10" font-weight="700" fill="#4b5563">${String.fromCharCode(65 + i)}</text></svg>`;

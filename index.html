@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TW Mustang Science | Biology Labs</title>
+<meta name="description" content="Interactive, autograded Biology labs for Tulare Western High School science students.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   TW MUSTANG SCIENCE: home page. To add or change a lab card, edit the
+   LABS list near the bottom of this file.
+   ===================================================================== */
+:root{--navy:#13294b;--navy2:#1d3a6e;--red:#c8102e;--bg:#f5f6f9;--surface:#fff;--fg:#17213a;--muted:#5a6478;--line:#dde2ea;--soft:#eef1f6;--accent:#1d3a6e;--shadow:0 8px 22px rgba(19,41,75,.10)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1424;--surface:#16203a;--fg:#e9edf6;--muted:#a7b1c6;--line:#2a3757;--soft:#1d2948;--accent:#8fb0ff;--shadow:none;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1424;--surface:#16203a;--fg:#e9edf6;--muted:#a7b1c6;--line:#2a3757;--soft:#1d2948;--accent:#8fb0ff;--shadow:none;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.55 "Nunito","Segoe UI",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:"Fredoka","Trebuchet MS",system-ui,sans-serif;font-weight:600;line-height:1.15;margin:0 0 .35em}
+a{color:inherit}
+.wrap{max-width:1150px;margin:0 auto;padding:0 16px}
+header.top{background:var(--navy);color:#fff;border-bottom:5px solid var(--red);position:sticky;top:0;z-index:20}
+header.top .bar{display:flex;align-items:center;gap:12px;padding:10px 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 1.2rem "Fredoka",sans-serif}
+.mark{width:40px;height:40px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-size:1.35rem;border:3px solid #fff}
+.spacer{flex:1}
+.tbtn{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 14px;font:800 .88rem "Nunito",sans-serif;cursor:pointer;text-decoration:none}
+.tbtn:hover{background:rgba(255,255,255,.24)}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 70%);color:#fff;position:relative;overflow:hidden}
+.hero .wrap{padding:44px 16px 52px;position:relative}
+.hero .kick{display:inline-block;background:var(--red);color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;padding:5px 12px;border-radius:999px}
+.hero h1{font-size:clamp(2rem,6vw,3.3rem);margin:14px 0 10px}
+.hero p{max-width:640px;font-size:1.08rem;color:#dfe6f5;margin:0}
+.hero .stripes{position:absolute;right:-60px;top:0;bottom:0;width:320px;background:repeating-linear-gradient(-55deg,transparent 0 26px,rgba(200,16,46,.55) 26px 44px,transparent 44px 70px,rgba(255,255,255,.12) 70px 80px);opacity:.75;pointer-events:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chips span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 12px;font-weight:800;font-size:.9rem}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:-26px 0 26px;position:relative}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}
+.step b.n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font:700 1.05rem "Fredoka",sans-serif}
+.step h3{font-size:1.05rem;margin:2px 0 4px}.step p{margin:0;color:var(--muted);font-size:.93rem}
+.filters{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:8px 0 4px}
+.filters .lbl{font-weight:800;color:var(--muted);font-size:.9rem;margin-right:4px}
+.fchip{border:2px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:5px 12px;font:800 .86rem "Nunito",sans-serif;cursor:pointer}
+.fchip.on{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.sec{margin:26px 0 8px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:3px solid var(--red);padding-bottom:6px}
+.sec h2{font-size:1.55rem;margin:0}.sec small{color:var(--muted);font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--accent);border-radius:18px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;text-decoration:none;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-3px);border-top-color:var(--red)}
+.card.mini{border-top-color:var(--red)}
+.card .top{display:flex;align-items:center;gap:10px}
+.card .emo{font-size:1.7rem;width:48px;height:48px;border-radius:14px;background:var(--soft);display:grid;place-items:center;flex:none}
+.card .tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font:800 .72rem "Nunito",sans-serif;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:var(--soft);color:var(--muted)}
+.tag.u{background:color-mix(in srgb,var(--accent) 16%,var(--surface));color:var(--accent)}
+.card h3{font-size:1.15rem;margin:0}
+.card p{margin:0;color:var(--muted);font-size:.92rem;flex:1}
+.card .foot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.85rem;font-weight:800}
+.card .ag{color:#1a8f5a}.card .go{margin-left:auto;color:var(--red)}
+.empty{color:var(--muted);font-weight:700;padding:10px 0}
+.teach{margin:36px 0 20px;background:var(--surface);border:1px solid var(--line);border-left:8px solid var(--navy2);border-radius:18px;padding:18px 20px}
+.teach h2{font-size:1.35rem}.teach ul{margin:6px 0 10px;padding-left:20px}.teach li{margin:3px 0}
+.tlist{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}.tlist span{background:var(--soft);border-radius:999px;padding:4px 12px;font-weight:800;font-size:.9rem}
+.prow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.prow input{font:inherit;padding:7px 12px;border-radius:10px;border:2px solid var(--line);background:var(--surface);color:var(--fg);width:180px}
+.pbtn{background:var(--navy2);color:#fff;border:0;border-radius:999px;padding:8px 16px;font:800 .9rem "Nunito",sans-serif;cursor:pointer}
+.pbtn.alt{background:var(--soft);color:var(--fg)}
+.pmsg{font-weight:800;font-size:.9rem}
+.notice{background:color-mix(in srgb,#c98a00 18%,var(--surface));border-radius:12px;padding:8px 12px;font-weight:700;font-size:.9rem;margin-top:10px}
+footer{background:var(--navy);color:#cfd7e8;border-top:5px solid var(--red);margin-top:30px}
+footer .wrap{padding:20px 16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font-size:.9rem}
+footer b{color:#fff}
+@media (max-width:560px){.hero .stripes{width:140px;opacity:.45}.brand span.t2{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <a class="brand" href="index.html"><span class="mark" aria-hidden="true">🐎</span><span>TW Mustang Science</span></a>
+  <span class="spacer"></span><a class="tbtn" href="#teachers">🍎 Teachers</a>
+</div></header>
+
+<section class="hero"><div class="stripes" aria-hidden="true"></div><div class="wrap">
+  <span class="kick">Tulare Western High School · Science</span>
+  <h1>Mustang Biology Labs</h1>
+  <p>Interactive virtual labs for Biology. Predict, run the experiment, collect real-looking data, and explain your thinking with a CER. Every lab grades itself and sends your score to your teacher.</p>
+  <div class="chips"><span>🧪 <b data-n="full"></b> full labs</span><span>🔗 <b data-n="mini"></b> mini labs</span><span>✅ Every lab is autograded</span><span>🌎 Key words in English and Spanish</span></div>
+</div></section>
+
+<main class="wrap">
+  <div class="steps">
+    <div class="step"><b class="n">1</b><div><h3>Pick a lab</h3><p>Your teacher will tell you which one. Use the unit buttons to find it fast.</p></div></div>
+    <div class="step"><b class="n">2</b><div><h3>Sign in</h3><p>Type your name and student ID, then choose your period and your teacher.</p></div></div>
+    <div class="step"><b class="n">3</b><div><h3>Work through the stations</h3><p>Your work saves on this device as you go. Press Submit at the end and your score goes straight to your teacher.</p></div></div>
+  </div>
+
+  <div class="filters" role="group" aria-label="Filter labs by unit"><span class="lbl">Unit:</span><div id="chips" style="display:contents"></div></div>
+
+  <div class="sec"><h2>🧪 Full Labs</h2><small>about 45–50 minutes each</small></div>
+  <div class="cards" id="full"></div>
+  <div class="sec"><h2>🔗 Mini Labs: Connecting Units</h2><small>about 25 minutes · great for review before a semester exam</small></div>
+  <div class="cards" id="mini"></div>
+
+  <section class="teach" id="teachers">
+    <h2>🍎 For Teachers</h2>
+    <p>Students choose one of these teachers when they sign in, and their scores go to that teacher’s own Google Sheet:</p>
+    <div class="tlist" id="tlist"></div>
+    <ul>
+      <li><b>Everything is autograded.</b> Each station is scored as the student works (data tables, sorts, drop-downs, quizzes, and the CER). Their total is sent when they press Submit.</li>
+      <li><b>Your Google Sheet</b> (“Bio Lab Scores - your name”) has one tab per lab. Each tab shows every period, sorted by last name, with color-coded percents and a ⬇ Download for Aeries button.</li>
+      <li><b>Preview mode</b> lets you click through any lab without signing in. Nothing is sent.</li>
+    </ul>
+    <div class="prow"><input id="pcode" type="password" placeholder="Teacher passcode" aria-label="Teacher passcode"><button class="pbtn" id="pon">Turn on preview mode</button><button class="pbtn alt" id="poff" hidden>Turn off preview mode</button><span class="pmsg" id="pmsg" aria-live="polite"></span></div>
+    <div class="notice" id="setupnote" hidden>⚠️ This site isn’t connected to Google Sheets yet, so scores are only saved on each student’s device. See README.md to finish setup.</div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span><b>Tulare Western Science</b> · Go Mustangs! 🐎</span><span>Lab data are sample data made for practice and follow real patterns. · Site version 3 (Oct 28)</span></div></footer>
+
+<script src="hub-config.js?v=1"></script>
+<script>
+/* ✏️ The lab cards. kind: "full" or "mini". units: which unit buttons show the lab. */
+const LABS = [
+ {
+  "url": "lab-macromolecules.html",
+  "kind": "full",
+  "units": [
+   1
+  ],
+  "unit": "",
+  "title": "The Case of the Poisoned Food Critic (Macromolecules)",
+  "desc": "A murder mystery! Learn Benedict’s, iodine, Biuret, and Sudan III tests, test the critic’s stomach sample, test dishes from 5 restaurants, rule out suspects, accuse the poisoner, and write a CER. EL word banks and sentence frames included",
+  "meta": "8 stations · 50 min",
+  "emoji": "🕵️"
+ },
+ {
+  "url": "lab-osmosis-gummy.html",
+  "kind": "full",
+  "units": [
+   2
+  ],
+  "unit": "",
+  "title": "The Great Gummy Bear Soak (Osmosis & Cell Transport)",
+  "desc": "Soak six gummy bears in water, sugar water, salt water, and corn syrup, weigh them, calculate % change, graph results, sort water vs. solute language, compare concentrations, and write a CER.",
+  "meta": "7 stations · 45 min",
+  "emoji": "🐻"
+ },
+ {
+  "url": "lab-homeostasis.html",
+  "kind": "full",
+  "units": [
+   3
+  ],
+  "unit": "",
+  "title": "Keeping the Balance: Homeostasis & Feedback Loops",
+  "desc": "Build feedback loops, run a blood-sugar simulator (healthy meal, exercise, type 1 diabetes with and without insulin), record glucose data, sort how the body cools and warms, compare negative and positive feedback, and write a CER.",
+  "meta": "8 stations · 50 min",
+  "emoji": "🩸"
+ },
+ {
+  "url": "lab-btb-elodea-snails.html",
+  "kind": "full",
+  "units": [
+   4
+  ],
+  "unit": "",
+  "title": "Elodea, Snails & Bromothymol Blue",
+  "desc": "Predict, run a 24-hour virtual BTB lab with Elodea and snails in light and dark, record data, identify photosynthesis vs. cellular respiration, write a CER, and sort inputs and outputs",
+  "meta": "7 stations · 40 min",
+  "emoji": "🧪"
+ },
+ {
+  "url": "lab-mitosis-meiosis.html",
+  "kind": "full",
+  "units": [
+   5
+  ],
+  "unit": "",
+  "title": "Body Cells vs. Sex Cells: Mitosis & Meiosis",
+  "desc": "Sort body cells and gametes, step a 2n = 4 cell through mitosis and meiosis (cross over, flip pairs), count chromosomes in 8 real organisms, and write a CER on why gametes are haploid.",
+  "meta": "7 stations · 50 min",
+  "emoji": "🧬"
+ },
+ {
+  "url": "lab-protein-synthesis.html",
+  "kind": "full",
+  "units": [
+   6
+  ],
+  "unit": "",
+  "title": "From Gene to Trait (Protein Synthesis)",
+  "desc": "Transcribe real genes (hemoglobin, glowing jellyfish GFP, insulin) in the nucleus, drag the mRNA to a ribosome, translate with a codon chart, see the trait, solve the sickle cell mystery, then make silent, missense, nonsense, and frameshift mutations to change a jellyfish’s glow",
+  "meta": "7 stations · 50 min",
+  "emoji": "🧬"
+ },
+ {
+  "url": "lab-punnett.html",
+  "kind": "full",
+  "units": [
+   7
+  ],
+  "unit": "",
+  "title": "Reading the Clues: Heredity & Punnett Squares",
+  "desc": "Read genetics word problems, tap the clues, translate words like heterozygous and carrier into genotypes, build Punnett squares step by step, breed virtual guinea pigs, and solve dominance and sex-linked crosses.",
+  "meta": "8 stations · 50 min",
+  "emoji": "🧬"
+ },
+ {
+  "url": "lab-natural-selection.html",
+  "kind": "full",
+  "units": [
+   8
+  ],
+  "unit": "",
+  "title": "Hurricane Lizards: Natural Selection",
+  "desc": "Run hurricanes on a real Caribbean lizard population: record 5 generations of data, plot a line graph, switch to a calm island, and show why the population (not each lizard) changed. EL supports included.",
+  "meta": "8 stations · 50 min",
+  "emoji": "🦎"
+ },
+ {
+  "url": "lab-evidence-evolution.html",
+  "kind": "full",
+  "units": [
+   8
+  ],
+  "unit": "",
+  "title": "Case File: Evidence of Evolution",
+  "desc": "Dig a cliff of real whale fossils (law of superposition), sort homologous, analogous, and vestigial structures, compare embryos, count amino-acid differences in cytochrome c, and build a CER from several lines of evidence.",
+  "meta": "7 stations · 50 min",
+  "emoji": "🦴"
+ },
+ {
+  "url": "lab-predator-prey.html",
+  "kind": "full",
+  "units": [
+   9
+  ],
+  "unit": "",
+  "title": "Boom and Bust: Predators, Prey & Symbiosis",
+  "desc": "Run a 30-year snowshoe hare and lynx simulator based on the Hudson’s Bay fur records, read a predator–prey graph, remove the predators, apply the 10% energy rule, and sort symbiosis examples from the Central Valley.",
+  "meta": "9 stations · 50 min",
+  "emoji": "🐇"
+ },
+ {
+  "url": "mini-yeast.html",
+  "kind": "mini",
+  "units": [
+   1,
+   4
+  ],
+  "unit": "",
+  "title": "Yeast Balloons",
+  "desc": "Connects macromolecules, enzymes, and cellular respiration: feed yeast glucose, sucrose, starch, and lactose at different temperatures, measure CO₂, and explain the results.",
+  "meta": "4 stations · 25 min",
+  "emoji": "🎈"
+ },
+ {
+  "url": "mini-sickle-cell.html",
+  "kind": "mini",
+  "units": [
+   6,
+   7,
+   8
+  ],
+  "unit": "",
+  "title": "Sickle Cell & Malaria",
+  "desc": "Connects DNA & protein synthesis, genetics, and evolution: read the codon change, do a carrier Punnett square, test survival data in two regions, and explain heterozygote advantage.",
+  "meta": "4 stations · 25 min",
+  "emoji": "🩸"
+ },
+ {
+  "url": "mini-superbugs.html",
+  "kind": "mini",
+  "units": [
+   2,
+   6,
+   8
+  ],
+  "unit": "",
+  "title": "Superbugs",
+  "desc": "Connects cells, DNA mutations, and natural selection: measure the zone of inhibition across 6 generations of bacteria and explain antibiotic resistance.",
+  "meta": "4 stations · 25 min",
+  "emoji": "🦠"
+ },
+ {
+  "url": "mini-lactase.html",
+  "kind": "mini",
+  "units": [
+   1,
+   7,
+   8
+  ],
+  "unit": "",
+  "title": "Got Lactase?",
+  "desc": "Connects enzymes, genetics, and evolution: test lactase at different temperatures and pH, then trace lactose intolerance to a gene and to natural selection.",
+  "meta": "4 stations · 25 min",
+  "emoji": "🥛"
+ },
+ {
+  "url": "mini-green-pond.html",
+  "kind": "mini",
+  "units": [
+   4,
+   9
+  ],
+  "unit": "",
+  "title": "The Green Pond",
+  "desc": "Connects ecology, photosynthesis, and cellular respiration: measure dissolved oxygen in ponds with fertilizer runoff and explain how an algae bloom creates a dead zone.",
+  "meta": "4 stations · 25 min",
+  "emoji": "🐟"
+ }
+];
+const UNITS = {"1": "Biochemistry", "2": "Cellular Transport", "3": "Homeostasis & Feedback Loops", "4": "Cell Energy", "5": "Cell Division", "6": "DNA & Proteins", "7": "Genetics", "8": "Evolution", "9": "Ecology"};
+const TEACHER_PASSCODE = "mu$tangs";   /* ✏️ change this if you like (it only unlocks preview mode) */
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let unit = "all";
+try { unit = sessionStorage.getItem("twUnit") || "all"; } catch (e) {}
+function card(l) {
+  const tags = l.units.map(u => `<span class="tag u">Unit ${u}: ${esc(UNITS[u])}</span>`).join("");
+  return `<a class="card ${l.kind}" href="${l.url}"><div class="top"><span class="emo" aria-hidden="true">${l.emoji}</span><div class="tags">${tags}</div></div>
+    <h3>${esc(l.title)}</h3><p>${esc(l.desc)}</p><div class="foot"><span class="ag">✅ Autograded</span><span class="tag">${esc(l.meta)}</span><span class="go">Start lab →</span></div></a>`;
+}
+function draw() {
+  $("#chips").innerHTML = [["all", "All"]].concat(Object.entries(UNITS).map(([k, v]) => [k, k + " · " + v])).map(([k, v]) => `<button class="fchip ${String(unit) === k ? "on" : ""}" data-u="${k}">${esc(v)}</button>`).join("");
+  ["full", "mini"].forEach(k => {
+    const list = LABS.filter(l => l.kind === k && (unit === "all" || l.units.includes(+unit)));
+    $("#" + k).innerHTML = list.length ? list.map(card).join("") : `<p class="empty">No ${k === "full" ? "full labs" : "mini labs"} for this unit yet.</p>`;
+  });
+  document.querySelectorAll(".fchip").forEach(b => b.onclick = () => { unit = b.dataset.u; try { sessionStorage.setItem("twUnit", unit); } catch (e) {} draw(); });
+}
+document.querySelectorAll("[data-n]").forEach(b => b.textContent = LABS.filter(l => l.kind === b.dataset.n).length);
+$("#tlist").innerHTML = (window.HUB_CONFIG && HUB_CONFIG.teachers || []).map(t => `<span>${esc(t)}</span>`).join("");
+draw();
+
+/* Teacher preview mode (stored on this device only; it is a convenience, not real security) */
+const isT = () => { try { return localStorage.getItem("hubMode") === "teacher"; } catch (e) { return false; } };
+function pstate() {
+  const on = isT();
+  $("#pon").hidden = on; $("#pcode").hidden = on; $("#poff").hidden = !on;
+  $("#pmsg").textContent = on ? "✅ Preview mode is ON on this device. Open any lab and use “Teacher preview.”" : "";
+  $("#setupnote").hidden = !(on && !(window.HUB_CONFIG && HUB_CONFIG.scriptUrl));
+}
+$("#pon").onclick = () => { if ($("#pcode").value.trim().toLowerCase() !== TEACHER_PASSCODE) { $("#pmsg").textContent = "❌ That passcode didn’t work."; return; } try { localStorage.setItem("hubMode", "teacher"); } catch (e) {} $("#pcode").value = ""; pstate(); };
+$("#pcode").onkeydown = e => { if (e.key === "Enter") $("#pon").click(); };
+$("#poff").onclick = () => { try { localStorage.removeItem("hubMode"); } catch (e) {} pstate(); };
+pstate();
+</script>
+</body>
+</html>

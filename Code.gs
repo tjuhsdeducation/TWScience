@@ -142,6 +142,7 @@ function record(s, activity, score, total, q, responses, when) {
   const ss = teacherFile(s.school, s.teacher);
   const data = upsertData(ss, rec);
   renderActivity(ss, s.teacher, rec.activity, data.filter(r => r.activity === rec.activity));
+  renderSummary(ss, s.teacher, data);
   return rec;
 }
 
@@ -262,8 +263,9 @@ function renderActivity(ss, teacher, activity, recs) {
   recs.forEach(r => r.labels.forEach((l, i) => { if (!(l in qmax)) { qs.push(l); qmax[l] = r.max[i]; } }));
   const head = ['Student ID', 'Last Name', 'First Name', 'Period'].concat(qs.map(l => l + (qmax[l] !== '' && qmax[l] !== undefined ? ' (of ' + qmax[l] + ')' : '')), ['Score', 'Total', 'Percent', 'Times Locked', 'Submitted'], SHOW_RESPONSES ? ['Responses'] : []);
   const W = head.length, Q0 = 4, cScore = Q0 + qs.length, cTotal = cScore + 1, cPct = cScore + 2, cLock = cScore + 3, cWhen = cScore + 4;
-  const A = W + 1;                                        // Aeries block (0-based), after one empty column
-  const WIDTH = A + 2;
+  const A = W + 1;                                        // Aeries list (0-based), after one empty column: Name, ID, Score, Percent
+  const WIDTH = A + 4;
+  const topTotal = Math.max.apply(null, recs.map(r => typeof r.total === 'number' ? r.total : 0).concat([0]));
 
   const V = [], F = [], B = [], WT = [], FC = [], links = [];     // values, number formats, backgrounds, weights, font colors
   const blank = () => new Array(WIDTH).fill('');
@@ -291,13 +293,13 @@ function renderActivity(ss, teacher, activity, recs) {
   };
   const band = (text, withAeries) => {
     const v = blank(); v[0] = text;
-    const bg = fill(0, W, NAVY); if (withAeries) { bg[A] = AERIES; bg[A + 1] = AERIES; }
+    const bg = fill(0, W, NAVY); if (withAeries) { for (let k = 0; k < 4; k++) bg[A + k] = AERIES; }
     push(v, null, bg, fill(0, WIDTH, 'bold', 'normal'), fill(0, W, '#ffffff', '#1f2430'));
   };
   const header = (blankFirst4, withAeries) => {
     const v = blank(); head.forEach((h, i) => v[i] = blankFirst4 && i < 4 ? '' : h);
     const bg = fill(0, W, HEAD);
-    if (withAeries) { v[A] = 'Student ID'; v[A + 1] = '# Correct'; bg[A] = HEAD; bg[A + 1] = HEAD; }
+    if (withAeries) { v[A] = 'Student Name'; v[A + 1] = 'Student ID'; v[A + 2] = 'Score' + (topTotal ? ' (of ' + topTotal + ')' : ''); v[A + 3] = 'Percent'; for (let k = 0; k < 4; k++) bg[A + k] = HEAD; }
     push(v, null, bg, fill(0, WIDTH, 'bold', 'normal'));
   };
 
@@ -329,7 +331,7 @@ function renderActivity(ss, teacher, activity, recs) {
       rv[cPct] = (typeof r.score === 'number' && r.total) ? r.score / r.total : ''; f[cPct] = '0%';
       rv[cLock] = r.locks; f[cLock] = '0'; rv[cWhen] = r.when; f[cWhen] = 'm/d/yyyy h:mm AM/PM';
       if (SHOW_RESPONSES) rv[cWhen + 1] = r.responses;
-      rv[A] = r.id; f[A] = '@'; rv[A + 1] = r.score;
+      rv[A] = r.last + ', ' + r.first; rv[A + 1] = r.id; f[A + 1] = '@'; rv[A + 2] = r.score; f[A + 2] = '0.##'; rv[A + 3] = rv[cPct]; f[A + 3] = '0%';
       push(rv, f);
     });
     links.push({ row: bandRow, top: bandRow + 1, bottom: V.length });
@@ -343,8 +345,8 @@ function renderActivity(ss, teacher, activity, recs) {
   sh.getRange(1, 1, V.length, WIDTH).setNumberFormats(F).setValues(V).setBackgrounds(B).setFontWeights(WT).setFontColors(FC).setVerticalAlignment('middle');
   sh.getRange(1, 1).setFontSize(14);
   sh.getRange(2, 1).setFontStyle('italic');
-  // "⬇ Download for Aeries" = a CSV of that period's Student ID + # Correct
-  const gid = sh.getSheetId(), colA = colLetter(A + 1), colB = colLetter(A + 2);
+  // "⬇ Download for Aeries" = a CSV of that period's Student ID + Score (the two columns Aeries imports)
+  const gid = sh.getSheetId(), colA = colLetter(A + 2), colB = colLetter(A + 3);
   links.forEach(L => {
     const url = 'https://docs.google.com/spreadsheets/d/' + ss.getId() + '/export?format=csv&gid=' + gid + '&range=' + colA + L.top + ':' + colB + L.bottom;
     sh.getRange(L.row, A + 1).setFormula('=HYPERLINK("' + url + '","⬇ Download for Aeries")').setFontColor('#1a56db').setFontWeight('bold');
@@ -352,7 +354,52 @@ function renderActivity(ss, teacher, activity, recs) {
   sh.setFrozenColumns(3);
   sh.setColumnWidth(1, 150); sh.setColumnWidths(2, 2, 110);
   if (SHOW_RESPONSES) sh.setColumnWidth(W, 320);
-  sh.setColumnWidth(A + 1, 150);
+  sh.setColumnWidth(A + 1, 190); sh.setColumnWidth(A + 2, 110); sh.setColumnWidth(A + 3, 100); sh.setColumnWidth(A + 4, 80);
+}
+
+
+/* ============================ ALL LABS SUMMARY TAB (one row per student, ready for Aeries) ============================ */
+const SUMMARY = '⭐ All Labs';
+function renderSummary(ss, teacher, data) {
+  let sh = ss.getSheetByName(SUMMARY);
+  if (!sh) sh = ss.insertSheet(SUMMARY, Math.min(1, ss.getSheets().length));             // right after Read Me
+  const order = ACTIVITIES.map(a => a[2]);
+  const acts = [...new Set(data.map(r => r.activity))].sort((a, b) => ((order.indexOf(a) + 999) % 999) - ((order.indexOf(b) + 999) % 999));
+  const short = a => { const s = a.replace(/^Biology:\s*/, '').replace(/\s*\(.*\)\s*$/, ''); return (/^Mini Lab:/.test(s) ? 'Mini: ' + s.replace(/^Mini Lab:\s*/, '') : s.split(':')[0]).slice(0, 40); };
+  const maxOf = a => Math.max.apply(null, data.filter(r => r.activity === a).map(r => typeof r.total === 'number' ? r.total : 0).concat([0]));
+  const per = x => (typeof x === 'number' ? x : (parseInt(x, 10) || 99));
+  const kids = {};
+  data.forEach(r => { const k = r.id; kids[k] = kids[k] || { id: r.id, last: r.last, first: r.first, period: r.period, got: {} }; kids[k].got[r.activity] = r; kids[k].period = r.period; });
+  const list = Object.values(kids).sort((a, b) => per(a.period) - per(b.period) || a.last.localeCompare(b.last, 'en', { sensitivity: 'base' }) || a.first.localeCompare(b.first, 'en', { sensitivity: 'base' }));
+  const head = ['Period', 'Student Name', 'Student ID'].concat(acts.map(a => short(a) + ' (of ' + maxOf(a) + ')'), ['Labs done', 'Total points', 'Points possible', 'Overall %']);
+  const now = Utilities.formatDate(new Date(), TIME_ZONE, 'M/d/yyyy h:mm a');
+  const rows = [['All Biology labs: ' + teacher].concat(new Array(head.length - 1).fill('')),
+    ['One row per student, sorted by period and last name. Each lab shows the most recent score. Overall % only counts labs the student finished. Updated ' + now + '.'].concat(new Array(head.length - 1).fill('')),
+    new Array(head.length).fill(''), head];
+  const fmts = rows.map(r => r.map(() => ''));
+  list.forEach(k => {
+    let pts = 0, poss = 0, n = 0; const row = [k.period, k.last + ', ' + k.first, k.id];
+    acts.forEach(a => { const r = k.got[a]; if (r && typeof r.score === 'number') { row.push(r.score); pts += r.score; poss += (r.total || 0); n++; } else row.push(''); });
+    row.push(n, pts, poss, poss ? pts / poss : '');
+    rows.push(row);
+    fmts.push(row.map((_, i) => i === 2 ? '@' : i === row.length - 1 ? '0%' : i > 2 ? '0.##' : ''));
+  });
+  sh.clear(); sh.clearConditionalFormatRules();
+  const W = head.length;
+  if (sh.getMaxColumns() < W) sh.insertColumnsAfter(sh.getMaxColumns(), W - sh.getMaxColumns());
+  sh.getRange(1, 1, rows.length, W).setNumberFormats(fmts).setValues(rows);
+  sh.getRange(1, 1).setFontSize(14).setFontWeight('bold'); sh.getRange(2, 1).setFontStyle('italic').setFontColor('#6b7a90');
+  sh.getRange(4, 1, 1, W).setFontWeight('bold').setBackground(NAVY).setFontColor('#ffffff').setWrap(true).setVerticalAlignment('middle');
+  sh.setFrozenRows(4); sh.setFrozenColumns(3);
+  sh.setColumnWidth(1, 60); sh.setColumnWidth(2, 190); sh.setColumnWidth(3, 110);
+  if (list.length) {
+    const pc = sh.getRange(5, W, list.length, 1);
+    sh.setConditionalFormatRules([
+      SpreadsheetApp.newConditionalFormatRule().whenNumberGreaterThanOrEqualTo(0.8).setBackground(GREEN).setRanges([pc]).build(),
+      SpreadsheetApp.newConditionalFormatRule().whenNumberBetween(0.6, 0.7999).setBackground(YELLOW).setRanges([pc]).build(),
+      SpreadsheetApp.newConditionalFormatRule().whenNumberLessThan(0.6).setBackground(RED).setRanges([pc]).build()]);
+    for (let i = 0; i < list.length; i++) if (i % 2) sh.getRange(5 + i, 1, 1, W).setBackground(AVG);
+  }
 }
 
 /* ============================ FILES ============================ */
@@ -368,7 +415,7 @@ function tabPosition(ss, activity) {
   const sheets = ss.getSheets();
   if (mine < 0) return sheets.length;                                       // unknown activity → bottom
   let pos = 0;
-  sheets.forEach((sh, i) => { const k = order.indexOf(sh.getName()); if (sh.getName() === 'Read Me' || (k >= 0 && k < mine)) pos = i + 1; });
+  sheets.forEach((sh, i) => { const k = order.indexOf(sh.getName()); if (sh.getName() === 'Read Me' || sh.getName() === SUMMARY || (k >= 0 && k < mine)) pos = i + 1; });
   return pos;
 }
 function folderFor(school) {
@@ -473,7 +520,8 @@ function teacherFile(school, teacher) {
       'Top block = all periods. Then one block per period, students sorted by last name.',
       'Average % of points: green = 80%+, yellow = 60–79%, red = below 60%.',
       'Times Locked = how many times the student left the page while the activity was open.',
-      'Aeries: click "⬇ Download for Aeries" next to a period for a CSV of Student ID + # Correct, or copy those two columns.',
+      '⭐ All Labs tab: one row per student (name, ID, period) with every lab score and an overall % for the semester.',
+      'Aeries: on any lab tab, the list on the right of each period has Student Name, Student ID, Score, and Percent. Click "⬇ Download for Aeries" for a CSV of Student ID + Score, or copy the ID and Score columns.',
       'Please don’t edit the activity tabs. They are rebuilt automatically every time a score comes in.',
       'Every submission (including older attempts) is also kept in the master sheet.'
     ];

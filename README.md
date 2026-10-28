@@ -31,7 +31,10 @@ The person who does this owns the score sheets. Each teacher gets their own copy
    - Click **Deploy** and copy the **Web app URL** (it ends in `/exec`).
 6. On GitHub, open **hub-config.js** and click ✏️. Paste the URL between the quotes on the `scriptUrl:` line, then **Commit changes**.
 
-Done! Every lab a student turns in now appears in their teacher's sheet. Each lab gets its own tab, with every period sorted by last name, color-coded percents, and a ⬇ Download for Aeries button.
+Done! Every lab a student turns in now appears in their teacher's sheet:
+
+- **⭐ All Labs** tab: one row per student (period, name, ID), every lab score, and an overall %.
+- **One tab per lab**: every period sorted by last name, with station-by-station points and color-coded percents. To the right of each period is an **Aeries list** (Student Name, Student ID, Score, Percent) and a **⬇ Download for Aeries** link that makes a CSV of Student ID + Score.
 
 ## Adding or changing teachers
 

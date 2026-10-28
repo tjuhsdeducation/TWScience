@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Lab: The Green Pond | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   MINI LAB (≈ 25 min): The Green Pond (Eutrophication)
+   Connects: Ecology (nutrient cycles, human impact) · Photosynthesis ·
+   Cellular Respiration (decomposers)
+   Fertilizer runoff feeds algae → algae die → decomposers use up oxygen
+   → fish die. Students measure dissolved oxygen in 5 ponds.
+   ===================================================================== */
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "mini-pond", subject: "Biology", short: "Mini Lab: The Green Pond", color: "#1aa36f", emoji: "🐟", time: "≈ 25 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Mini Lab: The Green Pond (Ecology → Photosynthesis → Cellular Respiration)",
+  intro: "After a spring of heavy fertilizer use on nearby fields, a farm pond turns bright green. Two weeks later, dead fish float on the surface. More plants usually means more oxygen, so how could algae cause fish to suffocate? Measure the oxygen in five ponds and solve it with three units.",
+  eq: "How can extra nutrients from human activity lead to an oxygen “dead zone” in water?",
+  targets: {
+    R: "I can connect nutrient runoff, photosynthesis, and cellular respiration in an aquatic ecosystem.",
+    I: "I can use dissolved oxygen data to determine where fish can survive.",
+    O: "I can put the steps of eutrophication in order.",
+    W: "I can write a short CER explaining why fish die in a pond with algae blooms."
+  },
+  teacher: `<p><b>Connects:</b> Ecology (nitrogen and phosphorus cycles, human impact, limiting factors) · Photosynthesis (algae make O₂ in daylight) · Cellular respiration (decomposing bacteria and all organisms use O₂, especially at night).</p>
+    <p><b>The science:</b> Fertilizer runoff adds nitrogen and phosphorus, which are often limiting factors for algae. Algae bloom, block sunlight, and die. Bacteria decompose the dead algae, and their cellular respiration uses up dissolved oxygen (DO). DO is lowest just before dawn, after a night with no photosynthesis. Many fish become stressed below about 5 mg/L, and water below about 2 mg/L is considered hypoxic (a “dead zone”). A real example is the dead zone in the Gulf of Mexico fed by Mississippi River runoff; algae blooms also affect lakes and reservoirs in California.</p>
+    <p><b>Data:</b> DO values are SAMPLE data made up for practice that follow the real pattern.</p>`,
+  stations: [
+    { letters: ["R"], title: "Warm-Up: Oxygen in Water", time: "5 min", goal: "Review how oxygen enters and leaves a pond.",
+      blocks: [
+        { t: "warmup", title: "Who makes oxygen, and who uses it?", read: [
+          "Fish and other water animals breathe <b>dissolved oxygen (DO)</b>, which is oxygen gas mixed into the water. Oxygen enters water from the air and from <b>photosynthesis</b> by algae and water plants, but only in <b>daylight</b>.",
+          "Every living thing in the pond, including algae, fish, and <b>decomposers</b> (bacteria that break down dead material), uses oxygen for <b>cellular respiration</b>, day and night.",
+          "<b>Fertilizer</b> contains nitrogen and phosphorus, nutrients that help crops grow. When rain washes fertilizer into a pond (<b>runoff</b>), the nutrients also make algae grow out of control. This is called <b>eutrophication</b>."],
+          vocab: [["dissolved oxygen", "oxígeno disuelto", "Oxygen gas mixed into water."], ["runoff", "escorrentía", "Water that flows over land into rivers and ponds, carrying materials with it."], ["algae bloom", "floración de algas", "A sudden, huge growth of algae."], ["decomposer", "descomponedor", "An organism, like bacteria, that breaks down dead material."], ["eutrophication", "eutrofización", "Too many nutrients in water, leading to algae blooms and low oxygen."], ["dead zone", "zona muerta", "Water with too little oxygen for most animals."]],
+          table: { cap: "Dissolved oxygen and fish", head: ["DO (mg/L)", "What it means for most fish"], rows: [["Above 5", "Healthy: fish can survive"], ["2 to 5", "Stressed: some fish struggle or leave"], ["Below 2", "Dead zone: most fish die"]] } },
+        { t: "quiz", label: "warm-up check", title: "Quick check", items: [
+          { q: "When do algae ADD oxygen to the water?", opts: ["Only at night", "Only in daylight, during photosynthesis", "All the time", "Never"], a: 1, why: "Photosynthesis needs light." },
+          { q: "What do decomposers do with dead algae?", opts: ["Break it down using cellular respiration, which uses oxygen", "Turn it into sunlight", "Make oxygen from it", "Nothing"], a: 0, why: "Decomposers respire as they break down dead material, so they use up oxygen." }] }
+      ] },
+    { letters: ["O"], title: "Connect the Units", time: "3 min", goal: "Sort each idea into the unit it comes from.",
+      blocks: [
+        { t: "sort", label: "units sort", title: "Which unit does each idea come from?", zones: ["Ecology", "Photosynthesis", "Cellular Respiration"], colors: ["#1aa36f", "#2b7de9", "#d0453a"],
+          tiles: [["Fertilizer adds nitrogen and phosphorus to the pond.", 0], ["Nutrients were a limiting factor for algae.", 0], ["Algae use light, CO₂, and water to make glucose and O₂.", 1], ["Thick algae on top block sunlight from plants below.", 1], ["Bacteria break down dead algae and use O₂.", 2], ["Fish need O₂ to release energy from food.", 2]],
+          why: "Human impact on a nutrient cycle (ecology) changes how much oxygen is made (photosynthesis) and used (respiration)." }
+      ] },
+    { letters: ["I", "O"], title: "Pond Oxygen Lab", time: "8 min", goal: "Measure dissolved oxygen at dawn in five ponds.",
+      blocks: [
+        { t: "minisim", title: "Dissolved oxygen at dawn, two weeks after fertilizing (sample data)", how: "Each pond got a different amount of fertilizer runoff. Tap ▶ Test to lower the oxygen probe at dawn. Record the DO and whether most fish can survive.", scene: "pond", measure: "Dissolved oxygen", unit: "mg/L", top: 10, color: "#1aa36f", tol: 0.05, dec: 1, max: 4, label: "pond data",
+          col: { head: "Can most fish survive?", opts: ["Yes (healthy)", "Stressed", "No (dead zone)"] },
+          conds: [{ k: "p0", name: "Pond A: no runoff", val: 8.5, pick: 0, algae: 0, fish: 4 }, { k: "p1", name: "Pond B: low runoff", val: 7.2, pick: 0, algae: 0.25, fish: 4 }, { k: "p2", name: "Pond C: medium runoff", val: 4.6, pick: 1, algae: 0.5, fish: 3 }, { k: "p3", name: "Pond D: high runoff", val: 2.4, pick: 1, algae: 0.75, fish: 2 }, { k: "p4", name: "Pond E: very high runoff", val: 0.8, pick: 2, algae: 1, fish: 0 }] },
+        { t: "sort", label: "sequence sort", title: "Put the dead zone story in order (first → last)", zones: ["1st", "2nd", "3rd", "4th", "5th"], colors: ["#1aa36f", "#2b7de9", "#8a54e0", "#e08a00", "#d0453a"],
+          tiles: [["Rain washes fertilizer into the pond.", 0], ["Extra nutrients cause an algae bloom.", 1], ["Algae block sunlight, and many algae die.", 2], ["Decomposers break down the dead algae, using up oxygen.", 3], ["Oxygen drops so low that fish die.", 4]],
+          why: "Nutrients → bloom → die-off → decomposers respire → low oxygen." }
+      ] },
+    { letters: ["I", "W"], title: "Analyze + Mini CER", time: "6 min", goal: "Explain why the green pond lost its fish.",
+      blocks: [
+        { t: "visual", v: "eutro", title: "Picture it: how a dead zone forms", cap: "Each panel leads to the next. Which panels involve photosynthesis? Which involve cellular respiration?" },
+        { t: "fill", label: "analysis frames", title: "What does the data show?", max: 3,
+          items: [
+            { parts: ["As fertilizer runoff increased, dissolved oxygen ", B(["increased", "decreased"], 1), "."] },
+            { parts: ["Oxygen is lowest at dawn because all night ", B(["algae made extra oxygen", "there was no photosynthesis, but everything kept respiring"], 1), "."] },
+            { parts: ["One way farmers can help is to ", B(["use more fertilizer before it rains", "plant strips of grass and plants along the water to soak up runoff"], 1), "."] }],
+          why: "More nutrients → more algae → more decomposition → more oxygen used. At night, no oxygen is added, so dawn DO is lowest. Buffer strips of plants catch nutrients before they reach the water." },
+        { t: "cerg", title: "Mini CER", q: "<b>Question:</b> Algae make oxygen, so why did the fish in the green pond die?", claimA: 0, need: 2,
+          claims: ["When the huge algae bloom died, decomposers used up the oxygen through cellular respiration, so there was not enough left for fish.", "The algae poisoned the fish with oxygen.", "The fish ate too much algae.", "The water got too cold for the fish."],
+          evidence: [["Pond E (very high runoff) had only 0.8 mg/L of oxygen at dawn, while Pond A (no runoff) had 8.5 mg/L.", true], ["Below 2 mg/L, most fish die.", true], ["The pond was on a farm.", false], ["Algae are green.", false]],
+          words: ["runoff", "fertilizer", "nutrients", "algae bloom", "decomposers", "cellular respiration", "photosynthesis", "dissolved oxygen", "dead zone", "night"],
+          frames: ["The fish died because…", "In my data, Pond E had ___ mg/L, but…", "This happened because decomposers…", "At night, there is no photosynthesis, so…"],
+          must: ["decompos|bacteria", "oxygen|O2|O₂|DO", "respir|use", "algae|bloom|fertiliz|runoff|nutrient"] },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "Which process USES UP most of the oxygen in a pond after a bloom dies?", opts: ["Photosynthesis by algae", "Cellular respiration by decomposers", "Evaporation", "Fish making oxygen"], a: 1, why: "Decomposers break down the dead algae and use oxygen to do it." },
+          { q: "Nitrogen and phosphorus were limiting factors for the algae. What does that mean?", opts: ["Algae growth was held back by a lack of them, so adding them caused a bloom", "They kill algae", "Algae don’t need them", "They are only found in air"], a: 0, why: "A limiting factor holds growth back. Remove the limit, and the population grows." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-visuals.js?v=2"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-minisim.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boom and Bust: Predators, Prey & Symbiosis | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   BIOLOGY VIRTUAL LAB: Boom and Bust (Ecology, ≈ 50 min)
+   Based on the real snowshoe hare and Canada lynx cycles recorded in the
+   Hudson’s Bay Company fur records. Students run a 30-year forest simulator
+   (natural, no lynx, trappers), record data, read predator–prey graphs,
+   apply the 10% energy rule, and classify symbiotic relationships, including
+   examples from California’s Central Valley.
+   ===================================================================== */
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "lab-pp", subject: "Biology", short: "Virtual Lab: Predators, Prey & Symbiosis", color: "#e08a00", emoji: "🐇", time: "≈ 50 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Boom and Bust: Predators, Prey, and Symbiosis",
+  intro: "For almost 100 years, fur trappers in Canada kept records of how many snowshoe hares and lynx they caught. The numbers rose and fell like waves, again and again. Run a 30-year forest simulator, read the predator–prey graph, follow the energy, and sort the ways species live together.",
+  eq: "How do interactions between species, like predation and symbiosis, affect population sizes in an ecosystem?",
+  targets: {
+    R: "I can describe predation, competition, mutualism, commensalism, and parasitism with examples.",
+    I: "I can collect population data from a simulation and use it to explain predator–prey cycles.",
+    O: "I can read a two-line population graph and calculate energy transfer with the 10% rule.",
+    W: "I can write a CER explaining why predator populations rise and fall after prey populations.",
+    C: "I can explain to a partner what would happen if a predator were removed from an ecosystem."
+  },
+  teacher: `<p><b>Pacing (≈ 50 min):</b> Warm-Up 5 · The Real Story 4 · Predict 3 · Forest Simulator 12 · Read the Graph 7 · Energy 6 · Symbiosis 6 · CER 5 · Closure 2.</p>
+    <p><b>The real data:</b> Hudson’s Bay Company records of hare and lynx pelts (about 1845–1935) show cycles of about 10 years, with lynx peaks following hare peaks. Ecologists (Charles Elton and others) used these records in classic population studies. Real cycles are also affected by the hares’ food supply and other predators.</p>
+    <p><b>About the simulator:</b> A classic Lotka–Volterra predator–prey model, simplified. Natural forest: hares peak at years 1, 10, 19, 28 and lynx peak at years 3, 12, 21, 30 (a 9-year cycle with a 2-year lag). No lynx: hares grow until they reach the food limit (carrying capacity, 400 thousand). Trappers: lynx have a higher death rate, so the cycle shifts toward more hares on average. Students record years 0, 3, 6, 9, 12 (within 1 counts).</p>
+    <p><b>Key misconceptions:</b> “Predators wipe out their prey”; “removing a predator is always good for prey” (without predators, prey can overshoot their food supply); “energy is recycled up the food chain” (energy flows and is lost as heat; matter is recycled).</p>`,
+  stations: [
+    { letters: ["R", "C"], title: "Warm-Up: How Species Interact", time: "5 min", goal: "Review the ways species interact, then answer 4 quick questions.",
+      blocks: [
+        { t: "warmup", title: "Eat, compete, or live together", read: [
+          "In an ecosystem, species interact in several ways. In <b>predation</b>, one animal (the <b>predator</b>) hunts and eats another (the <b>prey</b>). In <b>competition</b>, organisms struggle for the same limited resource, like food, water, or space.",
+          "<b>Symbiosis</b> is a close, long-term relationship between two species. In <b>mutualism</b>, both species benefit. In <b>commensalism</b>, one benefits and the other is not helped or harmed. In <b>parasitism</b>, one benefits (the parasite) and the other is harmed (the host).",
+          "Every population has a <b>carrying capacity</b>: the largest population the environment can support with its food, water, and space. Limiting factors like predators, disease, and food keep populations from growing forever."],
+          vocab: [
+            ["predator / prey", "depredador / presa", "The hunter / the animal that is hunted and eaten."],
+            ["population", "población", "All the members of one species living in an area."],
+            ["mutualism", "mutualismo", "Both species benefit (+ / +)."],
+            ["commensalism", "comensalismo", "One benefits, the other is not affected (+ / 0)."],
+            ["parasitism", "parasitismo", "One benefits, the other is harmed (+ / −)."],
+            ["carrying capacity", "capacidad de carga", "The largest population an environment can support."],
+            ["limiting factor", "factor limitante", "Something that keeps a population from growing, like food or predators."]],
+          table: { cap: "Relationship symbols", head: ["Relationship", "Species 1", "Species 2"], rows: [["Predation", "+ (predator)", "− (prey)"], ["Competition", "−", "−"], ["Mutualism", "+", "+"], ["Commensalism", "+", "0"], ["Parasitism", "+ (parasite)", "− (host)"]] } },
+        { t: "quiz", label: "warm-up check", title: "Check your understanding", items: [
+          { q: "Ticks drink a deer’s blood and can spread disease to it. What kind of relationship is this?", opts: ["Mutualism", "Commensalism", "Parasitism", "Competition"], a: 2, why: "The tick benefits and the deer is harmed, which is parasitism." },
+          { q: "Two species of birds eat the same seeds in a field. This is…", opts: ["Competition", "Mutualism", "Predation", "Commensalism"], a: 0, why: "They struggle for the same limited resource." },
+          { q: "What is carrying capacity?", opts: ["How much an animal can carry", "The largest population an environment can support", "The number of predators", "The speed of population growth"], a: 1, why: "Food, water, and space limit how big a population can get." },
+          { q: "Which is a limiting factor for a hare population?", opts: ["The number of lynx", "The color of the sky", "The hare’s name", "The number of rocks"], a: 0, why: "Predators (and food, disease, and space) limit population size." }] }
+      ] },
+    { letters: ["R"], title: "The Real Story: 100 Years of Fur Records", time: "4 min", goal: "Read about the real data behind this lab.",
+      blocks: [
+        { t: "text", html: `<div style="border:3px solid #e08a00;border-radius:18px;padding:12px 14px;background:#fff8ec">
+          <h3 style="margin-top:0">Waves in the snow</h3>
+          <p>The <b>snowshoe hare</b> lives in the northern forests of Canada and Alaska. Its main predator is the <b>Canada lynx</b>, a wild cat with huge furry paws. Lynx depend on hares so much that most of their diet is hares.</p>
+          <p>From the 1840s to the 1930s, the <b>Hudson’s Bay Company</b> bought furs from trappers and kept careful records. When ecologists graphed the number of hare and lynx pelts each year, they saw something amazing: both populations rose and fell in waves about <b>10 years</b> long, and the lynx peaks came <b>a year or two after</b> the hare peaks.</p>
+          <p style="margin-bottom:0">Why would that happen? You are going to find out by running your own forest.</p></div>` },
+        { t: "quiz", label: "story check", title: "Quick check", items: [
+          { q: "What pattern did the fur records show?", opts: ["Both populations stayed the same", "Both populations rose and fell in cycles of about 10 years", "Hares went extinct", "Lynx always outnumbered hares"], a: 1, why: "The famous records show repeating cycles of about 10 years." },
+          { q: "Which came first in each cycle?", opts: ["The lynx peak", "The hare peak", "They peaked at exactly the same time", "Neither one peaked"], a: 1, why: "Lynx peaks followed hare peaks by a year or two." }] }
+      ] },
+    { letters: ["I", "W"], title: "Predict", time: "3 min", goal: "Make your predictions before you run the forest.",
+      blocks: [
+        { t: "fill", label: "prediction frames", title: "My predictions", max: 2,
+          items: [
+            { parts: ["When there are lots of hares, the lynx population will ", B(["decrease", "increase"], 1), " because lynx have ", B(["more food", "less food"], 0), "."] },
+            { parts: ["If all the lynx are removed, the hare population will ", B(["drop to zero", "grow until it runs out of food", "stay exactly the same"], 1), "."] }],
+          why: "More prey means more food for predators, so predators reproduce more. Without predators, prey grow until another limiting factor (food) stops them." }
+      ] },
+    { letters: ["I", "O"], title: "Forest Simulator: Collect Data", time: "12 min", goal: "Run the natural forest and the no-lynx forest, then record your survey data.",
+      blocks: [
+        { t: "text", html: `<div class="callout"><b>Your mission:</b> 1) Choose <b>Natural forest</b> and press <b>Run 30 years</b>. 2) Slide the survey year to 0, 3, 6, 9, and 12 and record the hares and lynx. 3) Run <b>Remove all lynx</b> and record the hares. 4) If you have time, run <b>Trappers catch lynx</b> and compare.</div>` },
+        { t: "ppsim", max: 6, label: "population data" }
+      ] },
+    { letters: ["O", "I"], title: "Read the Graph", time: "7 min", goal: "Use the graph and your data to explain the predator–prey cycle.",
+      blocks: [
+        { t: "visual", v: "ppcycle", title: "Picture it: the predator–prey cycle", cap: "Follow the arrows around the circle. Then find each step on your graph." },
+        { t: "fill", label: "graph frames", title: "What does the graph show?", how: "Use the graph (slide the survey year to find peaks) and your table.", max: 4,
+          items: [
+            { parts: ["In the natural forest, the hares peaked at about year ", B(["1", "3", "6"], 0), " and the lynx peaked at about year ", B(["1", "3", "9"], 1), "."] },
+            { parts: ["The lynx peak comes ", B(["before", "after"], 1), " the hare peak because lynx need ", B(["time to raise young after food becomes plentiful", "less food when hares are common"], 0), "."] },
+            { parts: ["After the lynx peak, the hare population ", B(["crashes", "doubles"], 0), ", and then the lynx population ", B(["increases", "decreases"], 1), " because there is less food."] },
+            { parts: ["Each full cycle in the simulator lasts about ", B(["2 years", "9 years", "30 years"], 1), ". With no lynx, the hares leveled off at about ", B(["40", "140", "400"], 2), " thousand, their carrying capacity."] }],
+          why: "Prey increase → predators have more food and increase → predators eat more prey → prey crash → predators starve and decrease → prey recover. The cycle repeats." },
+        { t: "quiz", label: "graph check", title: "Think about it", items: [
+          { q: "In the no-lynx forest, what finally stopped the hare population from growing?", opts: ["Predators", "Their food supply (carrying capacity)", "The hares chose to stop", "Nothing; it grew forever"], a: 1, why: "Without predators, food became the limiting factor, so the population leveled off at carrying capacity." },
+          { q: "Ranchers want to remove all predators to protect deer. Based on your lab, what could happen?", opts: ["Deer would grow until they overgraze their food, then many could starve", "Deer would disappear", "Nothing would change", "Plants would grow faster"], a: 0, why: "Removing predators can let prey overshoot their food supply, which hurts both the prey and the plants." }] }
+      ] },
+    { letters: ["O", "R"], title: "Follow the Energy", time: "6 min", goal: "Use the 10% rule to see why there are fewer predators than prey.",
+      blocks: [
+        { t: "text", html: `<p>Energy enters the ecosystem through <b>producers</b> (plants) by photosynthesis. When a hare eats a plant, only about <b>10%</b> of the plant’s energy is stored in the hare’s body. The rest is used for life processes or lost as <b>heat</b>. The same thing happens when a lynx eats a hare. This is the <b>10% rule</b>, and it’s why there are always far fewer predators than prey.</p>
+          <div class="callout">Plants (producers) → Hares (primary consumers) → Lynx (secondary consumers)</div>` },
+        { t: "visual", v: "pyramid", title: "Picture it: the energy pyramid", cap: "Each level up keeps only about 10% of the energy from the level below." },
+        { t: "fill", label: "energy frames", title: "Calculate the energy", max: 3,
+          items: [
+            { parts: ["If the plants in a forest store 100,000 kcal of energy, the hares that eat them get about ", B(["10,000", "1,000", "100,000"], 0), " kcal."] },
+            { parts: ["The lynx that eat those hares get about ", B(["10,000", "1,000", "100"], 1), " kcal, which is only ", B(["1%", "10%", "50%"], 0), " of the plants’ energy."] },
+            { parts: ["Most of the energy at each level is ", B(["recycled back to the plants", "used for life processes and lost as heat"], 1), "."] }],
+          why: "Each step keeps about 10%: 100,000 → 10,000 → 1,000 kcal. That’s why there are about 10 times fewer animals at each level up the food chain." }
+      ] },
+    { letters: ["R", "C"], title: "Symbiosis Sort", time: "6 min", goal: "Classify relationships between species, including some from the Central Valley.",
+      blocks: [
+        { t: "visual", v: "symb", title: "Picture it: three kinds of symbiosis", cap: "+ means the species benefits, 0 means it is not affected, − means it is harmed." },
+        { t: "sort", label: "symbiosis sort", title: "Mutualism, commensalism, or parasitism?", zones: ["Mutualism (+ / +)", "Commensalism (+ / 0)", "Parasitism (+ / −)"], colors: ["#1aa36f", "#2b7de9", "#d0453a"],
+          tiles: [["Honeybees and almond trees: bees get nectar and pollen, and the trees get pollinated.", 0], ["Cattle egrets follow cows and eat the insects the cows stir up.", 1], ["Mistletoe grows on oak trees and takes water and nutrients from them.", 2], ["A fungus and an alga live together as a lichen, sharing food and water.", 0], ["Barnacles ride on a whale’s skin to reach food-filled water.", 1], ["Ticks drink blood from a deer.", 2], ["A clownfish hides in a sea anemone and drives away fish that eat the anemone.", 0], ["A tapeworm lives in a human’s intestine and absorbs nutrients.", 2]],
+          why: "Mutualism helps both. Commensalism helps one and doesn’t affect the other. Parasitism helps the parasite and harms the host. Cattle egrets are a common sight in Central Valley pastures." },
+        { t: "partner", title: "Talk it out", how: "With a partner, decide: is a lynx eating a hare a type of symbiosis? Explain why predation is different from parasitism. Use the words <b>host</b>, <b>prey</b>, and <b>harm</b>.", got: "My partner explained it by saying…", change: "One idea I will add to my explanation" }
+      ] },
+    { letters: ["W"], title: "CER: Why Do the Lynx Follow the Hares?", time: "5 min", goal: "Write a CER using your simulator data.",
+      blocks: [
+        { t: "cerg", title: "CER Builder", q: "<b>Question:</b> Why do lynx populations rise and fall a year or two after hare populations?", claimA: 3, need: 3,
+          claims: ["Lynx and hares are not connected at all.", "Lynx decide to have fewer babies on purpose every 10 years.", "Hares eat lynx, so lynx decrease when hares increase.", "Hares are the lynx’s main food, so lynx increase after hares become plentiful and decrease after hares crash."],
+          evidence: [["In the natural forest, hares peaked at about year 1, and lynx peaked about 2 years later, at year 3.", true],
+            ["At year 6, after the lynx peak, hares had dropped to about 13 thousand, and lynx then decreased.", true],
+            ["With no lynx, hares grew to about 400 thousand and stayed there.", true],
+            ["Lynx have big furry paws.", false], ["The simulator ran for 30 years.", false]],
+          words: ["predator", "prey", "population", "food", "increase", "decrease", "peak", "lag", "limiting factor", "carrying capacity", "cycle", "reproduce"],
+          frames: ["Lynx populations rise and fall after hares because…", "In my data, hares peaked at year ___ and lynx peaked at year…", "When there are many hares, lynx have more food, so they…", "When the hares crash, the lynx…", "This shows that predators and prey…"],
+          must: ["food|eat|prey", "peak|year|increas|rise", "decreas|fall|crash|starv|drop", "lynx|predator"] }
+      ] },
+    { letters: ["O", "R"], title: "Closure: Exit Ticket", time: "2 min", goal: "Show what you learned.",
+      blocks: [
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "On a predator–prey graph, the predator line peaks…", opts: ["before the prey line", "after the prey line", "at the same time as the prey line", "never"], a: 1, why: "Predators respond to plentiful prey with a delay, because it takes time to reproduce." },
+          { q: "Why are there fewer lynx than hares?", opts: ["Lynx are lazy", "Only about 10% of the energy moves up each level, so less energy is available for predators", "Hares are bigger", "Lynx live in the ocean"], a: 1, why: "Less energy at higher levels supports fewer organisms." },
+          { q: "Bees and almond trees both benefit from each other. This relationship is…", opts: ["Parasitism", "Mutualism", "Commensalism", "Predation"], a: 1, why: "Both species benefit: + / +." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-visuals.js?v=2"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-eco.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

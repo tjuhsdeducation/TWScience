@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Lab: Superbugs | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   MINI LAB (≈ 25 min): Superbugs (Antibiotic Resistance)
+   Connects: Cells (prokaryotes vs. viruses) · DNA & Mutations ·
+   Evolution (natural selection) · Human health
+   Students measure the zone of inhibition around an antibiotic disk for
+   6 generations of bacteria exposed to the antibiotic again and again.
+   ===================================================================== */
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "mini-superbugs", subject: "Biology", short: "Mini Lab: Superbugs", color: "#2b7de9", emoji: "🦠", time: "≈ 25 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Mini Lab: Superbugs (Cells → Mutations → Natural Selection)",
+  intro: "An antibiotic that used to cure an infection quickly stops working. The bacteria didn’t “learn” anything. Measure how well an antibiotic works on six generations of bacteria, and use cells, DNA, and evolution to explain what happened.",
+  eq: "How do random mutations and natural selection make bacteria resistant to antibiotics?",
+  targets: {
+    R: "I can explain why antibiotics work on bacteria but not viruses.",
+    I: "I can measure a zone of inhibition and use it as evidence of resistance.",
+    O: "I can track how a population changes across generations.",
+    W: "I can write a short CER that connects mutations and natural selection."
+  },
+  teacher: `<p><b>Connects:</b> Cells (bacteria are prokaryotic cells; viruses are not cells) · DNA (random mutations, and bacteria can also share resistance genes on plasmids) · Evolution (natural selection: variation, inheritance, selection, time) · Human health.</p>
+    <p><b>The science:</b> In a disk diffusion test, a paper disk with antibiotic is placed on a plate covered with bacteria. A clear ring (the <b>zone of inhibition</b>) shows where bacteria couldn’t grow. A smaller ring means the bacteria are more resistant. Antibiotics target structures found in bacterial cells (like cell walls and bacterial ribosomes), which is why they do not work against viruses. Patients should take antibiotics exactly as prescribed and only when a doctor says they are needed.</p>
+    <p><b>Data:</b> Zone sizes are SAMPLE data made up for practice that follow the real pattern.</p>`,
+  stations: [
+    { letters: ["R"], title: "Warm-Up: Bacteria, Viruses, and Antibiotics", time: "5 min", goal: "Review the science you need.",
+      blocks: [
+        { t: "warmup", title: "Why do antibiotics stop working?", read: [
+          "<b>Bacteria</b> are single-celled <b>prokaryotes</b>: they have a cell membrane, a cell wall, ribosomes, and DNA, but no nucleus. <b>Antibiotics</b> kill bacteria or stop them from growing by attacking parts of bacterial cells, like the cell wall or bacterial ribosomes.",
+          "<b>Viruses</b> are not cells. They have no cell wall or ribosomes of their own, so antibiotics do not work on colds or the flu.",
+          "When bacteria copy their DNA, random <b>mutations</b> happen. Once in a while, a mutation helps a bacterium survive an antibiotic. Bacteria divide very quickly, about every 20 to 30 minutes in good conditions, so a population can change over just days."],
+          vocab: [["prokaryote", "procariota", "A cell with no nucleus, like a bacterium."], ["antibiotic", "antibiótico", "A medicine that kills bacteria or stops their growth."], ["resistance", "resistencia", "The ability to survive a medicine that used to work."], ["mutation", "mutación", "A random change in DNA."], ["zone of inhibition", "zona de inhibición", "The clear ring around an antibiotic disk where bacteria can’t grow."]],
+          table: { cap: "Do antibiotics work?", head: ["Infection", "Caused by", "Antibiotics help?"], rows: [["Strep throat", "Bacteria", "Yes"], ["Common cold", "Virus", "No"], ["Flu", "Virus", "No"], ["Urinary tract infection", "Bacteria", "Yes"]] } },
+        { t: "quiz", label: "warm-up check", title: "Quick check", items: [
+          { q: "Why don’t antibiotics cure the flu?", opts: ["The flu is caused by a virus, which is not a cell", "The flu is too strong", "Antibiotics only work in summer", "The flu is caused by bacteria"], a: 0, why: "Antibiotics attack bacterial cell parts. Viruses don’t have them." },
+          { q: "Where does the first resistant bacterium come from?", opts: ["The antibiotic creates it", "A random mutation in its DNA", "It learns to resist", "The patient’s immune system"], a: 1, why: "Mutations happen by chance. The antibiotic doesn’t cause them; it selects for them." }] }
+      ] },
+    { letters: ["O"], title: "Connect the Units", time: "3 min", goal: "Sort each idea into the unit it comes from.",
+      blocks: [
+        { t: "sort", label: "units sort", title: "Which unit does each idea come from?", zones: ["Cells", "DNA & Mutations", "Evolution"], colors: ["#2b7de9", "#8a54e0", "#1aa36f"],
+          tiles: [["Bacteria are prokaryotes with no nucleus.", 0], ["Antibiotics attack the bacterial cell wall.", 0], ["A random change in DNA lets one bacterium survive.", 1], ["The resistance gene is copied when the bacterium divides.", 1], ["The antibiotic kills the non-resistant bacteria.", 2], ["After many generations, most bacteria are resistant.", 2]],
+          why: "Cell structure explains how antibiotics work, DNA explains where resistance comes from, and evolution explains why it spreads." }
+      ] },
+    { letters: ["I", "O"], title: "Plate Lab: Measure the Zones", time: "8 min", goal: "Measure the zone of inhibition for six generations.",
+      blocks: [
+        { t: "minisim", title: "Zone of inhibition around the same antibiotic disk (sample data)", how: "Each generation grew from the survivors of the last antibiotic treatment. Tap ▶ Test to measure the clear ring. Record the diameter and describe the bacteria.", scene: "plate", measure: "Zone of inhibition", unit: "mm", top: 30, color: "#2b7de9", tol: 0.5, max: 4, label: "plate data",
+          col: { head: "The bacteria are…", opts: ["Sensitive (mostly killed)", "Partly resistant", "Resistant"] },
+          conds: [{ k: "g0", name: "Generation 0 (original)", val: 24, pick: 0 }, { k: "g1", name: "Generation 1", val: 21, pick: 0 }, { k: "g2", name: "Generation 2", val: 15, pick: 1 }, { k: "g3", name: "Generation 3", val: 9, pick: 1 }, { k: "g4", name: "Generation 4", val: 4, pick: 2 }, { k: "g5", name: "Generation 5", val: 0, pick: 2 }] }
+      ] },
+    { letters: ["I", "W"], title: "Analyze + Mini CER", time: "6 min", goal: "Explain how the bacteria became resistant.",
+      blocks: [
+        { t: "visual", v: "selection", title: "Picture it: natural selection in a dish", cap: "Blue bacteria are killed by the antibiotic. Red bacteria have a resistance mutation. Watch who is left." },
+        { t: "fill", label: "analysis frames", title: "What does the data show?", max: 3,
+          items: [
+            { parts: ["Over 5 generations, the zone of inhibition got ", B(["bigger", "smaller"], 1), ", which means the antibiotic killed ", B(["more", "fewer"], 1), " bacteria each time."] },
+            { parts: ["The bacteria became resistant because ", B(["each bacterium decided to resist", "the few bacteria with resistance mutations survived and divided"], 1), "."] },
+            { parts: ["One way people can slow resistance is to ", B(["take antibiotics for every cold", "use antibiotics only when a doctor prescribes them, exactly as directed"], 1), "."] }],
+          why: "A smaller ring means the antibiotic stops fewer bacteria. Resistance spreads because survivors pass on resistance genes. Unneeded antibiotic use speeds this up." },
+        { t: "cerg", title: "Mini CER", q: "<b>Question:</b> Why did the antibiotic stop working on the bacteria?", claimA: 3, need: 2,
+          claims: ["The antibiotic got weaker over time.", "The bacteria learned to avoid the antibiotic.", "The antibiotic caused every bacterium to mutate.", "Some bacteria already had resistance mutations; they survived, divided, and passed on resistance, so the population became resistant."],
+          evidence: [["The zone of inhibition shrank from 24 mm in Generation 0 to 0 mm in Generation 5.", true], ["Each generation grew only from the survivors of the last treatment.", true], ["The plates were round.", false], ["Bacteria can divide every 20–30 minutes in good conditions.", true]],
+          words: ["mutation", "resistant", "survive", "divide", "pass on", "population", "natural selection", "generation", "antibiotic", "zone of inhibition"],
+          frames: ["The antibiotic stopped working because…", "In my data, the zone shrank from ___ to…", "The bacteria that survived…", "Over generations, the population…"],
+          must: ["mutat|resist", "surviv", "divid|reproduc|pass|copy|offspring", "generation|population|over time"] },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "A smaller zone of inhibition means the bacteria are…", opts: ["more sensitive", "more resistant", "dead", "viruses"], a: 1, why: "If bacteria can grow closer to the disk, the antibiotic is stopping fewer of them." },
+          { q: "What changed during this lab: each bacterium, or the population?", opts: ["Each bacterium changed its own DNA on purpose", "The population changed, because resistant bacteria survived and reproduced", "Nothing changed", "Only the antibiotic changed"], a: 1, why: "Natural selection changes the makeup of a population over generations." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-visuals.js?v=2"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-minisim.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

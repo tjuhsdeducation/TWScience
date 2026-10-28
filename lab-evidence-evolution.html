@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case File: Evidence of Evolution | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   BIOLOGY VIRTUAL LAB: Case File: Evidence of Evolution (≈ 50 min)
+   Four lines of evidence, one case: Did whales evolve from land mammals?
+   Students dig a cliff of whale fossils (law of superposition, transitional
+   features), sort homologous / analogous / vestigial structures, compare
+   embryos, and count amino-acid differences in cytochrome c to rank how
+   closely species are related. Ends with a CER that uses several lines of
+   evidence.
+   To change wording, edit the text between the quotes/backticks.
+   ===================================================================== */
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "lab-evo", subject: "Biology", short: "Virtual Lab: Evidence of Evolution", color: "#8a54e0", emoji: "🦴", time: "≈ 50 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Case File: Evidence of Evolution",
+  intro: "Whales live in the ocean, breathe air, and have hip bones they never use. Could their ancestors have walked on land? Investigate four lines of evidence like a scientist: fossils, body structures, embryos, and proteins. Then build your case.",
+  eq: "What evidence shows that species are related and have changed over time?",
+  targets: {
+    R: "I can describe four types of evidence for evolution: fossils, comparative anatomy, embryology, and molecular evidence.",
+    I: "I can use fossils and protein data to infer how species are related.",
+    O: "I can organize fossils by age and rank species by the number of protein differences.",
+    W: "I can write a CER that uses more than one line of evidence.",
+    C: "I can explain to a partner the difference between homologous and analogous structures."
+  },
+  teacher: `<p><b>Pacing (≈ 50 min):</b> Warm-Up 5 · Dig Site 12 · Comparative Anatomy 8 · Embryos 4 · Protein Detective 9 · CER 8 · Closure 4.</p>
+    <p><b>The fossils (real, ages approximate):</b> <i>Pakicetus</i> (~50 million years ago), <i>Ambulocetus</i> (~49 mya), <i>Rodhocetus</i> (~47 mya), <i>Dorudon</i> (~40 mya), and living whales. Over time the fossils show back legs shrinking, nostrils moving back toward a blowhole, and a shift from land to water. Modern whales still have small vestigial hip bones. The drawings are simplified diagrams, not to scale.</p>
+    <p><b>Protein data:</b> The 20-amino-acid sequences are a SIMPLIFIED section made for practice. Real cytochrome c is about 104 amino acids long and shows the same pattern (chimpanzee identical to human, rhesus monkey one difference, more distant species more differences). Counts students should find: chimp 0, monkey 1, dog 3, chicken 5, tuna 8, yeast 12.</p>
+    <p><b>Key misconceptions:</b> “Humans evolved from chimpanzees” (we share a common ancestor); “evolution means an individual changes”; “similar function means close relatives” (bat and butterfly wings are analogous).</p>`,
+  stations: [
+    { letters: ["R", "C"], title: "Warm-Up: Four Lines of Evidence", time: "5 min", goal: "Review the evidence scientists use, then answer 4 quick questions.",
+      blocks: [
+        { t: "warmup", title: "How do we know species are related?", read: [
+          "<b>Evolution</b> is the change in the inherited traits of populations over many generations. Species that are related share a <b>common ancestor</b>: an ancestral species that both descended from.",
+          "Scientists use several independent lines of evidence. <b>Fossils</b> show organisms that lived long ago; deeper rock layers are usually older (the <b>law of superposition</b>), and radiometric dating gives ages in years. <b>Comparative anatomy</b> looks at body structures. <b>Embryology</b> compares early stages of development. <b>Molecular biology</b> compares DNA and proteins.",
+          "When different kinds of evidence point to the same answer, scientists become more confident. That is why we will build a case with all four."],
+          vocab: [
+            ["common ancestor", "ancestro común", "An earlier species that two or more species descended from."],
+            ["fossil", "fósil", "Preserved remains or traces of an organism that lived long ago."],
+            ["transitional fossil", "fósil de transición", "A fossil with features of both an older group and a newer group."],
+            ["homologous structure", "estructura homóloga", "Same bones or structure (from a common ancestor), different function."],
+            ["analogous structure", "estructura análoga", "Same function, different structure (not from a common ancestor)."],
+            ["vestigial structure", "estructura vestigial", "A reduced structure with little or no function, left from an ancestor."],
+            ["amino acid", "aminoácido", "A building block of proteins; DNA codes for their order."]],
+          table: { cap: "Four lines of evidence", head: ["Evidence", "What scientists compare"], rows: [["Fossils", "Ages and features of organisms in rock layers"], ["Comparative anatomy", "Bones and body structures of living species"], ["Embryology", "Early stages of development"], ["Molecular", "DNA and protein (amino acid) sequences"]] } },
+        { t: "quiz", label: "warm-up check", title: "Check your understanding", items: [
+          { q: "Which statement is accurate?", opts: ["Humans evolved from chimpanzees.", "Humans and chimpanzees share a common ancestor.", "Chimpanzees will someday turn into humans.", "Humans and chimpanzees are not related."], a: 1, why: "Neither species came from the other. Both descended from an ancestral species that lived millions of years ago." },
+          { q: "In undisturbed rock layers, which fossils are usually the OLDEST?", opts: ["The ones at the top", "The ones in the deepest layer", "The biggest ones", "The ones in the middle"], a: 1, why: "Layers form on top of each other over time, so the bottom layer formed first (law of superposition)." },
+          { q: "A human arm and a whale flipper have the same bones but do different jobs. They are…", opts: ["analogous structures", "vestigial structures", "homologous structures", "transitional fossils"], a: 2, why: "Same structure, different function, inherited from a common ancestor: homologous." },
+          { q: "Why are scientists more confident when fossils, anatomy, and DNA all agree?", opts: ["Because one type of evidence is always wrong", "Because independent lines of evidence point to the same conclusion", "Because DNA is the only real evidence", "They are not more confident"], a: 1, why: "Agreement between different, independent kinds of evidence makes a conclusion much stronger." }] }
+      ] },
+    { letters: ["I", "O"], title: "Dig Site: The Whale Cliff", time: "12 min", goal: "Dig every layer, then organize the fossils by age and features.",
+      blocks: [
+        { t: "text", html: `<div class="callout"><b>Your mission:</b> Dig all five layers of the cliff. For each fossil, read the card and fill in the table: its <b>age order</b> (1 = oldest), its <b>back legs</b>, where its <b>nostrils</b> are, and <b>where it lived</b>. Look for a pattern!</div>` },
+        { t: "fossildig", max: 5, label: "fossil table" },
+        { t: "fill", label: "fossil pattern frames", title: "What pattern do the fossils show?", max: 3,
+          items: [
+            { parts: ["From the oldest fossil to the youngest, the back legs got ", B(["longer", "smaller"], 1), " and the nostrils moved toward the ", B(["top of the head", "tip of the snout"], 0), "."] },
+            { parts: ["Ambulocetus and Rodhocetus are ", B(["transitional fossils", "vestigial structures"], 0), " because they have features of both ", B(["land mammals and whales", "fish and birds"], 0), "."] },
+            { parts: ["Modern whales have small hip bones with no legs attached. These are ", B(["analogous", "vestigial", "homologous"], 1), " structures, which suggests whale ancestors ", B(["had back legs", "never had legs"], 0), "."] }],
+          why: "The fossil sequence shows gradual change: walking legs shrank, nostrils moved back to become a blowhole, and habitat shifted from land to water." }
+      ] },
+    { letters: ["O", "R"], title: "Comparative Anatomy", time: "8 min", goal: "Sort structures as homologous, analogous, or vestigial.",
+      blocks: [
+        { t: "text", html: `<p>The front limbs of a <b>human</b>, <b>cat</b>, <b>whale</b>, and <b>bat</b> look different and do different jobs (grab, walk, swim, fly). But all four have the same set of bones in the same order: one upper arm bone (humerus), two forearm bones (radius and ulna), wrist bones, and finger bones. The best explanation is that they inherited this pattern from a common ancestor.</p>` },
+        { t: "visual", v: "forelimbs", title: "Picture it: the same bones in four forelimbs", cap: "Each color is the same bone in every animal. Find the red upper arm bone in all four." },
+        { t: "sort", label: "anatomy sort", title: "Homologous, analogous, or vestigial?", zones: ["Homologous (same structure, common ancestor)", "Analogous (same job, different structure)", "Vestigial (reduced, little or no use)"], colors: ["#8a54e0", "#e08a00", "#1aa36f"],
+          tiles: [["Human arm and whale flipper", 0], ["Bat wing and cat front leg", 0], ["Bird wing and butterfly wing", 1], ["Shark fin and dolphin flipper (shape for swimming)", 1], ["Hip bones inside a whale", 2], ["Tiny leg bones inside some snakes (like pythons)", 2], ["Human tailbone (coccyx)", 2]],
+          why: "Homologous structures share bones because of common ancestry. Analogous structures look alike because of similar environments, not shared ancestry. Vestigial structures are leftovers from ancestors." },
+        { t: "partner", title: "Talk it out", how: "Explain to a partner why a bird wing and a bat wing are homologous as LIMBS (same arm bones), but a bird wing and a butterfly wing are only analogous. Use the words <b>structure</b>, <b>function</b>, and <b>common ancestor</b>.", got: "My partner explained it by saying…", change: "One idea I will add to my explanation" }
+      ] },
+    { letters: ["R", "I"], title: "Embryo Evidence", time: "4 min", goal: "Use embryos as another line of evidence.",
+      blocks: [
+        { t: "text", html: `<p>Early <b>embryos</b> of fish, chickens, pigs, and humans look surprisingly similar. All of them have a <b>tail</b> and small folds in the neck called <b>pharyngeal pouches</b> at an early stage. In fish, the pouches develop into gills. In humans, they develop into parts of the jaw, ear, and throat, and the tail shrinks to the tailbone. These shared stages suggest a common ancestor. (As embryos develop, they become more and more different from each other.)</p>` },
+        { t: "embryos", title: "Compare the embryos" },
+        { t: "quiz", label: "embryo check", title: "Embryo check", items: [
+          { q: "Human embryos have a tail early on. What does this suggest?", opts: ["Humans will grow tails as adults", "Humans share a common ancestor with other animals that have tails", "Embryos are fish", "Tails are useful for human babies"], a: 1, why: "Shared developmental features are evidence of shared ancestry." },
+          { q: "In humans, the pharyngeal pouches develop into…", opts: ["Gills", "Parts of the jaw, ear, and throat", "Lungs only", "Nothing at all"], a: 1, why: "The same early structure develops differently in different species: gills in fish, ear and throat parts in humans." }] }
+      ] },
+    { letters: ["I", "O"], title: "Protein Detective", time: "9 min", goal: "Count amino-acid differences in cytochrome c and rank how closely each species is related to humans.",
+      blocks: [
+        { t: "text", html: `<p><b>Cytochrome c</b> is a protein used in cellular respiration, so almost every living thing has it. Its amino acid sequence is coded by DNA. When two species split from a common ancestor, mutations slowly build up in each line. So the <b>fewer differences</b> two species have, the <b>more recently</b> they shared a common ancestor.</p>` },
+        { t: "seqcompare", max: 3, label: "protein comparison" },
+        { t: "visual", v: "tree", title: "Picture it: a family tree from your protein data", cap: "Species with fewer differences from humans branch off closer to the human line." },
+        { t: "fill", label: "protein frames", title: "What do the proteins show?", max: 3,
+          items: [
+            { parts: ["The species most closely related to humans is the ", B(["yeast", "tuna", "chimpanzee"], 2), " because it has ", B(["the fewest", "the most"], 0), " differences."] },
+            { parts: ["From most to least related to humans: chimpanzee, rhesus monkey, ", B(["tuna, dog, chicken", "dog, chicken, tuna"], 1), ", yeast."] },
+            { parts: ["This molecular evidence ", B(["agrees with", "contradicts"], 0), " what we learned from anatomy: mammals are more closely related to each other than to fish."] }],
+          why: "More differences means more time since the common ancestor. Molecular evidence lines up with the fossil and anatomy evidence." }
+      ] },
+    { letters: ["W"], title: "Build Your Case: CER", time: "8 min", goal: "Write a CER using at least two different lines of evidence.",
+      blocks: [
+        { t: "cerg", title: "CER Builder", q: "<b>Question:</b> Did modern whales evolve from land-dwelling mammals?", claimA: 0, need: 3,
+          claims: ["Yes. Modern whales descended from four-legged land mammals, and their traits changed gradually over millions of years.", "No. Whales have always lived in the ocean exactly as they are today.", "Yes. Each whale grew flippers during its life because it needed to swim.", "No. Whales are a type of fish."],
+          evidence: [["Older fossils (Pakicetus, about 50 million years) had long walking legs; younger fossils (Dorudon, about 40 million years) had tiny back legs.", true],
+            ["The nostrils moved from the tip of the snout to the top of the head over time, forming a blowhole.", true],
+            ["Modern whales have vestigial hip bones that are not attached to legs.", true],
+            ["Whale flippers have the same arm bones as a human arm (homologous structures).", true],
+            ["Whales are very large.", false], ["Some whales sing songs.", false]],
+          words: ["fossil", "transitional", "vestigial", "homologous", "common ancestor", "evolve", "generations", "superposition", "older", "younger", "nostrils", "legs"],
+          frames: ["Modern whales…", "The fossil evidence shows that older fossils had ___, while younger fossils…", "Another line of evidence is…", "This shows that whales share a common ancestor with…", "These changes happened over many generations, not…"],
+          must: ["fossil", "leg|nostril|blowhole", "vestigial|hip|homologous|bone|anatomy", "ancestor|land|mammal|evolv|generation"] }
+      ] },
+    { letters: ["O", "R"], title: "Closure: Exit Ticket", time: "4 min", goal: "Show what you learned.",
+      blocks: [
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "Species A and B differ by 2 amino acids. Species A and C differ by 15. Which is most likely?", opts: ["A and C share a more recent common ancestor", "A and B share a more recent common ancestor", "B and C are the same species", "No conclusion is possible"], a: 1, why: "Fewer differences means a more recent common ancestor." },
+          { q: "Which is an example of ANALOGOUS structures?", opts: ["Human arm and bat wing", "Bird wing and insect wing", "Cat leg and whale flipper", "Whale hip bones and human hip bones"], a: 1, why: "Bird and insect wings both fly but are built completely differently, with no shared bones." },
+          { q: "Why is a transitional fossil like Ambulocetus important?", opts: ["It shows features of both an ancestral group and a later group", "It is the largest whale", "It proves whales are fish", "It is still alive today"], a: 0, why: "Transitional fossils show the in-between steps of evolutionary change." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-visuals.js?v=2"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-evo.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

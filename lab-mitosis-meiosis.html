@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Body Cells vs. Sex Cells: Mitosis & Meiosis | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   BIOLOGY VIRTUAL LAB: Body Cells vs. Sex Cells (Mitosis & Meiosis, ≈ 50 min)
+   Students sort somatic cells and gametes, step a cell with 2n = 4
+   through mitosis and meiosis (with crossing over and independent
+   assortment), count chromosomes in real organisms, and write a CER.
+   Built for EL students: picture word bank with Spanish cognates and
+   read-aloud, picture sorts, and drop-down sentence frames.
+   To change wording, edit the text between the quotes/backticks.
+   The simulator and chromosome table live in cc-celldiv.js.
+   ===================================================================== */
+const PIC = (ic, label) => label;
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "lab-mitmei", subject: "Biology", short: "Virtual Lab: Mitosis & Meiosis", color: "#1aa36f", emoji: "🧬", time: "≈ 50 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Body Cells vs. Sex Cells: A Mitosis & Meiosis Lab",
+  intro: "Why does a skin cell have 46 chromosomes but an egg cell only 23? Sort body cells and sex cells, run a cell through mitosis and meiosis in a simulator, trade chromosome pieces with crossing over, and count chromosomes in real organisms.",
+  eq: "How are body (somatic) cells and sex cells (gametes) made, and why do gametes have only half the chromosomes?",
+  targets: {
+    R: "I can explain the words somatic cell, gamete, diploid (2n), haploid (n), and homologous chromosomes.",
+    I: "I can model mitosis and meiosis and track the number of chromosomes in each cell.",
+    O: "I can compare mitosis and meiosis in a chart and put the phases in order.",
+    W: "I can write a CER explaining why gametes must be haploid.",
+    C: "I can explain to a partner how meiosis creates genetic variation."
+  },
+  teacher: `<p><b>Pacing (≈ 50 min):</b> Warm-Up 5 · Big Idea 5 · Mitosis Lab 9 · Meiosis Lab 11 · Compare & Count 8 · CER 6 · Closure 6. To shorten, assign the Compare & Count station as homework.</p>
+    <p><b>The simulator:</b> The model cell has 2n = 4 (one long and one short chromosome from each parent; pink = maternal, blue = paternal). Students answer one question to move to each phase. The correct answer is never in the same spot twice in a row. In meiosis, students can turn on <b>crossing over</b> in prophase I and <b>flip</b> either homologous pair in metaphase I (independent assortment); the results table then shows how many different gametes they made. Points: 2 for finishing each simulator, +1 if at least 75% of the phase questions were answered on the first try. “Start over” (tap twice) keeps their best score so students can explore.</p>
+    <p><b>Simplifications:</b> Chromosomes are drawn condensed in every phase, and cytokinesis is shown together with telophase. Prometaphase, synapsis details, and the cell-cycle checkpoints are not modeled. Human numbers: body cells 46 (23 pairs), gametes 23, zygote 46.</p>
+    <p><b>Chromosome numbers used:</b> human 46, dog 78, fruit fly 8, corn 20, cat 38, chimpanzee 48, onion 16, horse 64 (diploid). Use the graph to discuss that chromosome number does not measure how “complex” an organism is.</p>
+    <p><b>Closure note:</b> The nondisjunction example (trisomy 21) is presented respectfully, using person-first language. Preview it if you have students with family members who have Down syndrome; it can be a positive conversation about how genetics works, not about “mistakes” in people.</p>
+    <p><b>Standards:</b> NGSS HS-LS1-4 (mitosis and differentiation) and HS-LS3-2 (meiosis and genetic variation).</p>
+    <p><b>EL supports:</b> picture word bank with Spanish cognates and read-aloud, picture sorts, drop-down sentence frames, a CER builder with claim and evidence cards and a tap-to-add word bank.</p>`,
+  stations: [
+    { letters: ["R", "C"], title: "Warm-Up: Review Two Kinds of Cells", time: "5 min", goal: "Review body cells and sex cells, then answer 4 quick questions.",
+      blocks: [
+        { t: "warmup", title: "Body cells vs. sex cells", read: [
+          "Almost all of your cells are <b>somatic cells</b> (body cells): skin, muscle, liver, and nerve cells. Each human somatic cell has <b>46 chromosomes</b> arranged in <b>23 pairs</b>. One chromosome in each pair came from your mother and one from your father. Matching pairs are called <b>homologous chromosomes</b>.",
+          "A cell with two sets of chromosomes is <b>diploid (2n)</b>. Body cells divide by <b>mitosis</b> to make two identical diploid cells for growth and repair.",
+          "<b>Gametes</b> (sex cells) are eggs and sperm. They are <b>haploid (n)</b>: they have only one set, 23 chromosomes in humans. Gametes are made by <b>meiosis</b>. During <b>fertilization</b>, an egg (23) and a sperm (23) join to form a <b>zygote</b> with 46."],
+          vocab: [
+            ["somatic cell", "célula somática", "A body cell, like a skin or muscle cell."],
+            ["gamete", "gameto", "A sex cell: an egg or a sperm."],
+            ["chromosome", "cromosoma", "A structure of DNA that carries genes."],
+            ["homologous chromosomes", "cromosomas homólogos", "A matching pair: one from each parent."],
+            ["diploid (2n)", "diploide", "Two sets of chromosomes (46 in humans)."],
+            ["haploid (n)", "haploide", "One set of chromosomes (23 in humans)."],
+            ["fertilization / zygote", "fertilización / cigoto", "When egg and sperm join / the first cell of a new organism."]],
+          table: { cap: "Compare the two kinds of cells (humans)", head: ["", "Somatic (body) cell", "Gamete (sex cell)"], rows: [
+            ["Examples", "Skin, muscle, liver, nerve", "Egg, sperm"], ["Chromosome number", "46 (diploid, 2n)", "23 (haploid, n)"], ["Made by", "Mitosis", "Meiosis"], ["Job", "Growth, repair, and replacing cells", "Reproduction"]] } },
+        { t: "quiz", label: "warm-up check", title: "Check your understanding", items: [
+          { q: "A human skin cell is a…", opts: ["haploid gamete", "diploid somatic cell", "haploid somatic cell", "diploid gamete"], a: 1, why: "Skin cells are body (somatic) cells with 46 chromosomes, so they are diploid." },
+          { q: "How many chromosomes are in a human egg cell?", opts: ["46", "92", "23", "12"], a: 2, why: "Eggs are gametes, which are haploid: 23 chromosomes." },
+          { q: "A sperm (23) fertilizes an egg (23). How many chromosomes does the zygote have?", opts: ["23", "46", "69", "92"], a: 1, why: "23 + 23 = 46, which restores the diploid number." },
+          { q: "Which process makes gametes?", opts: ["Mitosis", "Meiosis", "Fertilization", "Photosynthesis"], a: 1, why: "Meiosis cuts the chromosome number in half to make haploid gametes." }] }
+      ] },
+    { letters: ["R"], title: "The Big Idea: Diploid vs. Haploid", time: "5 min", goal: "Understand homologous pairs and why the chromosome number is cut in half.",
+      blocks: [
+        { t: "text", html: `<h3>Two sets of instructions</h3>
+          <p>You got <b>23 chromosomes from your mom</b> (in the egg) and <b>23 from your dad</b> (in the sperm). The matching chromosomes form <b>23 homologous pairs</b>. A cell with both sets is <b>diploid (2n = 46)</b>. A cell with only one set is <b>haploid (n = 23)</b>.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:700 1.05rem var(--display);margin:10px 0">
+            <span style="background:#fde7f1;border:3px solid #e8368f;border-radius:14px;padding:8px 12px">Egg<br><small>n = 23</small></span><span>+</span>
+            <span style="background:#e6f0ff;border:3px solid #2b7de9;border-radius:14px;padding:8px 12px">Sperm<br><small>n = 23</small></span><span>fertilization </span>
+            <span style="background:#e2f6ec;border:3px solid #1aa36f;border-radius:14px;padding:8px 12px">Zygote<br><small>2n = 46</small></span><span>mitosis, again and again </span>
+            <span style="background:#fff3dc;border:3px solid #e08a00;border-radius:14px;padding:8px 12px">Trillions of body cells<br><small>all 2n = 46</small></span></div>
+          <p><b>Mitosis</b> keeps the number the same (46 → 46) for <b>growth, repair, and replacing</b> cells. <b>Meiosis</b> cuts the number in half (46 → 23) to make gametes in the <b>ovaries and testes</b>. Then fertilization brings it back to 46.</p>` },
+        { t: "fill", icon: "", label: "big idea frames", title: "Check the big idea", how: "Choose the word or number that makes each sentence true.", max: 4,
+          bank: ["diploid", "haploid", "46", "23", "mitosis", "meiosis", "homologous"],
+          items: [
+            { pic: "", parts: ["A skin cell is ", B(["diploid", "haploid"], 0), " and has ", B(["46", "23", "92"], 0), " chromosomes."] },
+            { pic: "", parts: ["An egg cell is ", B(["diploid", "haploid"], 1), " and has ", B(["46", "23", "12"], 1), " chromosomes."] },
+            { pic: "", parts: ["One chromosome from mom and the matching one from dad are called ", B(["homologous", "sister chromatids", "gametes"], 0), " chromosomes."] },
+            { pic: "", parts: ["Body cells are made by ", B(["mitosis", "meiosis"], 0), ". Gametes are made by ", B(["mitosis", "meiosis"], 1), "."] }],
+          why: "Body cells: diploid (46), made by mitosis. Gametes: haploid (23), made by meiosis." }
+      ] },
+    { letters: ["I", "O"], title: "Mitosis Lab: Make Two Body Cells", time: "9 min", goal: "Step a body cell through mitosis and count the chromosomes in every cell.",
+      blocks: [
+        { t: "text", html: `<div class="callout"><b>Your mission:</b> This model body cell has <b>2n = 4</b> (two homologous pairs). Answer each question to move the cell to the next phase. Watch the chromosome count under each cell. At the end, compare the daughter cells to the parent.</div>` },
+        { t: "divsim", mode: "mitosis", title: "Mitosis Simulator: a skin cell divides" },
+        { t: "fill", icon: "", label: "mitosis frames", title: "What did mitosis make?", max: 3,
+          items: [
+            { pic: "2️⃣", parts: ["Mitosis made ", B(["2", "4", "1"], 0), " daughter cells with ", B(["4", "2", "8"], 0), " chromosomes each."] },
+            { pic: "", parts: ["The daughter cells are ", B(["identical", "different"], 0), " to the parent cell, because ", B(["sister chromatids", "homologous pairs"], 0), " were pulled apart."] },
+            { pic: "", parts: ["Your body uses mitosis to ", B(["grow and repair tissue", "make eggs and sperm"], 0), "."] }],
+          why: "Mitosis: 1 diploid cell → 2 identical diploid cells. Sister chromatids separate in anaphase." }
+      ] },
+    { letters: ["I", "C"], title: "Meiosis Lab: Make Four Gametes", time: "11 min", goal: "Step a cell through meiosis I and II, try crossing over and independent assortment, and compare the gametes.",
+      blocks: [
+        { t: "text", html: `<div class="callout"><b>Your mission:</b> This cell is in an ovary or testis. Take it through <b>two</b> divisions. In <b>prophase I</b>, press to cross over. In <b>metaphase I</b>, flip a pair to see independent assortment. At the end, count how many <b>different</b> gametes you made. Then press <b>Start over</b> and try a different choice!</div>` },
+        { t: "divsim", mode: "meiosis", title: "Meiosis Simulator: making gametes" },
+        { t: "fill", icon: "", label: "meiosis frames", title: "What did meiosis make?", max: 4,
+          items: [
+            { pic: "4️⃣", parts: ["Meiosis made ", B(["4", "2", "8"], 0), " gametes with ", B(["2", "4", "1"], 0), " chromosomes each. That is ", B(["half", "double", "the same as"], 0), " the parent cell."] },
+            { pic: "", parts: ["In meiosis I, ", B(["homologous pairs", "sister chromatids"], 0), " separated. In meiosis II, ", B(["sister chromatids", "homologous pairs"], 0), " separated."] },
+            { pic: "", parts: ["Crossing over and independent assortment make the gametes genetically ", B(["different", "identical"], 0), "."] }],
+          why: "Meiosis: 1 diploid cell → 4 haploid gametes. Meiosis I separates homologs; meiosis II separates sister chromatids. Crossing over and random alignment create variation." },
+        { t: "partner", title: "Talk it out", how: "Explain to a partner why two brothers or sisters (who are not identical twins) look different even though they have the same parents. Use the words <b>meiosis</b>, <b>crossing over</b>, and <b>independent assortment</b>.", got: "My partner explained it by saying…", change: "One idea I will add to my own explanation" }
+      ] },
+    { letters: ["O", "R"], title: "Compare & Count", time: "8 min", goal: "Compare mitosis and meiosis, order the phases, and count chromosomes in real organisms.",
+      blocks: [
+        { t: "sort", label: "mitosis vs meiosis", title: "Mitosis, meiosis, or both?", zones: ["Mitosis", "Meiosis", "Both"], colors: ["#1aa36f", "#e8368f", "#8a54e0"],
+          tiles: [["Makes 2 cells", 0], ["Used for growth and repair", 0], ["Daughter cells are identical", 0], ["Makes 4 cells", 1], ["Chromosome number is cut in half", 1], ["Homologous chromosomes pair up", 1], ["Crossing over happens", 1], ["Happens in the ovaries and testes", 1], ["DNA is copied first (S phase)", 2], ["Sister chromatids are pulled apart", 2]],
+          why: "Both copy DNA once and both separate sister chromatids (mitosis in anaphase, meiosis in anaphase II). Only meiosis pairs homologs, crosses over, and halves the number." },
+        { t: "order", title: "Put the phases of mitosis in order", how: "Use the arrows. Start with the phase where the cell copies its DNA.", items: ["Interphase: the DNA is copied", "Prophase: chromosomes condense and the nuclear envelope breaks down", "Metaphase: chromosomes line up single file in the middle", "Anaphase: sister chromatids are pulled to opposite ends", "Telophase and cytokinesis: two nuclei form and the cell splits in two"],
+          why: "Remember IPMAT: Interphase, Prophase, Metaphase, Anaphase, Telophase." },
+        { t: "chromtable", title: "Count the chromosomes", how: "Every organism has its own diploid number. Fill in each missing box. (Hint: a gamete has half as many as a body cell.)", rows: [
+          { ic: "", org: "Human", d: 46, give: "d" }, { ic: "", org: "Dog", d: 78, give: "h" }, { ic: "", org: "Fruit fly", d: 8, give: "d" }, { ic: "", org: "Corn", d: 20, give: "h" },
+          { ic: "", org: "Cat", d: 38, give: "d" }, { ic: "", org: "Chimpanzee", d: 48, give: "h" }, { ic: "", org: "Onion", d: 16, give: "d" }, { ic: "", org: "Horse", d: 64, give: "h" }] },
+        { t: "quiz", label: "graph questions", title: "Read the graph", items: [
+          { q: "A dog has 78 chromosomes and a human has 46. What does this show?", opts: ["Dogs are more complex than humans.", "The number of chromosomes does not tell you how complex an organism is.", "Dogs have more DNA in every gene.", "Humans are missing chromosomes."], a: 1, why: "Chromosome number varies a lot between species and is not a measure of complexity. Corn has 20, and fruit flies have only 8." },
+          { q: "A horse egg cell has 32 chromosomes. How many are in a horse muscle cell?", opts: ["16", "32", "64", "128"], a: 2, why: "A muscle cell is somatic (diploid), so it has twice the gamete number: 2 × 32 = 64." }] }
+      ] },
+    { letters: ["W"], title: "CER: Why Must Gametes Be Haploid?", time: "6 min", goal: "Build a claim, evidence, and reasoning paragraph about the chromosome number of gametes.",
+      blocks: [
+        { t: "cerg", title: "CER Builder", q: "<b>Question:</b> Why must gametes (egg and sperm) have only half the number of chromosomes as body cells?", claimA: 1, need: 3,
+          claims: ["They don’t. Gametes have the same number of chromosomes as body cells.", "Gametes must be haploid (23) so that when an egg and sperm join, the zygote has the normal diploid number (46).", "Gametes are small, so there is only room for half of the chromosomes."],
+          evidence: [["Human body cells have 46 chromosomes (23 homologous pairs).", true],
+            ["In the meiosis simulator, one cell with 4 chromosomes made 4 gametes with 2 chromosomes each.", true],
+            ["Fertilization joins one egg (23) and one sperm (23) to make a zygote with 46.", true],
+            ["Mitosis makes 2 identical cells.", false], ["Fruit flies have 8 chromosomes.", false]],
+          words: ["gamete", "haploid", "diploid", "23", "46", "meiosis", "fertilization", "zygote", "homologous", "half", "double"],
+          frames: ["Human body cells have ___ chromosomes, but gametes have ___.", "Meiosis cuts the chromosome number in half, so…", "When an egg and a sperm join during fertilization…", "If gametes were diploid, the zygote would have…"],
+          must: ["haploid|23|half", "fertiliz", "46|diploid"] }
+      ] },
+    { letters: ["O", "R", "I"], title: "Closure: New Examples", time: "6 min", goal: "Apply what you learned to a new organism and to a meiosis mistake.",
+      blocks: [
+        { t: "text", html: `<h3>New example 1: the fruit fly</h3><p>Fruit fly body cells have <b>2n = 8</b> (4 homologous pairs). Use what you learned to fill in the frames.</p>` },
+        { t: "fill", icon: "", label: "fruit fly frames", title: "Fruit fly chromosomes", max: 4,
+          items: [
+            { pic: "", parts: ["After mitosis, each fruit fly skin cell has ", B(["8", "4", "16"], 0), " chromosomes."] },
+            { pic: "", parts: ["After meiosis, each fruit fly gamete has ", B(["4", "8", "2"], 0), " chromosomes."] },
+            { pic: "", parts: ["A fruit fly zygote has ", B(["8", "4", "16"], 0), " chromosomes, because ", B(["4 + 4 = 8", "8 + 8 = 16", "8 ÷ 2 = 4"], 0), "."] }],
+          why: "Mitosis keeps 2n = 8. Meiosis makes n = 4. Fertilization: 4 + 4 = 8." },
+        { t: "text", html: `<h3>New example 2: when chromosomes don’t separate</h3>
+          <p>Sometimes during meiosis, a pair of chromosomes does not separate. This is called <b>nondisjunction</b>. One gamete gets an extra copy (24 chromosomes) and another gets one too few (22).</p>
+          <p>If a gamete with an extra copy of <b>chromosome 21</b> joins a typical gamete (23), the zygote has <b>47</b> chromosomes, with three copies of chromosome 21. This is called <b>trisomy 21</b>, and a person with it has <b>Down syndrome</b>. People with Down syndrome go to school, work, play sports, and live full lives. Studying nondisjunction helps us understand why the steps of meiosis matter.</p>` },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "A gamete with 24 chromosomes (an extra chromosome 21) joins a typical gamete with 23. How many chromosomes will the zygote have?", opts: ["46", "47", "48", "23"], a: 1, why: "24 + 23 = 47, with three copies of chromosome 21 (trisomy 21)." },
+          { q: "Which process makes the cells that repair a cut on your hand?", opts: ["Meiosis", "Mitosis", "Fertilization", "Crossing over"], a: 1, why: "Repair needs identical diploid body cells, which mitosis makes." },
+          { q: "Which event happens ONLY in meiosis and makes gametes genetically different?", opts: ["DNA replication", "Crossing over between homologous chromosomes", "Sister chromatids separating", "Cytokinesis"], a: 1, why: "Crossing over (and independent assortment) happen only in meiosis I." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-celldiv.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

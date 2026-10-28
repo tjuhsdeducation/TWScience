@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keeping the Balance: Homeostasis | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   BIOLOGY VIRTUAL LAB: Keeping the Balance (Homeostasis, ≈ 50 min)
+   Students learn the parts of a feedback loop, run a blood-sugar simulator
+   (healthy meal, exercise, type 1 diabetes with and without insulin), record
+   glucose data, then build the body-temperature loop and compare negative
+   and positive feedback. Ends with a CER.
+   EL supports: word bank with Spanish cognates, sorts, sentence frames.
+   To change wording, edit the text between the quotes/backticks.
+   ===================================================================== */
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "lab-homeo", subject: "Biology", short: "Virtual Lab: Homeostasis", color: "#d0453a", emoji: "🩸", time: "≈ 50 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Keeping the Balance: Homeostasis and Feedback Loops",
+  intro: "Your body keeps its blood sugar and temperature in a narrow range all day long, even when you eat a big lunch or run a mile. Learn the parts of a feedback loop, run a blood-sugar simulator, and find out what happens when part of the loop breaks.",
+  eq: "How do feedback loops keep the body’s internal conditions stable, and what happens when a feedback loop fails?",
+  targets: {
+    R: "I can explain the parts of a feedback loop: stimulus, sensor, control center, effector, and response.",
+    I: "I can collect blood-glucose data from a simulation and use it as evidence of negative feedback.",
+    O: "I can read a line graph and organize the steps of the blood-sugar and body-temperature loops.",
+    W: "I can write a CER explaining how insulin and glucagon keep blood glucose stable.",
+    C: "I can compare negative and positive feedback with a partner."
+  },
+  teacher: `<p><b>Pacing (≈ 50 min):</b> Warm-Up 5 · Feedback Loops 101 7 · Predict 4 · Blood Sugar Lab 12 · Analyze 7 · Body Temperature 6 · Negative vs. Positive + CER 6 · Closure 3.</p>
+    <p><b>About the simulator:</b> The four scenarios are simplified math models (made up for practice) that follow the real pattern. A healthy body after a meal rises to about 147 mg/dL at 1 hour and returns to about 102 by 3 hours. Exercise drops glucose to about 68–74 before glucagon brings it back. Without insulin (type 1 diabetes), glucose climbs to about 246 by 3 hours and stays high. With an insulin shot, it peaks near 180 and returns to about 122. Healthy ranges used here: about 70–99 mg/dL fasting and under 140 mg/dL after a meal.</p>
+    <p><b>Data collection:</b> Students read the meter at 0, 1, 2, and 3 hours for each scenario. Readings within 3 mg/dL count. Students also choose which hormone the pancreas released and whether glucose returned to range by 3 hours. <b>↺ Reset the lab</b> (tap twice) clears the simulator.</p>
+    <p><b>Key misconceptions:</b> “Insulin is sugar” (it’s a hormone that signals cells to take in glucose); “homeostasis means everything stays exactly the same” (conditions move up and down around a set point); “positive feedback means good” (positive means it amplifies the change).</p>`,
+  stations: [
+    { letters: ["R", "C"], title: "Warm-Up: What Is Homeostasis?", time: "5 min", goal: "Review homeostasis and the vocabulary for this lab, then answer 4 quick questions.",
+      blocks: [
+        { t: "warmup", title: "Staying in range", read: [
+          "<b>Homeostasis</b> is the body’s ability to keep its internal conditions stable, like body temperature (about 37 °C or 98.6 °F), blood glucose (sugar), water balance, and blood pH. Conditions do move up and down a little, but the body keeps them close to a <b>set point</b>.",
+          "The body does this with <b>feedback loops</b>. In a <b>negative feedback</b> loop, the body’s response <b>reverses</b> the change. If you get too hot, you sweat and cool down. If your blood sugar rises, your body brings it back down.",
+          "Your <b>pancreas</b> controls blood glucose with two <b>hormones</b> (chemical messengers carried in the blood). <b>Insulin</b> lowers blood glucose by signaling cells to take in glucose and the liver to store it. <b>Glucagon</b> raises blood glucose by signaling the liver to release stored glucose."],
+          vocab: [
+            ["homeostasis", "homeostasis", "Keeping internal conditions stable."],
+            ["set point", "punto de referencia", "The target value the body tries to keep, like about 90 mg/dL of blood glucose."],
+            ["negative feedback", "retroalimentación negativa", "A response that reverses a change and returns to the set point."],
+            ["positive feedback", "retroalimentación positiva", "A response that makes a change bigger until an event is finished."],
+            ["hormone", "hormona", "A chemical messenger carried in the blood."],
+            ["insulin / glucagon", "insulina / glucagón", "Pancreas hormones that lower / raise blood glucose."],
+            ["stimulus", "estímulo", "A change that starts the feedback loop."]],
+          table: { cap: "Two pancreas hormones", head: ["Hormone", "Released when blood glucose is…", "What it does"], rows: [
+            ["Insulin", "Too HIGH (after eating)", "Cells take in glucose; liver stores it as glycogen → glucose goes DOWN"], ["Glucagon", "Too LOW (exercise, skipping meals)", "Liver breaks down glycogen and releases glucose → glucose goes UP"]] } },
+        { t: "visual", v: "glucose", title: "Picture it: how the pancreas controls blood sugar", cap: "Follow the arrows. High glucose → insulin → glucose goes down. Low glucose → glucagon → glucose goes up." },
+        { t: "quiz", label: "warm-up check", title: "Check your understanding", items: [
+          { q: "Which is the best example of homeostasis?", opts: ["Growing taller over a year", "Sweating to cool down on a hot day", "Learning to ride a bike", "Catching a cold"], a: 1, why: "Sweating cools the body back toward its set point temperature, which keeps conditions stable." },
+          { q: "Right after you eat a large meal, which hormone does the pancreas release?", opts: ["Glucagon", "Adrenaline", "Insulin", "Melatonin"], a: 2, why: "Blood glucose rises after eating, so the pancreas releases insulin to bring it back down." },
+          { q: "In NEGATIVE feedback, the response…", opts: ["reverses the change and returns toward the set point", "makes the change bigger", "is always harmful", "only happens when you are sick"], a: 0, why: "“Negative” means the response works against (reverses) the change." },
+          { q: "What is insulin?", opts: ["A type of sugar", "A hormone that signals cells to take in glucose", "A vitamin", "A blood cell"], a: 1, why: "Insulin is a protein hormone, not a sugar. It is a signal that tells cells to take glucose out of the blood." }] }
+      ] },
+    { letters: ["R", "O"], title: "Feedback Loops 101", time: "7 min", goal: "Learn the five parts of a feedback loop using a thermostat, then sort the parts.",
+      blocks: [
+        { t: "text", html: `<div style="border:3px solid #d0453a;border-radius:18px;padding:12px 14px;background:#fff5f3">
+          <h3 style="margin-top:0">Every feedback loop has the same parts</h3>
+          <ol style="line-height:1.6">
+            <li><b>Stimulus:</b> a change away from the set point. <i>The room cools to 64 °F.</i></li>
+            <li><b>Sensor (receptor):</b> detects the change. <i>The thermometer inside the thermostat.</i></li>
+            <li><b>Control center:</b> compares to the set point and decides what to do. <i>The thermostat’s computer, set to 70 °F.</i></li>
+            <li><b>Effector:</b> carries out the response. <i>The heater.</i></li>
+            <li><b>Response:</b> what happens. <i>Warm air brings the room back to 70 °F, and the heater shuts off.</i></li></ol>
+          <p style="margin-bottom:0">In your body, the control center is often the <b>brain</b> (the hypothalamus) or a gland like the <b>pancreas</b>. Effectors are usually <b>muscles</b>, <b>glands</b>, or organs like the <b>liver</b>.</p></div>` },
+        { t: "visual", v: "loop", title: "The five parts of a feedback loop", cap: "Every negative feedback loop goes around this circle until conditions return to the set point." },
+        { t: "sort", label: "loop parts sort", title: "Blood sugar after lunch: sort each event into a part of the loop", zones: ["Stimulus", "Sensor", "Control center", "Effector", "Response"], colors: ["#d0453a", "#e08a00", "#8a54e0", "#2b7de9", "#1aa36f"],
+          tiles: [["Blood glucose rises after a big lunch.", 0], ["Beta cells in the pancreas detect the high glucose.", 1], ["The pancreas “decides” to release insulin.", 2], ["Liver and muscle cells take in glucose and store it.", 3], ["Blood glucose falls back to about 90 mg/dL.", 4]],
+          why: "Stimulus (change) → sensor (detects) → control center (decides) → effector (acts) → response (back toward the set point). In blood sugar, the pancreas is both the sensor and the control center." },
+        { t: "quiz", label: "loop check", title: "Quick check", items: [
+          { q: "In a home heating system, which part is the EFFECTOR?", opts: ["The thermometer", "The heater", "The set point of 70 °F", "The cold room"], a: 1, why: "The effector carries out the response. The heater makes the room warmer." },
+          { q: "Why does the heater turn OFF once the room reaches 70 °F?", opts: ["It runs out of power", "The response removed the stimulus, so the loop stops", "It breaks", "The room keeps getting colder"], a: 1, why: "In negative feedback, once conditions return to the set point, the stimulus is gone, so the response stops." }] }
+      ] },
+    { letters: ["I", "W"], title: "Predict", time: "4 min", goal: "Predict what will happen to blood glucose in each scenario before you run the simulator.",
+      blocks: [
+        { t: "fill", label: "prediction frames", title: "My predictions", how: "Choose the words that match your prediction.", max: 2,
+          items: [
+            { parts: ["After a healthy person eats a big meal, blood glucose will ", B(["fall right away", "rise and then return toward normal", "rise and stay high forever"], 1), " because the pancreas releases ", B(["glucagon", "insulin"], 1), "."] },
+            { parts: ["In a person with type 1 diabetes who does not take insulin, blood glucose will ", B(["stay high", "drop below normal", "stay exactly the same"], 0), " because ", B(["the feedback loop is missing its signal (insulin)", "they ate less food"], 0), "."] }],
+          why: "Insulin is the signal that brings glucose back down. Without it, the loop cannot reverse the rise." }
+      ] },
+    { letters: ["I", "O"], title: "Blood Sugar Lab: Collect Data", time: "12 min", goal: "Run all four scenarios and record the glucose meter readings.",
+      blocks: [
+        { t: "text", html: `<div class="callout"><b>Your mission:</b> 1) Choose a scenario. 2) Press <b>Run 4 hours</b> and watch the graph and the hormone bars. 3) Tap <b>0 h, 1 h, 2 h, 3 h</b> to read the meter and type each reading into the table. 4) Choose which hormone was released and whether glucose was back in the healthy range (70–140) by 3 hours. Repeat for all four scenarios.</div>` },
+        { t: "glucosim", max: 6, label: "blood sugar data", title: "Blood Sugar Simulator" }
+      ] },
+    { letters: ["O", "I"], title: "Analyze Your Data", time: "7 min", goal: "Use your data table and graphs to explain what happened in each scenario.",
+      blocks: [
+        { t: "fill", label: "analysis frames", title: "What does the data show?", how: "Use your data table.", max: 4,
+          items: [
+            { parts: ["In the healthy meal scenario, glucose was highest at ", B(["0 hours", "1 hour", "3 hours"], 1), " and was back near the set point by 3 hours."] },
+            { parts: ["During exercise, glucose went ", B(["up", "down"], 1), ", so the pancreas released ", B(["insulin", "glucagon"], 1), " to bring it back up."] },
+            { parts: ["Without insulin, glucose at 3 hours was about ", B(["100", "180", "246"], 2), " mg/dL, which is ", B(["inside", "far above"], 1), " the healthy range."] },
+            { parts: ["The insulin shot worked like the missing ", B(["effector", "signal"], 1), ", so glucose ", B(["returned toward normal", "kept rising"], 0), "."] }],
+          why: "Insulin and glucagon are opposite signals. Together they keep glucose near the set point. When insulin is missing, there is no signal to bring glucose down." },
+        { t: "quiz", label: "data check", title: "Read the evidence", items: [
+          { q: "In the healthy scenarios, why did glucose NOT keep rising (or keep falling)?", opts: ["Negative feedback reversed the change", "The person stopped breathing", "Positive feedback made it bigger", "Glucose cannot change"], a: 0, why: "Each change triggered a hormone that reversed it. That’s negative feedback." },
+          { q: "Type 1 diabetes happens when the immune system destroys the pancreas cells that make insulin. Which part of the loop is broken?", opts: ["The stimulus", "The signal from the control center (insulin is not made)", "The liver", "The food"], a: 1, why: "Glucose still rises (stimulus), but the pancreas can’t send the insulin signal, so cells don’t take in glucose." }] }
+      ] },
+    { letters: ["O", "R"], title: "Body Temperature Loop", time: "6 min", goal: "Sort how your body cools down and warms up.",
+      blocks: [
+        { t: "text", html: `<p>Your <b>hypothalamus</b> (a small part of the brain) is the control center for body temperature. Sensors in your skin and blood send it information. When you are too hot or too cold, it sends signals to <b>effectors</b>: sweat glands, blood vessels, and muscles.</p>` },
+        { t: "visual", v: "temp", title: "Picture it: cooling down vs. warming up", cap: "The hypothalamus sends signals to different effectors depending on whether you are too hot or too cold." },
+        { t: "sort", label: "temperature sort", title: "Too hot or too cold? Sort each response.", zones: ["Too HOT: cools the body down", "Too COLD: warms the body up"], colors: ["#d0453a", "#2b7de9"],
+          tiles: [["Sweat glands release sweat, which evaporates.", 0], ["Muscles shiver.", 1], ["Blood vessels near the skin widen (you look flushed).", 0], ["Blood vessels near the skin narrow (you look pale).", 1], ["Goosebumps: hairs stand up.", 1], ["You breathe faster and feel tired, so you move less.", 0]],
+          why: "When hot, the body loses heat (sweat, wider vessels). When cold, it makes heat (shivering) and saves heat (narrow vessels)." },
+        { t: "fill", label: "temperature loop frames", title: "Build the loop: a cold morning", max: 2,
+          items: [{ parts: ["Stimulus: body temperature drops. Sensor: ", B(["nerve cells in the skin", "the stomach"], 0), ". Control center: ", B(["the heart", "the hypothalamus"], 1), ". Effector: ", B(["skeletal muscles", "sweat glands"], 0), ". Response: ", B(["shivering makes heat and temperature rises", "sweating cools the body"], 0), "."] }],
+          why: "Shivering is fast muscle contraction that releases heat, bringing temperature back up toward 37 °C." }
+      ] },
+    { letters: ["W", "C"], title: "Negative vs. Positive Feedback + CER", time: "6 min", goal: "Compare the two types of feedback, then write a CER.",
+      blocks: [
+        { t: "text", html: `<p><b>Positive feedback</b> makes a change <i>bigger and bigger</i> until an event is finished. During childbirth, the baby pushes on the cervix, which causes the release of the hormone <b>oxytocin</b>, which causes stronger contractions, which push harder, and so on until the baby is born. Blood clotting is another example: platelets that stick to a cut release chemicals that attract more platelets until the cut is sealed.</p>` },
+        { t: "visual", v: "posneg", title: "Negative vs. positive feedback on a graph", cap: "Negative feedback brings a value back. Positive feedback pushes it farther until an event is finished." },
+        { t: "sort", label: "feedback type sort", title: "Negative or positive feedback?", zones: ["Negative feedback (reverses the change)", "Positive feedback (makes the change bigger)"], colors: ["#2b7de9", "#e08a00"],
+          tiles: [["Insulin lowers high blood glucose.", 0], ["Oxytocin causes stronger and stronger contractions during childbirth.", 1], ["Shivering warms you when you are cold.", 0], ["Platelets attract more platelets until a cut is sealed.", 1], ["Glucagon raises low blood glucose.", 0], ["Sweating cools you when you are hot.", 0]],
+          why: "Most homeostasis uses negative feedback. Positive feedback is used for events that need to be finished quickly, like birth and clotting." },
+        { t: "cerg", title: "CER Builder", q: "<b>Question:</b> How does the body keep blood glucose stable, and what happens when the feedback loop is broken?", claimA: 1, need: 3,
+          claims: ["The body keeps glucose stable by eating less food.", "Insulin and glucagon work as a negative feedback loop that returns glucose to the set point; without insulin, glucose stays high.", "Glucose never changes in a healthy body.", "Positive feedback keeps glucose stable."],
+          evidence: [["In the healthy meal scenario, glucose rose to about <b>147</b> mg/dL at 1 hour, then fell back to about <b>102</b> by 3 hours.", true],
+            ["During exercise, glucose dropped, glucagon rose, and glucose returned toward <b>90</b>.", true],
+            ["Without insulin, glucose was about <b>246</b> mg/dL at 3 hours and still rising.", true],
+            ["The meal included rice and tortillas.", false], ["The meter screen is green.", false]],
+          words: ["negative feedback", "set point", "insulin", "glucagon", "pancreas", "liver", "stimulus", "response", "homeostasis", "type 1 diabetes", "signal", "range"],
+          frames: ["The body keeps glucose stable using…", "In my data, after the meal glucose rose to ___ and then…", "This happened because the pancreas released ___, which signals…", "Without insulin, glucose…", "This shows that a feedback loop needs…"],
+          must: ["insulin", "glucagon|set point|negative", "rise|rose|high|increas", "without|type 1|diabet|broken|missing"] }
+      ] },
+    { letters: ["O", "R"], title: "Closure: Exit Ticket", time: "3 min", goal: "Show what you learned.",
+      blocks: [
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "A student skipped breakfast and lunch. Which is most likely happening?", opts: ["Insulin is rising", "Glucagon is signaling the liver to release glucose", "Blood glucose is rising fast", "The hypothalamus is causing sweating"], a: 1, why: "Low glucose triggers glucagon, which tells the liver to release stored glucose." },
+          { q: "Why do people with type 1 diabetes need insulin shots or an insulin pump?", opts: ["To lower their body temperature", "Their pancreas can’t make insulin, so the shot replaces the missing signal", "To raise their blood glucose", "Insulin is a source of energy"], a: 1, why: "The shot provides the hormone signal that their body can no longer make." },
+          { q: "Which statement about homeostasis is TRUE?", opts: ["Conditions never change at all", "Conditions move up and down around a set point", "Only the brain is involved", "Positive feedback is the main way the body stays stable"], a: 1, why: "Homeostasis is a dynamic balance: values change and are brought back toward the set point." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-visuals.js?v=2"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-homeo.js?v=3"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

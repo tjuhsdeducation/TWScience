@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Case of the Poisoned Food Critic | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   BIOLOGY VIRTUAL LAB: The Case of the Poisoned Food Critic
+   A macromolecule murder mystery (≈ 45–50 min). Students learn the 4
+   indicator tests, test the critic's stomach sample, test the last dish
+   from 5 restaurants, and use the evidence to find the poisoned meal.
+   Built for EL students: pictures, word banks with Spanish cognates,
+   read-aloud, and drop-down sentence frames.
+   To change wording, edit the text between the quotes/backticks.
+   ===================================================================== */
+const PIC = (ic, label) => label;
+const B = (o, a) => ({ o, a });
+/* small test tube picture: liquid color, optional red top layer (Sudan III) */
+const TUBE = (col, layer) => `<svg viewBox="0 0 40 110" width="34" aria-hidden="true"><path d="M10 4 V90 a10 10 0 0 0 20 0 V4" fill="#fff" stroke="#555" stroke-width="2"/><path d="M10 26 V90 a10 10 0 0 0 20 0 V26 Z" fill="${col}"/>${layer ? `<rect x="10" y="26" width="20" height="14" fill="${layer}"/>` : ""}</svg>`;
+window.CC = {
+  id: "lab-macro", subject: "Biology", short: "Virtual Lab: Macromolecule Mystery", color: "#d0453a", emoji: "🕵️", time: "≈ 50 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "The Case of the Poisoned Food Critic: A Macromolecule Mystery",
+  intro: "Famous food critic Victor Gusto was poisoned during his restaurant tour. Become a forensic scientist: learn the 4 macromolecule tests, test Victor’s stomach sample, test the dishes from 5 restaurants, and use your evidence to catch the poisoner.",
+  eq: "How can we use indicator tests to identify the macromolecules in a food sample?",
+  targets: {
+    R: "I can name the 4 macromolecules, their building blocks (monomers), and foods that contain them.",
+    I: "I can use Benedict’s, iodine, Biuret, and Sudan III to test for sugar, starch, protein, and lipids.",
+    O: "I can record my results in a data table and compare samples to find a match.",
+    W: "I can write a CER that uses test results as evidence.",
+    C: "I can explain my reasoning to a partner using science vocabulary."
+  },
+  teacher: `<p><b>Pacing (≈ 50 min):</b> Case File 5 · Briefing 5 · Detective Training 9 · Crime Lab 4 · Test the Suspects 9 · Solve the Case 5 · CER 7 · Closure 6. To shorten, have partners split the suspects (each partner tests 2–3 dishes) and share results out loud.</p>
+    <p><b>The solution:</b> Victor’s stomach sample is <b>positive</b> for simple sugar (Benedict’s) and protein (Biuret) and <b>negative</b> for starch (iodine) and lipid (Sudan III). Only the <b>Sunrise Café nonfat yogurt &amp; berry parfait</b> matches all four results (yogurt = protein + lactose sugar, berries = sugar, nonfat = no lipid). Each single test leaves at least 2 suspects, so students must use all four tests.</p>
+    <table style="border-collapse:collapse;font-size:.9rem"><tr><th style="border:1px solid #ccc;padding:3px 6px">Dish</th><th style="border:1px solid #ccc;padding:3px 6px">Sugar</th><th style="border:1px solid #ccc;padding:3px 6px">Starch</th><th style="border:1px solid #ccc;padding:3px 6px">Protein</th><th style="border:1px solid #ccc;padding:3px 6px">Lipid</th></tr>
+    <tr><td style="border:1px solid #ccc;padding:3px 6px">Stomach sample</td><td>+</td><td>−</td><td>+</td><td>−</td></tr>
+    <tr><td style="border:1px solid #ccc;padding:3px 6px">Smoothie Shack</td><td>+</td><td>−</td><td>−</td><td>−</td></tr>
+    <tr><td style="border:1px solid #ccc;padding:3px 6px">Fry Guys</td><td>−</td><td>+</td><td>−</td><td>+</td></tr>
+    <tr><td style="border:1px solid #ccc;padding:3px 6px">Steak Corral</td><td>−</td><td>−</td><td>+</td><td>+</td></tr>
+    <tr><td style="border:1px solid #ccc;padding:3px 6px">Sweet Spud Café</td><td>+</td><td>+</td><td>−</td><td>+</td></tr>
+    <tr><td style="border:1px solid #ccc;padding:3px 6px">Sunrise Café </td><td>+</td><td>−</td><td>+</td><td>−</td></tr></table>
+    <p><b>Science notes (results are simplified for the game):</b> Benedict’s detects <i>reducing</i> sugars (glucose, fructose, lactose, maltose) and must be heated; a positive goes green → yellow → orange → brick red depending on how much sugar. Iodine turns blue-black with starch. Biuret turns violet with protein (peptide bonds). Sudan III stains lipids red, so oil forms a red layer on top; some teachers use the brown paper bag test instead. Real foods often contain small amounts of other macromolecules; this game uses the main ones.</p>
+    <p><b>How the lab works:</b> Students drag an indicator bottle onto its tube (or tap the bottle, then the tube). Benedict’s requires pressing <b>Heat it</b>. After running a test, they tap the evidence table box to record <b>+</b> or <b>−</b>. Results from the Crime Lab and Suspects stations automatically appear on the suspect board in Station 6.</p>
+    <p><b>Real lab safety (if you run this as a wet lab):</b> goggles, Biuret is corrosive, iodine stains, use a hot water bath (not an open flame) for Benedict’s, and never taste food in the lab. Use pretend “stomach sample” mixes (e.g., yogurt + juice blended with water).</p>
+    <p><b>EL supports:</b> picture word bank with Spanish cognates and read-aloud, picture sorts, color keys, drop-down sentence frames, a CER builder with claim and evidence cards and a tap-to-add word bank.</p>
+    <p><b>Story note:</b> All people and restaurants are fictional. The story stays PG: the poison is never named or described.</p>`,
+  stations: [
+    { letters: ["R", "C"], title: "Case File: A Critic Is Poisoned", time: "5 min", goal: "Read the case, review the key words, and answer 4 quick questions.",
+      blocks: [
+        { t: "warmup", title: "Case File #4-MACRO", read: [
+          "<b>Victor Gusto</b> is the most feared food critic in the city. One bad review from him can close a restaurant. Yesterday he went on a <b>5-restaurant review tour</b>. After his last meal, he collapsed and was rushed to the hospital, but he <b>did not survive</b>. The lab found a poison that acts in about 30 minutes, so it was hidden in his <b>last meal</b>.",
+          "Victor’s notebook is missing, so no one knows which restaurant he visited last. The medical examiner saved a <b>stomach sample</b> that contains his last meal. If we find out which <b>macromolecules</b> are in it, we can match it to a restaurant’s dish.",
+          "Food contains four kinds of macromolecules. Most are <b>polymers</b>: long chains of small building blocks called <b>monomers</b>. Scientists identify them with <b>indicators</b>, chemicals that change color when a certain macromolecule is present."],
+          vocab: [
+            ["macromolecule", "macromolécula", "A very large molecule built from smaller pieces."],
+            ["monomer / polymer", "monómero / polímero", "A monomer is one building block. A polymer is a long chain of monomers."],
+            ["carbohydrate", "carbohidrato", "Sugars and starches; quick energy."],
+            ["protein", "proteína", "Built from amino acids; muscles, enzymes, and more."],
+            ["lipid", "lípido", "Fats and oils; long-term energy storage."],
+            ["indicator", "indicador", "A chemical that changes color when a certain molecule is present."],
+            ["positive / negative result", "positivo / negativo", "Positive means the molecule IS there. Negative means it is not."]],
+          table: { cap: "Your job as a forensic scientist", head: ["Step", "What you will do"], rows: [
+            ["1", "Learn the four indicator tests on known samples."], ["2", "Test the stomach sample."], ["3", "Test the last dish from each restaurant."], ["4", "Find the dish that matches all four results and name the poisoner."]] } },
+        { t: "quiz", label: "warm-up check", title: "Check your understanding", items: [
+          { q: "Why is the stomach sample useful evidence?", opts: ["It shows how long Victor was sick", "It contains his last meal, which had the poison", "It proves who wrote the bad reviews", "It contains all five meals equally"], a: 1, why: "The poison acted in about 30 minutes, so it was in the last meal, which is what the stomach sample contains." },
+          { q: "Which food is mostly carbohydrate?", opts: ["Butter", "Chicken", "Bread", "Olive oil"], a: 2, why: "Bread is made mostly of starch, a carbohydrate." },
+          { q: "What is a polymer?", opts: ["A single small building block", "A long chain of monomers", "A type of indicator", "A color change"], a: 1, why: "Polymers are long chains of repeating monomers, like a train of train cars." },
+          { q: "An indicator test gives a positive result. What does that mean?", opts: ["The macromolecule is present", "The macromolecule is not present", "The test was done wrong", "The sample is poisonous"], a: 0, why: "Positive means the indicator detected the macromolecule it tests for." }] }
+      ] },
+    { letters: ["R"], title: "Briefing: The 4 Macromolecules", time: "5 min", goal: "Learn the building blocks of each macromolecule and the test that finds it.",
+      blocks: [
+        { t: "text", html: `<h3>Big molecules are made of small building blocks</h3>
+          <p>Most macromolecules are <b>polymers</b>: long chains of small <b>monomers</b>, like a train made of train cars .</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:8px 0">
+            <div style="border:3px solid #e08a00;border-radius:14px;padding:8px 10px"><b>Carbohydrates</b><br>Monomer: <b>glucose</b> (simple sugar)<br>Elements: C, H, O<br>Job: quick energy<br>Tests: <b>Benedict’s</b> (sugar) and <b>iodine</b> (starch)</div>
+            <div style="border:3px solid #7b2fd0;border-radius:14px;padding:8px 10px"><b>Proteins</b><br>Monomer: <b>amino acids</b><br>Elements: C, H, O, N<br>Job: muscles, enzymes, transport<br>Test: <b>Biuret</b></div>
+            <div style="border:3px solid #d0263a;border-radius:14px;padding:8px 10px"><b>Lipids</b><br>Building blocks: <b>fatty acids + glycerol</b><br>Elements: C, H, O<br>Job: long-term energy, cell membranes<br>Test: <b>Sudan III</b></div>
+            <div style="border:3px solid #2b7de9;border-radius:14px;padding:8px 10px"><b>Nucleic acids</b><br>Monomer: <b>nucleotides</b><br>Elements: C, H, O, N, P<br>Job: genetic information (DNA, RNA)<br>Not tested in this case</div></div>
+          <div class="callout"><b>Why test water?</b> Distilled water has no macromolecules. It is a <b>negative control</b>: it shows you what a “NO” looks like. A known sample (like egg white for protein) is a <b>positive control</b>: it shows what a “YES” looks like.</div>` },
+        { t: "quiz", label: "briefing check", title: "Quick check", items: [
+          { q: "What is the monomer (building block) of a protein?", opts: ["Glucose", "Amino acid", "Nucleotide", "Fatty acid"], a: 1, why: "Proteins are chains of amino acids." },
+          { q: "Starch is a polymer made of many…", opts: ["amino acids", "nucleotides", "glucose molecules", "lipids"], a: 2, why: "Starch is a long chain of glucose. Plants use it to store energy." },
+          { q: "Why do scientists test distilled water too?", opts: ["To clean the tubes", "It is a negative control that shows what “no” looks like", "Water has all 4 macromolecules", "To make the test faster"], a: 1, why: "Controls give you something to compare your results to." }] }
+      ] },
+    { letters: ["I"], title: "Detective Training: Learn the Tests", time: "9 min", goal: "Run all 4 tests on the control samples and learn what a positive and negative look like.",
+      blocks: [
+        { t: "text", html: `<div class="callout"><b>Your mission:</b> Every detective must pass training! Test <b>each</b> control sample with <b>all 4 indicators</b>. Drag a bottle onto its tube (or tap the bottle, then the tube). <b>Benedict’s must be heated</b> . Then record <b>+</b> or <b>−</b> in the table. Use the color key!</div>` },
+        { t: "macrolab", title: "Training Lab: Control Samples", samples: ["water", "glucose", "starch", "egg", "oil"], key: true, max: 6, label: "training tests" },
+        { t: "fill", icon: "", label: "indicator frames", title: "What does each test show?", how: "Use your training results to finish each sentence.", max: 4,
+          bank: ["brick red", "blue-black", "violet", "red layer", "heated", "negative", "positive"],
+          items: [
+            { pic: TUBE("#d9531e"), parts: ["Benedict’s tests for ", B(["simple sugar", "protein", "starch"], 0), ". It must be ", B(["heated", "frozen", "shaken"], 0), ". A positive turns ", B(["brick red", "blue-black", "violet"], 0), "."] },
+            { pic: TUBE("#1f1640"), parts: ["Iodine tests for ", B(["starch", "lipid", "protein"], 0), ". A positive turns ", B(["blue-black", "brick red", "pink"], 0), "."] },
+            { pic: TUBE("#7b2fd0"), parts: ["Biuret tests for ", B(["protein", "sugar", "starch"], 0), ". A positive turns ", B(["violet", "yellow-brown", "red"], 0), "."] },
+            { pic: TUBE("#f6e9ec", "#d0263a"), parts: ["Sudan III tests for ", B(["lipid (fat)", "protein", "sugar"], 0), ". A positive makes a ", B(["red layer on top", "blue color", "white solid"], 0), "."] },
+            { pic: "", parts: ["Water was ", B(["negative", "positive"], 0), " for every test, so it is our ", B(["negative control", "positive control"], 0), "."] }],
+          why: "Benedict’s (heat) → sugar → brick red. Iodine → starch → blue-black. Biuret → protein → violet. Sudan III → lipid → red layer." }
+      ] },
+    { letters: ["I", "O"], title: "Crime Lab: Test the Stomach Sample", time: "4 min", goal: "Run all 4 tests on Victor’s stomach sample and record the results.",
+      blocks: [
+        { t: "text", html: `<p><b>Evidence #1:</b> Victor’s stomach sample. Wear your (virtual) gloves and goggles! Run <b>all 4 tests</b> and record the results. These results are the <b>fingerprint</b> of his last meal.</p>` },
+        { t: "macrolab", title: "Crime Lab: Evidence #1", samples: ["vomit"], key: true, max: 4, label: "stomach sample tests" },
+        { t: "fill", icon: "", label: "stomach frames", title: "What was in Victor’s last meal?", max: 2,
+          items: [
+            { pic: "", parts: ["The stomach sample tested positive for ", B(["simple sugar and protein", "starch and lipid", "all 4"], 0), "."] },
+            { pic: "", parts: ["It tested negative for ", B(["starch and lipid", "sugar and protein", "nothing"], 0), ", so his last meal had almost no ", B(["starch or fat", "sugar or protein"], 0), "."] }],
+          why: "Benedict’s and Biuret were positive. Iodine and Sudan III were negative." }
+      ] },
+    { letters: ["I", "O"], title: "Test the Suspects", time: "9 min", goal: "Test the last dish from each of the 5 restaurants on Victor’s tour.",
+      blocks: [
+        { t: "text", html: `<p>Detectives collected a sample of the dish Victor ordered at each restaurant. <b>Test all 5 dishes with all 4 indicators</b> and record your results. <i>Partner tip:</i> one partner runs tests, the other records, then switch.</p>` },
+        { t: "macrolab", title: "Suspect Lab: Restaurant Dishes", samples: ["r1", "r2", "r3", "r4", "r5"], max: 6, label: "suspect tests" }
+      ] },
+    { letters: ["O", "C"], title: "Solve the Case", time: "5 min", goal: "Compare each dish to the stomach sample, rule out suspects, and make your accusation.",
+      blocks: [
+        { t: "suspects", title: "Suspect Board", answer: "r5", list: ["r1", "r2", "r3", "r4", "r5"],
+          how: "Your test results appear on each card. Mark each dish Matches or Doesn’t match the stomach sample. Then Accuse the restaurant whose dish matches ALL 4 results.",
+          who: {
+            r1: "Owner Mia Blend. Motive: Victor gave her shop 1 star and called her smoothies “sad juice.”",
+            r2: "Owner Gus Fryer. Motive: Victor’s review said his fries were “soggy cardboard.” Sales dropped by half.",
+            r3: "Chef Rex Ribeye. Motive: Victor called his steak “a leather shoe” on live TV.",
+            r4: "Owner Honey Tate. Motive: she borrowed money from Victor and could not pay him back.",
+            r5: "Chef Dawn Berry. Motive: Victor’s next column was going to reveal she copied her famous recipes." },
+          solved: "The stomach sample was <b>+ sugar, − starch, + protein, − lipid</b>. Only the <b>Sunrise Café nonfat yogurt &amp; berry parfait</b> matches all four: yogurt has protein and milk sugar (lactose), berries add sugar, and “nonfat” means no lipid. <b>Chef Dawn Berry</b> has been arrested! " },
+        { t: "fill", icon: "", label: "ruling-out frames", title: "Explain how you ruled out suspects", how: "Choose the words that make each sentence true.", max: 4,
+          items: [
+            { pic: "", parts: ["Fry Guys is ruled out because the fries were ", B(["positive", "negative"], 0), " for starch and lipid, but the stomach sample was ", B(["negative", "positive"], 0), "."] },
+            { pic: "", parts: ["Steak Corral matched for protein, but the steak was positive for ", B(["lipid", "sugar"], 0), " and negative for ", B(["sugar", "lipid"], 0), "."] },
+            { pic: "", parts: ["Smoothie Shack matched for sugar, but the smoothie had no ", B(["protein", "starch"], 0), "."] },
+            { pic: "", parts: ["Sweet Spud Café had sugar, but also had ", B(["starch and lipid", "protein only"], 0), "."] },
+            { pic: "", parts: ["Only one test is NOT enough, because ", B(["more than one dish can share the same result", "the tests do not work"], 0), "."] }],
+          why: "A match must agree on ALL 4 tests. Each single test left at least 2 suspects." },
+        { t: "partner", title: "Detective debrief", how: "Explain to a partner which restaurant you accused and why. Use at least 2 test names and 2 macromolecules.", got: "My partner’s reasoning was…", change: "One piece of evidence I will add to my own explanation" }
+      ] },
+    { letters: ["W"], title: "CER: Who Poisoned Victor?", time: "7 min", goal: "Build a claim, evidence, and reasoning paragraph that would convince a judge.",
+      blocks: [
+        { t: "cerg", title: "CER Builder: Your Case for the Judge", q: "<b>Question:</b> At which restaurant did Victor eat his poisoned last meal? Use your macromolecule test results.", claimA: 4, need: 3,
+          claims: ["Smoothie Shack: Fresh Fruit Smoothie", "Fry Guys: Classic French Fries", "Steak Corral: Butter-Seared Steak", "Sweet Spud Café: Sweet Potato Fries with Honey", "Sunrise Café: Nonfat Yogurt &amp; Berry Parfait"],
+          evidence: [["The stomach sample turned <b>brick red</b> with heated Benedict’s and <b>violet</b> with Biuret (+ sugar, + protein).", true],
+            ["The stomach sample stayed <b>yellow-brown</b> with iodine and had <b>no red layer</b> with Sudan III (− starch, − lipid).", true],
+            ["The parfait had the <b>same 4 results</b>: + sugar, − starch, + protein, − lipid.", true],
+            ["Chef Rex Ribeye was very angry about Victor’s review.", false],
+            ["The French fries tested positive for starch.", false]],
+          words: ["macromolecule", "indicator", "Benedict’s", "iodine", "Biuret", "Sudan III", "simple sugar", "starch", "protein", "lipid", "positive", "negative", "match", "brick red", "violet"],
+          frames: ["The stomach sample was positive for ___ and ___ because…", "It was negative for ___ and ___ because…", "This matches the ___ because…", "The other dishes do not match because…"],
+          must: ["sugar|Benedict", "protein|Biuret", "starch|iodine", "lipid|fat|Sudan"] }
+      ] },
+    { letters: ["O", "R", "I"], title: "Closure: A New Mystery Sample", time: "6 min", goal: "Use the tests on a brand-new food, then review monomers and polymers.",
+      blocks: [
+        { t: "text", html: `<h3>New case: The mystery energy bar</h3>
+          <p>A track coach found an energy bar with no label. She wants to know what is in it before her athletes eat it. Her lab ran all 4 tests:</p>
+          <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;margin:6px 0">
+            <div style="text-align:center;font-weight:800;font-size:.85rem">${TUBE("#3b7ddd")}<br>Benedict’s (heated)<br>stayed blue</div>
+            <div style="text-align:center;font-weight:800;font-size:.85rem">${TUBE("#1f1640")}<br>Iodine<br>blue-black</div>
+            <div style="text-align:center;font-weight:800;font-size:.85rem">${TUBE("#7b2fd0")}<br>Biuret<br>violet</div>
+            <div style="text-align:center;font-weight:800;font-size:.85rem">${TUBE("#f6e9ec", "#d0263a")}<br>Sudan III<br>red layer</div></div>` },
+        { t: "fill", icon: "", label: "energy bar frames", title: "What is in the energy bar?", max: 4,
+          items: [
+            { pic: TUBE("#3b7ddd"), parts: ["Benedict’s stayed blue, so the bar has ", B(["no simple sugar", "lots of simple sugar"], 0), "."] },
+            { pic: TUBE("#1f1640"), parts: ["Iodine turned blue-black, so the bar has ", B(["starch", "no starch"], 0), ", like from ", B(["oats", "water"], 0), "."] },
+            { pic: TUBE("#7b2fd0"), parts: ["Biuret turned violet, so it has ", B(["protein", "lipid"], 0), ", which is made of ", B(["amino acids", "nucleotides"], 0), "."] },
+            { pic: TUBE("#f6e9ec", "#d0263a"), parts: ["Sudan III made a red layer, so it has ", B(["lipid (fat)", "starch"], 0), ", like from ", B(["peanut butter", "plain water"], 0), "."] }],
+          why: "The energy bar is positive for starch, protein, and lipid, and negative for simple sugar." },
+        { t: "sort", label: "monomer sort", title: "Sort each card to its macromolecule", zones: ["Carbohydrate", "Protein", "Lipid", "Nucleic acid"], colors: ["#e08a00", "#7b2fd0", "#d0263a", "#2b7de9"],
+          tiles: [["Glucose (monomer)", 0], ["Starch (polymer)", 0], ["Amino acids (monomer)", 1], ["Enzymes", 1], ["Fatty acids + glycerol", 2], ["Cell membrane (phospholipids)", 2], ["Nucleotides (monomer)", 3], ["DNA and RNA", 3]],
+          why: "Carbs: glucose → starch. Proteins: amino acids → enzymes. Lipids: fatty acids + glycerol → fats and membranes. Nucleic acids: nucleotides → DNA and RNA." },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "A sample turns <b>violet</b> with Biuret and stays <b>yellow-brown</b> with iodine. What does it contain?", opts: ["Starch, no protein", "Protein, no starch", "Lipid and sugar", "Nothing"], a: 1, why: "Violet Biuret = protein. Yellow-brown iodine = no starch." },
+          { q: "Which element is found in proteins but NOT in carbohydrates or lipids?", opts: ["Carbon (C)", "Hydrogen (H)", "Oxygen (O)", "Nitrogen (N)"], a: 3, why: "Proteins contain C, H, O, and N. Carbs and lipids are mostly C, H, and O." },
+          { q: "Why did we need all 4 tests to solve the case?", opts: ["One test is always wrong", "More than one dish matched on any single test", "The poison changed colors", "Water needed testing"], a: 1, why: "Only the full 4-test pattern matched just one dish." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-macrolab.js?v=4"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

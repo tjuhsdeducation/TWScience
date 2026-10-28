@@ -1,0 +1,9 @@
+/* TW MUSTANG SCIENCE: red, white, and navy look for the labs (no need to edit) */
+:root{--tw-navy:#13294b;--tw-red:#c8102e}
+header.top{background:var(--tw-navy);border-bottom:4px solid var(--tw-red);color:#fff}
+header.top .brand,header.top .crumb a,header.top .crumb b,header.top .who,header.top .who b{color:#fff}
+header.top .crumb,header.top .crumb span{color:#c9d3e6}
+header.top .brand .mark{background:var(--tw-red);color:#fff}
+header.top .pill-btn{background:rgba(255,255,255,.16);color:#fff}
+.banner{border-top:6px solid var(--tw-red)}
+header.top .crumb>span:first-child,header.top .crumb>a{display:none}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hurricane Lizards: Natural Selection | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   BIOLOGY VIRTUAL LAB: Hurricane Lizards (Natural Selection, ≈ 50 min)
+   Based on a real study of Caribbean anole lizards after Hurricanes Irma
+   and Maria (2017). Students run hurricanes on a varied lizard population,
+   record data for 5 generations, build a line graph, change the
+   environment, and explain why the POPULATION (not each lizard) changed.
+   Built for EL students: pictures, word banks with Spanish cognates,
+   read-aloud, and drop-down sentence frames.
+   To change wording, edit the text between the quotes/backticks.
+   ===================================================================== */
+const PIC = (ic, label) => label;
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "lab-natsel", subject: "Biology", short: "Virtual Lab: Hurricane Lizards", color: "#1aa36f", emoji: "🦎", time: "≈ 50 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Hurricane Lizards: How Natural Selection Changes a Population",
+  intro: "In 2017, two huge hurricanes hit a group of Caribbean islands just days after scientists had measured the lizards living there. Run your own hurricanes on a lizard population, collect data for 5 generations, graph it, and discover why the population changed even though no lizard could choose to change.",
+  eq: "How does natural selection change a population over generations, and why does the result depend on the environment?",
+  targets: {
+    R: "I can explain variation, inherited traits, and adaptation using a real scientific study.",
+    I: "I can collect data from a simulation and use it as evidence for natural selection.",
+    O: "I can build and read a line graph and a histogram that show how a population changes.",
+    W: "I can write a CER explaining why a trait became more common in a population.",
+    C: "I can explain to a partner why organisms cannot choose to change or to survive."
+  },
+  teacher: `<p><b>Pacing (≈ 50 min):</b> Warm-Up 5 · The Real Story 5 · Predict 4 · Hurricane Lab 10 · Graph It 8 · Change the Environment 6 · Fix the Misconception + CER 8 · Closure 5.</p>
+    <p><b>The real study:</b> In 2017, Colin Donihue and colleagues had just measured <i>Anolis scriptus</i> lizards on two small islands in the Turks and Caicos when Hurricanes Irma and Maria struck. When they returned about six weeks later, the surviving lizards had, on average, <b>larger toepads</b>, <b>longer front legs</b>, and <b>shorter back legs</b> than the population before the storms. In a wind test (using a leaf blower), lizards gripped the perch with their front feet while their back legs and body caught the wind like a sail. Source: Donihue et al. (2018), “Hurricane-induced selection on the morphology of an island lizard,” <i>Nature</i> 560: 88–91.</p>
+    <p><b>About the simulation (simplified):</b> Each of 30 lizards is born with a toepad size from 1 to 9. In a hurricane, a lizard’s chance of holding on rises with toepad size (about 12% for size 1 up to about 76% for size 9). Survivors reproduce to make the next 30 lizards; each baby inherits its parent’s toepad size, sometimes changed by 1 (mutation/variation). In the calm environment, survival is random (about 45% for every lizard), so toepad size gives no advantage. Results vary by student, but the hurricane population always trends upward and the calm population stays about the same. Real evolution is slower and involves many genes; the toepad sizes here are a 1–9 scale, not real measurements.</p>
+    <p><b>Data collection:</b> Students must type each generation’s average (from the panel) and the number of survivors before the next storm. The table is checked with a ±0.1 tolerance. <b>↺ Reset the lab</b> (tap twice) starts a new random population.</p>
+    <p><b>Graphing:</b> In Station 5, students choose axis labels and tap to plot each generation’s average. Points within 0.3 of the data count as correct.</p>
+    <p><b>Key misconception to target:</b> “The lizards grew bigger toepads because they needed them.” Individuals cannot change their inherited traits or choose to survive. The population changes because individuals that were <i>already born</i> with helpful traits survive and reproduce more.</p>
+    <p><b>EL supports:</b> picture word bank with Spanish cognates and read-aloud, picture sorts, drop-down sentence frames, a CER builder with claim and evidence cards and a tap-to-add word bank.</p>`,
+  stations: [
+    { letters: ["R", "C"], title: "Warm-Up: Review Traits and Variation", time: "5 min", goal: "Review how traits are inherited and why populations change, then answer 4 quick questions.",
+      blocks: [
+        { t: "warmup", title: "Born with it: traits, variation, and selection", read: [
+          "Every organism is <b>born</b> with traits it inherited from its parents, such as eye color or the size of a lizard’s toepads. In any population there is <b>variation</b>: individuals have slightly different versions of each trait, partly because of <b>mutations</b>.",
+          "An <b>acquired</b> trait is something that happens during an organism’s life, like a scar or a big muscle from exercise. Acquired traits are <b>not</b> passed to offspring. Only <b>inherited</b> traits can be passed on.",
+          "In <b>natural selection</b>, the <b>environment</b> decides which inherited traits are helpful. Individuals that already have a helpful trait are more likely to survive and reproduce. Over many <b>generations</b>, the helpful trait becomes more common in the <b>population</b>. Individuals cannot choose to change their traits."],
+          vocab: [
+            ["trait", "rasgo", "A characteristic, like toepad size or fur color."],
+            ["variation", "variación", "Differences in a trait among individuals in a population."],
+            ["inherited trait", "rasgo heredado", "A trait passed from parents to offspring in DNA."],
+            ["acquired trait", "rasgo adquirido", "A trait gained during life. It is not passed on."],
+            ["adaptation", "adaptación", "An inherited trait that helps an organism survive in its environment."],
+            ["natural selection", "selección natural", "Individuals with helpful traits survive and reproduce more, so those traits become more common."],
+            ["population / generation", "población / generación", "A group of the same species in one area / one round of parents and offspring."]],
+          table: { cap: "Inherited or acquired?", head: ["Example", "Type", "Passed to offspring?"], rows: [
+            ["Size of a lizard’s toepads at birth", "Inherited", "Yes"], ["A lizard loses its tail to a predator", "Acquired", "No"], ["Fur color of a rabbit", "Inherited", "Yes"], ["A person’s strong muscles from lifting weights", "Acquired", "No"]] } },
+        { t: "quiz", label: "warm-up check", title: "Check your understanding", items: [
+          { q: "Which is an INHERITED trait?", opts: ["A scar from a fall", "The color of a lizard’s scales at birth", "A tattoo", "A sunburn"], a: 1, why: "Scale color is coded in DNA and passed from parents. The others happen during life." },
+          { q: "In natural selection, what changes over many generations?", opts: ["Each individual organism", "The population", "Only the environment", "Nothing"], a: 1, why: "Individuals keep the traits they were born with. The population changes as helpful traits become more common." },
+          { q: "What is wrong with this sentence: “The lizards grew bigger toepads because they needed them”?", opts: ["Nothing, it is correct", "Lizards can’t choose or grow new inherited traits; those already born with bigger toepads survived more", "Lizards do not have toepads", "Toepads get smaller when they are needed"], a: 1, why: "Organisms cannot choose to change. Individuals already born with a helpful trait are more likely to survive and pass it on." },
+          { q: "What decides whether a trait is helpful?", opts: ["What the organism wants", "The environment", "How old the organism is", "Luck only"], a: 1, why: "A trait is only an advantage in a particular environment. If the environment changes, a different trait may be favored." }] }
+      ] },
+    { letters: ["R"], title: "The Real Story: Lizards vs. Hurricanes", time: "5 min", goal: "Read about a real study that caught natural selection in action.",
+      blocks: [
+        { t: "text", html: `<div style="border:3px solid #1aa36f;border-radius:18px;padding:12px 14px;background:#f1fbf5">
+          <h3 style="margin-top:0">A lucky (and unlucky) week for science</h3>
+          <p>In late summer 2017, a team of scientists was studying small lizards called <b>anoles</b> on two tiny islands in the <b>Turks and Caicos</b> in the Caribbean. They measured the toepads, legs, and bodies of the lizards.</p>
+          <p>Just days after they left, <b>Hurricane Irma</b> hit the islands, followed by <b>Hurricane Maria</b>. These were two of the strongest hurricanes on record. Many lizards were blown off the trees and died.</p>
+          <p>About six weeks later, the scientists came back and measured the <b>survivors</b>. Compared with the lizards before the storms, the survivors had, on average, <b>bigger toepads</b> (sticky pads that help them grip) and <b>shorter back legs</b>.</p>
+          <p>To find out why, they put lizards on a perch and blew wind at them with a leaf blower (onto a safety net!). The lizards held on with their front feet, while their back legs and body caught the wind like a sail. Bigger toepads gripped better. Shorter back legs caught less wind.</p>
+          <p style="margin-bottom:0"><b>Important:</b> no lizard grew bigger toepads during the storm. The lizards that survived were the ones that were <b>already born</b> with bigger toepads.</p></div>` },
+        { t: "quiz", label: "story check", title: "Quick check", items: [
+          { q: "Why did the survivors have bigger toepads on average?", opts: ["The lizards grew bigger toepads to hold on.", "Lizards that were already born with bigger toepads were more likely to hold on and survive.", "The hurricane gave the lizards bigger toepads.", "The scientists chose lizards with big toepads."], a: 1, why: "Individuals can’t change their inherited traits on purpose. The storm removed more lizards with small toepads, so the survivors had bigger toepads on average." },
+          { q: "In this environment, which trait was an ADVANTAGE?", opts: ["Long back legs", "Bigger toepads", "Being the biggest lizard", "Bright colors"], a: 1, why: "Bigger toepads helped lizards grip during strong winds. (Long back legs were a disadvantage: they caught the wind like a sail.)" },
+          { q: "What do scientists call differences in traits among members of the same population?", opts: ["Variation", "Adaptation", "Selection", "Extinction"], a: 0, why: "Variation means members of a population are not all the same. Without variation, natural selection has nothing to work with." }] }
+      ] },
+    { letters: ["I", "W"], title: "Predict", time: "4 min", goal: "Make a prediction before you run the lab.",
+      blocks: [
+        { t: "fill", icon: "", label: "prediction frames", title: "My predictions", how: "Choose the words that match YOUR prediction. (These are checked for scientific reasoning.)", max: 2,
+          items: [
+            { pic: "", parts: ["If many hurricanes hit the island, lizards born with ", B(["bigger", "smaller"], 0), " toepads will be more likely to survive."] },
+            { pic: "", parts: ["After several hurricanes, I predict the AVERAGE toepad size of the population will ", B(["increase", "decrease", "stay the same"], 0), ", because survivors ", B(["pass their traits to their offspring", "choose to grow bigger toepads"], 0), "."] }],
+          why: "Survivors reproduce and pass on their inherited traits, so the next generation has more lizards with big toepads." },
+        { t: "quiz", label: "choice check", title: "Can a lizard choose?", items: [
+          { q: "During a hurricane, a lizard with small toepads tries very hard to hold on. Can it make its toepads grow bigger?", opts: ["Yes, if it tries hard enough", "Yes, but only during a storm", "No. Its toepad size is an inherited trait it was born with.", "Yes, if it eats more"], a: 2, why: "Organisms cannot choose or force their inherited traits to change. Effort does not change the DNA they were born with." }] }
+      ] },
+    { letters: ["I", "O"], title: "Hurricane Lab: Collect Data", time: "10 min", goal: "Send 5 hurricanes, watch who survives, and record the data for each generation.",
+      blocks: [
+        { t: "text", html: `<div class="callout"><b>Your mission:</b> 1) Type the <b>average toepad size</b> of Generation 0 into the table. 2) Press <b>Send a hurricane</b>. 3) Record how many survived and the new generation’s average. 4) Repeat until 5 hurricanes have hit. Watch the histogram (bar graph) change!</div>` },
+        { t: "natsel", env: "hurricane", gens: 5, max: 6, label: "hurricane lab data", title: "Hurricane Island Lab", how: "Every lizard is born with its own toepad size. The hurricane does not change anyone’s toepads; it only decides who holds on." }
+      ] },
+    { letters: ["O", "I"], title: "Graph It & Analyze", time: "8 min", goal: "Build a line graph of your data and explain what it shows.",
+      blocks: [
+        { t: "nsgraph", src: "hurricane", title: "Build your line graph", how: "Choose the axis labels. Then tap a generation number and tap the graph at the height of that generation’s average. Plot all 6 points." },
+        { t: "fill", icon: "", label: "analysis frames", title: "Analyze your graphs", how: "Use your line graph, data table, and the histogram from the last station.", max: 4,
+          items: [
+            { pic: "", parts: ["My line graph goes ", B(["up", "down", "flat"], 0), ", so the average toepad size ", B(["increased", "decreased", "stayed the same"], 0), " over 5 generations."] },
+            { pic: "", parts: ["After every hurricane, the survivors’ average toepad size was ", B(["larger", "smaller"], 0), " than the whole generation’s average."] },
+            { pic: "", parts: ["In the histogram, the bars for Generation 5 shifted to the ", B(["right (bigger toepads)", "left (smaller toepads)"], 0), "."] },
+            { pic: "", parts: ["Each lizard’s toepad size ", B(["stayed the same", "grew bigger"], 0), " during its life. The ", B(["population’s average", "individual lizards"], 0), " changed because survivors passed their ", B(["inherited traits", "efforts"], 0), " to their offspring."] }],
+          why: "Natural selection changes populations, not individuals. Lizards born with big toepads survived and reproduced more, so each new generation had more big-toepad lizards." }
+      ] },
+    { letters: ["I", "C"], title: "Change the Environment", time: "6 min", goal: "Run the same population on an island with NO hurricanes and compare.",
+      blocks: [
+        { t: "text", html: `<p>Now imagine an island where <b>hurricanes never hit</b>. Lizards still die every year from old age, predators, and bad luck, but toepad size does not affect who survives. Run 5 calm years, record the data, and compare the two lines.</p>` },
+        { t: "natsel", env: "calm", gens: 5, max: 4, compare: "hurricane", label: "calm island data", title: "Calm Island Lab", how: "Same starting population. The only difference is the environment." },
+        { t: "fill", icon: "", label: "environment frames", title: "What changed, and why?", max: 3,
+          items: [
+            { pic: "", parts: ["With no hurricanes, the average toepad size ", B(["stayed about the same", "increased a lot", "decreased a lot"], 0), "."] },
+            { pic: "", parts: ["Big toepads were an advantage only in an environment with ", B(["strong winds (hurricanes)", "no wind"], 0), "."] },
+            { pic: "", parts: ["This shows that which trait is helpful depends on the ", B(["environment", "lizard’s choice"], 0), "."] }],
+          why: "A trait is only an advantage in a particular environment. When toepad size didn’t affect survival, the population didn’t change in that direction." },
+        { t: "partner", title: "Talk it out", how: "Explain to a partner why the two lines on the comparison graph look different. Use the words <b>environment</b>, <b>advantage</b>, and <b>survive</b>.", got: "My partner explained the difference by saying…", change: "One idea I will add to my explanation" }
+      ] },
+    { letters: ["W", "R"], title: "Fix the Misconception + CER", time: "8 min", goal: "Separate accurate science from common mistakes, then write a CER.",
+      blocks: [
+        { t: "sort", label: "misconception sort", title: "Accurate science or misconception?", zones: ["Accurate", "Misconception"], colors: ["#1aa36f", "#d0453a"],
+          tiles: [["The lizards grew bigger toepads because they needed them.", 1], ["Lizards that were born with bigger toepads were more likely to survive the hurricanes.", 0], ["Each lizard tried hard, so it changed its traits.", 1], ["Survivors passed their genes for big toepads to their offspring.", 0], ["The population changed over generations, not each individual.", 0], ["Organisms choose which traits to have.", 1], ["A trait that helps in one environment might not help in another.", 0], ["Natural selection gives organisms what they need.", 1]],
+          why: "Organisms can’t choose or need their way into new traits. Variation already exists; the environment “selects” which individuals survive and reproduce." },
+        { t: "cerg", title: "CER Builder", q: "<b>Question:</b> Why did the average toepad size of the lizard population increase after several hurricanes?", claimA: 2, need: 3,
+          claims: ["The lizards stretched their toes during storms, so their toepads grew.", "The hurricanes caused mutations that made bigger toepads.", "Lizards born with bigger toepads were more likely to survive and reproduce, so more offspring inherited big toepads.", "The lizards with small toepads decided to move away."],
+          evidence: [["In my lab, the survivors’ average toepad size was <b>larger</b> than the whole generation’s average after every hurricane.", true],
+            ["My line graph of average toepad size went <b>up</b> from Generation 0 to Generation 5.", true],
+            ["On the calm island with no hurricanes, the average toepad size <b>stayed about the same</b>.", true],
+            ["Some lizards are green.", false], ["Hurricanes happen in late summer.", false]],
+          words: ["variation", "inherited", "trait", "advantage", "environment", "survive", "reproduce", "offspring", "population", "generation", "natural selection", "toepads"],
+          frames: ["The population changed because…", "In my data, the survivors’ average toepad size was ___ than…", "This happened because lizards born with bigger toepads…", "They passed their inherited trait to their offspring, so over generations…", "This only happened because the environment had…"],
+          must: ["surviv", "reproduc|offspring", "inherit|gene|pass", "environment|hurricane|wind"] }
+      ] },
+    { letters: ["O", "R", "I"], title: "Closure: Same Process, New Example", time: "5 min", goal: "Use the four parts of natural selection to explain antibiotic resistance.",
+      blocks: [
+        { t: "text", html: `<h3>New example: Bacteria and antibiotics</h3>
+          <p>A person has a bacterial infection with millions of bacteria. Because of random <b>mutations</b>, a few bacteria were already able to survive a certain antibiotic before the person ever took it. The antibiotic kills most of the bacteria. The few <b>resistant</b> bacteria survive and divide, passing the resistance gene to their offspring. Over time, the infection is made mostly of resistant bacteria, and that antibiotic no longer works well.</p>
+          <div class="callout">Lizards → Bacteria. Hurricane → Antibiotic. Big toepads → Resistance gene.</div>` },
+        { t: "sort", label: "four parts sort", title: "Match each event to a part of natural selection", zones: ["Variation", "Inheritance", "Selection (survival)", "Time / adaptation"], colors: ["#8a54e0", "#2b7de9", "#e08a00", "#1aa36f"],
+          tiles: [["A few bacteria were born with a mutation for resistance.", 0], ["Lizards hatch with different toepad sizes.", 0], ["Resistant bacteria divide and pass on the resistance gene.", 1], ["Baby lizards get toepad genes from their parents.", 1], ["The antibiotic kills most of the non-resistant bacteria.", 2], ["Hurricanes blow away more lizards with small toepads.", 2], ["After many divisions, most bacteria are resistant.", 3], ["After 5 generations, the average toepad size is larger.", 3]],
+          why: "Every example of natural selection has the same four parts: variation that already exists, inheritance, selection by the environment, and change in the population over time." },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "Did the antibiotic CAUSE the bacteria to become resistant?", opts: ["Yes, the antibiotic gave them the resistance mutation.", "No. A few bacteria already had the resistance mutation; the antibiotic killed the others.", "Yes, the bacteria decided to become resistant.", "No, resistance comes from the person’s body."], a: 1, why: "The mutation was already there by chance. The antibiotic selected which bacteria survived, just like the hurricane selected which lizards held on." },
+          { q: "What changes during natural selection?", opts: ["Individual organisms change their traits during their lives.", "The traits of a population change over many generations.", "Organisms get whatever traits they need.", "Every organism in the environment survives."], a: 1, why: "Natural selection changes how common traits are in a population over generations. Individuals keep the traits they were born with." },
+          { q: "On an island with no hurricanes, would big toepads keep becoming more common?", opts: ["Yes, big toepads are always better.", "No, not because of wind, since big toepads would no longer be an advantage there.", "Yes, lizards always evolve bigger toepads.", "No, because lizards would choose small toepads."], a: 1, why: "Whether a trait is an advantage depends on the environment. Without strong winds, toepad size didn’t affect survival in your calm-island lab." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-natsel.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

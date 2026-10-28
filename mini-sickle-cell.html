@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Lab: Sickle Cell & Malaria | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   MINI LAB (≈ 25 min): Sickle Cell & Malaria
+   Connects: DNA & Protein Synthesis · Genetics (Punnett squares) · Evolution
+   One mutation changes one amino acid in hemoglobin (protein synthesis),
+   is inherited as a recessive trait (genetics), and is kept common in malaria
+   regions because carriers survive better (natural selection).
+   ===================================================================== */
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "mini-sickle", subject: "Biology", short: "Mini Lab: Sickle Cell & Malaria", color: "#c2297a", emoji: "🩸", time: "≈ 25 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Mini Lab: Sickle Cell & Malaria (DNA → Genetics → Evolution)",
+  intro: "One tiny change in DNA changes a protein, gets passed from parents to children, and helps some people survive malaria. Follow a single mutation through three units of Biology.",
+  eq: "How can one DNA mutation affect a protein, be inherited, and become more common in some environments?",
+  targets: {
+    R: "I can connect a DNA mutation to a change in a protein and a trait.",
+    I: "I can use survival data to explain why the sickle allele is common where malaria is common.",
+    O: "I can use a Punnett square and a codon chart to predict genotypes and amino acids.",
+    W: "I can write a short CER that connects genetics and natural selection."
+  },
+  teacher: `<p><b>Connects:</b> Protein synthesis (codons, mutations) · Genetics (recessive alleles, carriers, Punnett squares) · Evolution (natural selection, heterozygote advantage). Best used after all three units, or as a review before a semester exam.</p>
+    <p><b>The science:</b> Sickle cell disease is caused by a single base change in the HBB gene. The codon GAG (glutamic acid) becomes GTG (valine), so hemoglobin molecules stick together and red blood cells can bend into a sickle shape. People with two sickle alleles (SS) have sickle cell disease. Carriers (AS) usually have few symptoms (sickle cell trait) and are partly protected from severe malaria, a disease caused by a parasite spread by mosquitoes. This “heterozygote advantage” keeps the S allele more common in regions with malaria.</p>
+    <p><b>Data:</b> Survival percentages are SAMPLE data made up for practice. They show the real pattern but are not real measurements. Modern medical care greatly improves survival for people with sickle cell disease.</p>`,
+  stations: [
+    { letters: ["R"], title: "Warm-Up: One Letter, Big Change", time: "5 min", goal: "Review the science behind sickle cell.",
+      blocks: [
+        { t: "warmup", title: "From DNA to disease", read: [
+          "<b>Hemoglobin</b> is the protein in red blood cells that carries oxygen. The gene for hemoglobin has two common <b>alleles</b>: A (normal hemoglobin) and S (sickle hemoglobin).",
+          "The S allele comes from a <b>point mutation</b>: one DNA base is changed, so the mRNA codon GAG becomes GUG. The protein gets <b>valine</b> instead of <b>glutamic acid</b> at one spot. That one change makes hemoglobin molecules stick together and bend red blood cells into a sickle shape.",
+          "People with genotype <b>SS</b> have sickle cell disease. People with <b>AS</b> are <b>carriers</b>: they have both kinds of hemoglobin and usually few symptoms. Carriers are also partly protected from <b>malaria</b>, a disease spread by mosquitoes."],
+          vocab: [["allele", "alelo", "A version of a gene (A or S)."], ["point mutation", "mutación puntual", "A change in one DNA base."], ["carrier", "portador", "A person with one recessive allele who usually does not have the disease."], ["hemoglobin", "hemoglobina", "The oxygen-carrying protein in red blood cells."], ["malaria", "malaria", "A disease caused by a parasite spread by mosquitoes."]],
+          table: { cap: "Genotypes", head: ["Genotype", "Hemoglobin made", "Health"], rows: [["AA", "Only normal", "No sickle cell disease; can get severe malaria"], ["AS", "Normal + sickle", "Carrier; partly protected from malaria"], ["SS", "Only sickle", "Sickle cell disease"]] } },
+        { t: "visual", v: "rbc", title: "Picture it: normal vs. sickle cells", cap: "One changed amino acid (red bead) changes the shape of the whole cell." },
+        { t: "fill", label: "codon frames", title: "Read the codons", how: "Use a codon chart: GAG codes for glutamic acid (Glu) and GUG codes for valine (Val).", max: 2,
+          items: [{ parts: ["The normal mRNA codon GAG codes for ", B(["valine", "glutamic acid"], 1), ". The sickle codon GUG codes for ", B(["valine", "glutamic acid"], 0), ". This is a ", B(["frameshift", "missense (substitution)"], 1), " mutation because one amino acid is replaced."] }],
+          why: "One base change swaps one amino acid. That is a missense (substitution) mutation, not a frameshift." }
+      ] },
+    { letters: ["O"], title: "Connect the Units", time: "3 min", goal: "Sort each idea into the unit it comes from.",
+      blocks: [
+        { t: "sort", label: "units sort", title: "Which unit does each idea come from?", zones: ["DNA & Protein Synthesis", "Genetics", "Evolution"], colors: ["#2b7de9", "#8a54e0", "#1aa36f"],
+          tiles: [["GAG changes to GUG in the mRNA.", 0], ["Valine replaces glutamic acid in hemoglobin.", 0], ["Two carrier parents (AS × AS) can have a child with SS.", 1], ["The S allele is recessive for the disease.", 1], ["Carriers survive malaria better, so they have more children.", 2], ["The S allele is more common in regions with malaria.", 2]],
+          why: "This one mutation is a story told across three units: how the protein changes, how the allele is inherited, and why it becomes common." }
+      ] },
+    { letters: ["I", "O"], title: "Village Data Lab", time: "8 min", goal: "Test survival for each genotype in two environments.",
+      blocks: [
+        { t: "minisim", title: "Survival to adulthood (sample data)", how: "Tap ▶ Test for each group to see the percent of children who survive to adulthood. Record each value and the type of hemoglobin that genotype makes.", scene: "people", measure: "Survival to adulthood", unit: "%", top: 100, color: "#c2297a", tol: 0.5, max: 4, label: "survival data",
+          col: { head: "Hemoglobin made", opts: ["Only normal hemoglobin", "Normal + sickle hemoglobin", "Only sickle hemoglobin"] },
+          conds: [
+            { k: "aam", name: "AA, malaria region", val: 70, pick: 0 }, { k: "asm", name: "AS, malaria region", val: 90, pick: 1 }, { k: "ssm", name: "SS, malaria region", val: 20, pick: 2 },
+            { k: "aan", name: "AA, no malaria", val: 98, pick: 0 }, { k: "asn", name: "AS, no malaria", val: 97, pick: 1 }, { k: "ssn", name: "SS, no malaria", val: 30, pick: 2 }] },
+        { t: "visual", v: "punnett", title: "Picture it: the Punnett square", cap: "Each box is one possible child. Count the boxes to find the chances." },
+        { t: "fill", label: "Punnett frames", title: "Punnett square: two carrier parents (AS × AS)", max: 2,
+          items: [{ parts: ["The chance of a child with AA is ", B(["25%", "50%", "75%"], 0), ", AS is ", B(["25%", "50%", "100%"], 1), ", and SS is ", B(["0%", "25%", "50%"], 1), "."] }],
+          why: "AS × AS gives 1 AA : 2 AS : 1 SS, so 25% AA, 50% AS, 25% SS." }
+      ] },
+    { letters: ["I", "W"], title: "Analyze + Mini CER", time: "6 min", goal: "Explain why the sickle allele stays common where malaria is common.",
+      blocks: [
+        { t: "fill", label: "analysis frames", title: "What does the data show?", max: 3,
+          items: [
+            { parts: ["In the malaria region, the genotype with the HIGHEST survival was ", B(["AA", "AS", "SS"], 1), "."] },
+            { parts: ["In the region with no malaria, AA and AS survival was about ", B(["the same", "very different"], 0), ", so being a carrier is ", B(["a big advantage", "not much of an advantage"], 1), " there."] },
+            { parts: ["Because carriers have more children in malaria regions, the S allele ", B(["disappears", "stays more common"], 1), " there. This is ", B(["natural selection", "a frameshift mutation"], 0), "."] }],
+          why: "In malaria regions, AS has the highest survival (heterozygote advantage), so the S allele is passed on more often. Without malaria, that advantage disappears." },
+        { t: "cerg", title: "Mini CER", q: "<b>Question:</b> Why is the sickle allele (S) more common in regions with malaria?", claimA: 2, need: 2,
+          claims: ["People in malaria regions choose to have the S allele.", "Malaria causes the sickle mutation.", "Carriers (AS) survive malaria better and have more children, so they pass the S allele on more often.", "The S allele is dominant."],
+          evidence: [["In the malaria region, 90% of AS children survived, compared with 70% of AA children.", true], ["In the region without malaria, AA (98%) and AS (97%) survived about the same.", true], ["Hemoglobin carries oxygen.", false], ["Mosquitoes are insects.", false]],
+          words: ["allele", "carrier", "malaria", "survive", "reproduce", "natural selection", "advantage", "genotype", "pass on", "environment"],
+          frames: ["The S allele is more common because…", "In my data, carriers survived…", "This means carriers…", "So over generations…"],
+          must: ["carrier|AS|heterozyg", "surviv", "malaria", "pass|offspring|children|reproduc|generation"] },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "Which unit explains WHY the red blood cells change shape?", opts: ["Ecology", "Protein synthesis: one amino acid change changes the protein", "Cell division", "Photosynthesis"], a: 1, why: "The changed amino acid makes hemoglobin molecules stick together, which bends the cell." },
+          { q: "Did malaria CAUSE people to get the S allele?", opts: ["Yes", "No, the mutation happened by chance; malaria made carriers more likely to survive", "Only in children", "Only in mosquitoes"], a: 1, why: "Mutations are random. The environment (malaria) selects which genotypes survive and reproduce more." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-visuals.js?v=2"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-minisim.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

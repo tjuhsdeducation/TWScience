@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Gene to Trait: Protein Synthesis | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   BIOLOGY VIRTUAL LAB: From Gene to Trait (Protein Synthesis, ≈ 45 min)
+   Students transcribe real gene segments in the nucleus, drag the mRNA
+   through a nuclear pore to a ribosome, translate it with a codon chart,
+   and see the protein and trait. Built for EL students: pictures, word
+   banks with Spanish cognates, read-aloud, and drop-down sentence frames.
+   To change wording, edit the text between the quotes/backticks.
+   ===================================================================== */
+const PIC = (ic, label) => label;
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "lab-protein", subject: "Biology", short: "Virtual Lab: Gene to Trait", color: "#8a54e0", emoji: "🧬", time: "≈ 50 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "From Gene to Trait: A Protein Synthesis Journey",
+  intro: "Travel through a cell! Copy a real gene into mRNA in the nucleus, move the mRNA to a ribosome, translate it into a protein, and discover the trait it makes. Then solve a mutation mystery and make your own mutations to change a jellyfish’s glow.",
+  eq: "How does the information in a gene become a protein that creates a trait?",
+  targets: {
+    R: "I can explain how DNA, mRNA, codons, amino acids, and proteins are connected.",
+    I: "I can transcribe DNA into mRNA and translate mRNA into a protein using a codon chart.",
+    O: "I can put the steps of protein synthesis in order and tell where each one happens in the cell.",
+    W: "I can write a CER explaining how a change in DNA can change a trait.",
+    C: "I can explain my thinking to a partner using science vocabulary."
+  },
+  teacher: `<p><b>Pacing (≈ 50 min):</b> Warm-Up 4 · Big Idea 4 · Gene Expression Lab 13 · Mutation Mystery 6 · Mutation Lab 9 · CER 7 · Closure (new example) 6. To shorten, skip the Mutation Mystery (sickle cell) and use only the Mutation Lab.</p><p><b>Mutation Lab (GFP):</b> Uses the real GFP coding sequence for amino acids 63–69 (ACT TTC TCT TAT GGT GTT CAA = Thr-Phe-Ser-Tyr-Gly-Val-Gln). Ser65-Tyr66-Gly67 form the glowing chromophore. Students complete 4 missions: a silent mutation (e.g., TCT→TCC, Ser→Ser), a nonsense mutation (e.g., TAT→TAA or TAG), a frameshift (insert or delete one base), and the real Tyr66→His change (TAT→CAT) that scientists used to make blue fluorescent protein. Tyr66→Trp (TAT→TGG needs 2 changes) gives cyan.</p>
+    <p><b>About the genes:</b> Each gene card uses the <i>real</i> first codons of that gene: HBB (beta-globin of hemoglobin), GFP (jellyfish green fluorescent protein), and INS (preproinsulin). Real genes are hundreds to thousands of bases long, so a stop codon was added to keep each one short. The sickle cell change is the real one: the codon for amino acid 6 of beta-globin (shown here as the 7th codon, after the start codon) changes from GAG (Glu) to GTG (Val).</p>
+    <p><b>How the lab works:</b> Students read the <b>template strand</b> to build mRNA (A→U, T→A, C→G, G→C), drag the mRNA through a nuclear pore to a ribosome (or use the move buttons), then tap each codon in the codon chart. After 2 misses, the chart highlights the right codon. Points: finishing a gene, plus accuracy in transcription and translation.</p>
+    <p><b>EL supports:</b> picture word bank with Spanish cognates and read-aloud, picture sorts, drop-down sentence frames, a CER builder with claim and evidence cards and a tap-to-add word bank.</p>
+    <p><b>Collaboration:</b> Pair students so they express different genes in Station 3, then compare: same steps, different proteins, different traits.</p>`,
+  stations: [
+    { letters: ["R", "I"], title: "Warm-Up: Review DNA, RNA, and Proteins", time: "4 min", goal: "Review how DNA and RNA are different, then answer 4 quick questions.",
+      blocks: [
+        { t: "warmup", title: "From DNA to protein", read: [
+          "<b>DNA</b> is a double-stranded molecule in the nucleus that stores the instructions for building proteins. A <b>gene</b> is a section of DNA that codes for one protein.",
+          "DNA cannot leave the nucleus, so the cell makes a single-stranded copy called <b>messenger RNA (mRNA)</b>. This step is called <b>transcription</b>. RNA uses the base <b>uracil (U)</b> instead of thymine (T).",
+          "The mRNA travels to a <b>ribosome</b>, which reads it three bases at a time. Each three-base <b>codon</b> stands for one <b>amino acid</b>. This step is called <b>translation</b>. The chain of amino acids folds into a <b>protein</b>, and proteins create <b>traits</b>."],
+          vocab: [
+            ["gene", "gen", "A section of DNA that codes for one protein."],
+            ["mRNA", "ARN mensajero", "A single-stranded copy of a gene that carries the message to the ribosome."],
+            ["transcription", "transcripción", "Copying DNA into mRNA, in the nucleus."],
+            ["translation", "traducción", "Reading mRNA to build a protein, at a ribosome."],
+            ["codon", "codón", "Three mRNA bases that code for one amino acid."],
+            ["amino acid", "aminoácido", "A building block of proteins."],
+            ["mutation", "mutación", "A change in the DNA bases."]],
+          table: { cap: "DNA vs. RNA", head: ["", "DNA", "RNA"], rows: [
+            ["Strands", "Double", "Single"], ["Sugar", "Deoxyribose", "Ribose"], ["Bases", "A, T, C, G", "A, U, C, G"], ["Where it works", "Stays in the nucleus", "mRNA travels to the ribosome"]] } },
+        { t: "quiz", label: "warm-up check", title: "Check your understanding", items: [
+          { q: "Which base is found in RNA but not in DNA?", opts: ["Thymine (T)", "Uracil (U)", "Adenine (A)", "Guanine (G)"], a: 1, why: "RNA uses uracil (U) where DNA uses thymine (T)." },
+          { q: "Where does transcription happen?", opts: ["In the nucleus", "At the ribosome", "In the cell membrane", "In the mitochondria"], a: 0, why: "The DNA stays in the nucleus, so it is copied into mRNA there." },
+          { q: "How many mRNA bases make up one codon?", opts: ["1", "2", "3", "4"], a: 2, why: "A codon is three bases, and each codon stands for one amino acid." },
+          { q: "What is a protein made of?", opts: ["A chain of amino acids", "A chain of codons", "Two strands of DNA", "Glucose molecules"], a: 0, why: "Ribosomes link amino acids into a chain that folds into a protein." }] }
+      ] },
+    { letters: ["R"], title: "The Big Idea: Gene → Protein → Trait", time: "4 min", goal: "See the whole path from DNA to trait and practice base pairing.",
+      blocks: [
+        { t: "text", html: `<h3>The central dogma</h3>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:700 1.1rem var(--display);margin:8px 0">
+            <span style="background:#e6dcff;border:3px solid #6b4bb0;border-radius:14px;padding:8px 12px">DNA<br><small>in the nucleus</small></span><span><small>transcription</small></span>
+            <span style="background:#fff0d9;border:3px solid #e08a00;border-radius:14px;padding:8px 12px">mRNA<br><small>leaves through a nuclear pore</small></span><span><small>translation</small></span>
+            <span style="background:#efe3ff;border:3px solid #8a54e0;border-radius:14px;padding:8px 12px">Protein<br><small>built at a ribosome</small></span><span></span>
+            <span style="background:#e2f6ec;border:3px solid #1aa36f;border-radius:14px;padding:8px 12px">Trait</span></div>
+          <p><b>1. Transcription (nucleus):</b> RNA polymerase unzips the DNA and reads the <b>template strand</b> to build <b>mRNA</b>. RNA uses <b>U (uracil)</b> instead of T.</p>
+          <p><b>2. Translation (ribosome, in the cytoplasm):</b> The ribosome reads the mRNA <b>3 bases at a time</b>. Each 3-base <b>codon</b> stands for one <b>amino acid</b>. A <b>tRNA</b> with the matching <b>anticodon</b> brings it. <b>AUG</b> means START. <b>UAA, UAG, UGA</b> mean STOP.</p>
+          <p><b>3. Protein → trait:</b> The order of amino acids decides how the protein folds, and its shape decides its job, which creates a trait.</p>` },
+        { t: "fill", icon: "", label: "big idea frames", title: "Check the big idea", how: "Choose the word that makes each sentence true.", max: 4,
+          bank: ["nucleus", "ribosome", "cytoplasm", "U", "T", "3", "codon", "AUG"],
+          items: [
+            { pic: "", parts: ["Transcription happens in the ", B(["nucleus", "ribosome"], 0), ". Translation happens at a ", B(["nucleus", "ribosome"], 1), " in the ", B(["cytoplasm", "nucleus"], 0), "."] },
+            { pic: "", parts: ["DNA template <b>T A C</b> → mRNA ", B(["A U G", "A T G", "T A C"], 0), ". In RNA, A pairs with ", B(["U", "T"], 0), "."] },
+            { pic: "", parts: ["A codon is ", B(["3", "2", "1"], 0), " mRNA bases. The START codon is ", B(["AUG", "UAA"], 0), "."] }],
+          why: "DNA → (transcription in the nucleus) → mRNA → (translation at a ribosome) → protein → trait." }
+      ] },
+    { letters: ["I", "O"], title: "Gene Expression Lab: Journey Through the Cell", time: "13 min", goal: "Pick a gene, transcribe it in the nucleus, move the mRNA to a ribosome, translate it, and see the trait.",
+      blocks: [
+        { t: "text", html: `<div class="callout"><b>Your mission:</b> 1) Pick a gene. 2) In the <b>nucleus</b>, build the mRNA. 3) <b>Drag</b> the mRNA through a <b>nuclear pore</b> to a <b>ribosome</b>. 4) Translate each codon with the codon chart. 5) See the protein and trait! <b>Finish at least one gene.</b> If you have time, do a second gene and compare.</div>` },
+        { t: "protsyn", title: "Protein Synthesis Lab", choices: ["hbb", "gfp", "ins"] },
+        { t: "fill", icon: "", label: "lab frames", title: "What did you notice?", max: 2,
+          items: [
+            { pic: "", parts: ["The DNA ", B(["stayed in the nucleus", "went to the ribosome"], 0), ". Only the ", B(["mRNA", "DNA"], 0), " copy traveled to the ribosome."] },
+            { pic: "", parts: ["Every gene started with the codon ", B(["AUG", "UAA"], 0), " (Met). Different genes made different ", B(["amino acid orders", "nuclei"], 0), ", so they made different proteins and traits."] }],
+          why: "The DNA is protected in the nucleus. The order of bases in a gene decides the order of amino acids in the protein." }
+      ] },
+    { letters: ["I", "C"], title: "Mutation Mystery: One Base Changes Everything", time: "6 min", goal: "Express the sickle cell version of the hemoglobin gene and compare it to the normal gene.",
+      blocks: [
+        { t: "text", html: `<p>Some people have a version of the hemoglobin gene with <b>one base changed</b>. We filled in the first 6 codons for you. <b>Finish transcription, move the mRNA, and translate the last codons.</b> Watch codon 7 closely!</p>` },
+        { t: "protsyn", title: "Sickle Cell Gene", gene: "sickle", prefill: 6 },
+        { t: "fill", icon: "", label: "mutation frames", title: "Compare normal vs. sickle cell", how: "Use your results from both hemoglobin genes. (Normal codon 7 = GAG.)", max: 4,
+          bank: ["GAG", "GUG", "Glu", "Val", "A", "T", "shape", "round", "sickle"],
+          items: [
+            { pic: "", parts: ["In the DNA, ONE base changed from ", B(["A", "T"], 0), " to ", B(["A", "T"], 1), "."] },
+            { pic: "", parts: ["So mRNA codon 7 changed from GAG to ", B(["GUG", "GAG", "UAA"], 0), "."] },
+            { pic: "", parts: ["The amino acid changed from ", B(["Glu (glutamic acid)", "Val (valine)"], 0), " to ", B(["Glu (glutamic acid)", "Val (valine)"], 1), "."] },
+            { pic: "", parts: ["This changed the protein’s ", B(["shape", "color"], 0), ", so the red blood cells became ", B(["round", "sickle-shaped"], 1), "."] }],
+          why: "One base change → one codon change → one amino acid change → a different protein shape → a different trait." },
+        { t: "partner", title: "Talk it out", how: "Explain to a partner, in order: DNA → mRNA → amino acid → protein → trait. Use the word bank words.", got: "My partner explained the mutation by saying…", change: "One word or step I will add to my own explanation" }
+      ] },
+    { letters: ["I", "W"], title: "Mutation Lab: Change the Glow", time: "9 min", goal: "Make your own mutations in a jellyfish glow gene and explain how each one changes the protein.",
+      blocks: [
+        { t: "text", html: `<h3>Types of mutations</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:8px 0">
+            <div style="border:3px solid #1aa36f;border-radius:14px;padding:8px 10px"><b>Silent</b><br>A base changes, but the codon still codes for the <b>same</b> amino acid. Same protein.</div>
+            <div style="border:3px solid #e08a00;border-radius:14px;padding:8px 10px"><b>Missense</b><br>A base changes and codes for a <b>different</b> amino acid. The protein’s shape may change.</div>
+            <div style="border:3px solid #d0453a;border-radius:14px;padding:8px 10px"><b>Nonsense</b><br>A base changes into a <b>STOP</b> codon. The protein is too short.</div>
+            <div style="border:3px solid #8a54e0;border-radius:14px;padding:8px 10px"><b>Frameshift</b><br>A base is <b>added or deleted</b>. Every codon after it is read wrong.</div></div>` },
+        { t: "mutlab", title: "Mutation Lab: The Glowing Jellyfish Gene" },
+        { t: "sort", label: "mutation type sort", title: "Name that mutation (mRNA before → after)", zones: ["Silent", "Missense", "Nonsense", "Frameshift"], colors: ["#1aa36f", "#e08a00", "#d0453a", "#8a54e0"],
+          tiles: [["GAA (Glu) → GAG (Glu)", 0], ["UAU (Tyr) → UAC (Tyr)", 0], ["AAA (Lys) → AGA (Arg)", 1], ["UCU (Ser) → CCU (Pro)", 1], ["UGG (Trp) → UGA (STOP)", 2], ["CAA (Gln) → UAA (STOP)", 2], ["AUG GCU UAC → AUG CUU AC… (one base deleted)", 3], ["AUG GCU → AUG GGC U… (one base added)", 3]],
+          why: "Ask: Is it the same amino acid (silent), a different amino acid (missense), a STOP (nonsense), or did a base get added or removed (frameshift)?" },
+        { t: "write", label: "mutation explanation", title: "Explain a mutation", rows: 6, min: 30,
+          prompt: "Pick ONE mutation you made in the lab (silent, missense, nonsense, or frameshift). Explain how it changed the <b>mRNA codon(s)</b>, the <b>amino acids</b>, the <b>protein</b>, and the jellyfish’s <b>glow</b>.<br><span class=\"mu small\">Word bank: base · codon · amino acid · STOP codon · reading frame · protein · shape · glow · same · different · shorter</span>",
+          frames: ["I made a ___ mutation by changing…", "This changed the codon from ___ to ___,", "so the amino acid…", "As a result, the protein… and the jellyfish…"], starter: "I made a ___ mutation by…",
+          checks: [{ label: "Names the mutation type", re: /silent|missense|nonsense|frameshift|frame shift/i }, { label: "Explains the codon change", re: /codon|reading frame|stop/i }, { label: "Explains the effect on amino acids or the protein", re: /amino acid|protein/i }, { label: "Explains the effect on the glow (the trait)", re: /glow|green|blue|cyan|trait/i }] }
+      ] },
+    { letters: ["W"], title: "CER: How Can One Base Change a Trait?", time: "7 min", goal: "Build a claim, evidence, and reasoning paragraph about the sickle cell mutation.",
+      blocks: [
+        { t: "cerg", title: "CER Builder", q: "<b>Question:</b> How can a change in just ONE DNA base change a person’s trait?", claimA: 1, need: 3,
+          claims: ["It can’t. One base is too small to change anything.", "It changes an mRNA codon, which can change an amino acid, the protein’s shape, and the trait.", "It changes the ribosome, so the ribosome stops working."],
+          evidence: [["In the normal hemoglobin gene, mRNA codon 7 is <b>GAG</b>, which codes for <b>Glu</b> (glutamic acid).", true],
+            ["In the sickle cell gene, one DNA base changed, so codon 7 became <b>GUG</b>, which codes for <b>Val</b> (valine).", true],
+            ["The normal protein made <b>round</b> red blood cells, but the changed protein made <b>sickle-shaped</b> red blood cells.", true],
+            ["Both genes start with the codon AUG (Met).", false], ["Ribosomes are found in the cytoplasm.", false]],
+          words: ["DNA", "base", "mRNA", "codon", "amino acid", "protein", "shape", "trait", "mutation", "transcription", "translation", "red blood cells"],
+          frames: ["The change in the DNA changed the mRNA codon from ___ to ___.", "This codon codes for a different amino acid, so…", "A different amino acid changes the protein’s shape, which…", "This is why the trait changed from…"],
+          must: ["codon", "amino acid", "protein", "trait"] }
+      ] },
+    { letters: ["O", "R", "I"], title: "Closure: Apply It to a New Gene", time: "6 min", goal: "Use what you learned on a brand-new gene, then review where each step happens.",
+      blocks: [
+        { t: "text", html: `<h3>New example: How does a firefly glow?</h3>
+          <p>Fireflies glow because of a protein called <b>luciferase</b> (loo-SIF-er-ace). Here are the real first 4 codons of the firefly luciferase gene.</p>
+          <div class="callout" style="font:700 1.15rem var(--display);letter-spacing:.08em">DNA template strand: &nbsp; TAC &nbsp; CTT &nbsp; CTG &nbsp; CGG</div>
+          <p class="mu small">Use the rules: A→U, T→A, C→G, G→C. Then use the codon chart from the lab (AUG = Met, GAA = Glu, GAC = Asp, GCC = Ala).</p>` },
+        { t: "fill", icon: "", label: "firefly frames", title: "Express the firefly gene", max: 4,
+          bank: ["AUG", "GAA", "GAC", "GCC", "Met", "Glu", "Asp", "Ala", "nucleus", "ribosome"],
+          items: [
+            { pic: "", parts: ["Template TAC → mRNA ", B(["AUG", "ATG", "UAC"], 0), " · Template CTT → mRNA ", B(["GAA", "GTT", "CTT"], 0)] },
+            { pic: "", parts: ["Template CTG → mRNA ", B(["GAC", "CTG", "GUC"], 0), " · Template CGG → mRNA ", B(["GCC", "CGG", "GGC"], 0)] },
+            { pic: "", parts: ["The amino acids are: ", B(["Met", "Stop"], 0), " – ", B(["Glu", "Lys"], 0), " – ", B(["Asp", "Gly"], 0), " – ", B(["Ala", "Arg"], 0)] },
+            { pic: "", parts: ["The mRNA was made in the ", B(["nucleus", "ribosome"], 0), " and the luciferase protein was built at a ", B(["nucleus", "ribosome"], 1), ". The protein makes the firefly ", B(["glow", "fly"], 0), "."] }],
+          why: "Same steps, any gene: DNA → mRNA (nucleus) → protein (ribosome) → trait." },
+        { t: "sort", label: "where it happens", title: "Where does each step happen?", zones: ["Nucleus", "Nuclear pore", "Ribosome (in the cytoplasm)"], colors: ["#6b4bb0", "#e08a00", "#8a54e0"],
+          tiles: [["DNA is unzipped", 0], ["mRNA is built from the template strand", 0], ["mRNA leaves the nucleus", 1], ["Codons are read 3 bases at a time", 2], ["tRNA brings amino acids", 2], ["Amino acids are linked into a chain", 2]],
+          why: "Transcription happens in the nucleus. The mRNA exits through a nuclear pore. Translation happens at a ribosome in the cytoplasm." },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "Put the path in the right order.", opts: ["Protein → mRNA → DNA → trait", "DNA → mRNA → protein → trait", "mRNA → DNA → trait → protein", "Trait → protein → DNA → mRNA"], a: 1, why: "Gene (DNA) → mRNA (transcription) → protein (translation) → trait." },
+          { q: "An mRNA codon is <b>UGG</b>. Which amino acid does it code for?", opts: ["Stop", "Trp (tryptophan)", "Gly (glycine)", "Cys (cysteine)"], a: 1, why: "Row U, column G, line G in the codon chart: UGG = Trp." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

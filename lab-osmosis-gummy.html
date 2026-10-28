@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Great Gummy Bear Soak: Osmosis | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   BIOLOGY VIRTUAL LAB: The Great Gummy Bear Soak (Osmosis, ≈ 45 min)
+   Students predict, soak six gummy bears in six solutions, weigh them,
+   calculate % change, build a bar graph, sort WATER vs SOLUTE language,
+   compare concentrations (hypotonic / hypertonic / isotonic), write a
+   CER, and apply it to red blood cells and plant cells.
+   Built for EL students: pictures, word banks with Spanish cognates,
+   read-aloud, and drop-down sentence frames.
+   To change wording, edit the text between the quotes/backticks.
+   ===================================================================== */
+const PIC = (ic, label) => label;
+const B = (o, a) => ({ o, a });
+/* red blood cell pictures for the closure */
+const RBC = (kind) => {
+  const body = kind === "swell" ? `<circle cx="40" cy="40" r="30" fill="#e35d5d" stroke="#a52a2a" stroke-width="2"/><text x="40" y="45" text-anchor="middle" font-size="16"></text>`
+    : kind === "shrink" ? `<path d="M40 14 l7 10 12-3 -2 12 11 7 -11 7 2 12 -12-3 -7 10 -7-10 -12 3 2-12 -11-7 11-7 -2-12 12 3z" fill="#c94848" stroke="#8a1f1f" stroke-width="2"/>`
+    : `<ellipse cx="40" cy="40" rx="30" ry="24" fill="#e35d5d" stroke="#a52a2a" stroke-width="2"/><ellipse cx="40" cy="40" rx="13" ry="9" fill="#c94848"/>`;
+  return `<svg viewBox="0 0 80 80" width="74" aria-hidden="true">${body}</svg>`;
+};
+window.CC = {
+  id: "lab-osmosis", subject: "Biology", short: "Virtual Lab: Gummy Bear Osmosis", color: "#e8473f", emoji: "🐻", time: "≈ 45 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "The Great Gummy Bear Soak: Osmosis and Cell Transport",
+  intro: "Why does a gummy bear left in water turn into a giant, squishy bear, while one in corn syrup shrinks? Soak six bears in six solutions, weigh them, graph your results, and explain how WATER moves to balance concentrations.",
+  eq: "How does the concentration of solutes inside and outside a cell decide which way water moves by osmosis?",
+  targets: {
+    R: "I can use the words solute, solvent, concentration, hypotonic, hypertonic, and isotonic correctly.",
+    I: "I can collect mass data, calculate percent change, and graph my results.",
+    O: "I can sort statements that describe WATER moving from statements that describe SOLUTE particles.",
+    W: "I can write a CER explaining how osmosis changed the gummy bears.",
+    C: "I can compare concentrations with a partner using sentence frames."
+  },
+  teacher: `<p><b>Pacing (≈ 45 min):</b> Warm-Up 4 · Zoom In (model) 7 · Predict 4 · Run the Lab 11 · Graph &amp; Analyze 9 · CER 5 · Closure (new example) 5. To shorten, skip the partner talk and the model reset challenge.</p>
+    <p><b>Lab data (simplified, 24-hour soak, blotted dry):</b> Distilled water 2.40 → 5.76 g (+140%) · Tap water 2.50 → 5.75 g (+130%) · 10% sugar water 2.40 → 3.84 g (+60%) · Bear-matched sugar syrup 2.40 → 2.42 g (+1%, isotonic) · Saturated salt water 2.40 → 2.16 g (−10%) · Corn syrup 2.50 → 2.20 g (−12%). Students must enter end mass to the hundredth and % change within ±1%.</p>
+    <p><b>Science notes:</b> A gummy bear is a <i>model</i> of a cell, not a real cell. It has no living cell membrane; its gelatin network acts like a selectively permeable barrier that lets water in and out while large sugar molecules move very slowly. Real results vary by brand and temperature, and in real salt water some salt does diffuse into the bear, which is why classroom salt-water bears sometimes gain a little mass. The data here is simplified so the pattern is clear. The isotonic “bear-matched syrup” is a teaching example of a solution whose water concentration matches the bear’s.</p>
+    <p><b>Key language goal:</b> Students often say “the salt sucked the water out” or “the bear absorbed sugar.” Push for precise language: <i>water</i> moves by osmosis from the side with <i>higher water concentration</i> (lower solute concentration) to the side with <i>lower water concentration</i> (higher solute concentration). Solute particles do not move across in this model.</p>
+    <p><b>How the lab works:</b> Students start the soak (animated), tap Weigh under each beaker to read the scale, type the end mass, calculate % change, and choose the water direction and tonicity. The run can be reset by tapping <b>↺ Reset the lab</b> twice. Results from the run carry into the CER.</p>
+    <p><b>Real lab option:</b> Soak bears overnight in cups labeled with the same solutions, mass them before and after with a kitchen scale, and compare with the virtual data. Do not eat lab materials.</p>
+    <p><b>EL supports:</b> picture word bank with Spanish cognates and read-aloud, picture sorts, drop-down sentence frames, a CER builder with claim and evidence cards and a tap-to-add word bank.</p>`,
+  stations: [
+    { letters: ["R", "I"], title: "Warm-Up: Review Solutions and Osmosis", time: "5 min", goal: "Review solutions and how water moves across a membrane, then answer 5 quick questions.",
+      blocks: [
+        { t: "warmup", title: "How water moves into and out of cells", read: [
+          "A <b>solution</b> is a mixture of a <b>solute</b> (the substance that dissolves, like salt or sugar) and a <b>solvent</b> (the substance it dissolves in, usually water). The <b>concentration</b> tells how much solute is in the solution.",
+          "A cell is surrounded by a <b>selectively permeable membrane</b>. Small water molecules can pass through it easily, but many solute particles cannot. <b>Diffusion</b> is the movement of particles from high concentration to low concentration.",
+          "<b>Osmosis</b> is the diffusion of <b>water</b> across a membrane. Water moves toward the side with the <b>higher solute concentration</b> (where there is less water). In osmosis, the <b>water</b> moves, not the solute."],
+          vocab: [
+            ["solute", "soluto", "The substance that dissolves (salt, sugar)."],
+            ["solvent", "solvente", "The substance that does the dissolving (usually water)."],
+            ["concentration", "concentración", "How much solute is in a certain amount of solution."],
+            ["osmosis", "ósmosis", "The diffusion of water across a selectively permeable membrane."],
+            ["hypotonic", "hipotónico", "The outside solution has LESS solute than the cell. Water moves in."],
+            ["hypertonic", "hipertónico", "The outside solution has MORE solute than the cell. Water moves out."],
+            ["isotonic", "isotónico", "Equal solute concentration inside and outside. No net water movement."]],
+          table: { cap: "Comparing the outside solution to the cell", head: ["Outside solution is…", "Solute outside vs. inside", "Water moves…", "The cell…"], rows: [
+            ["Hypotonic", "Lower outside", "Into the cell", "Swells"], ["Hypertonic", "Higher outside", "Out of the cell", "Shrinks"], ["Isotonic", "Equal", "In and out equally", "Stays the same"]] } },
+        { t: "quiz", label: "warm-up check", title: "Check your understanding", items: [
+          { q: "In salt water, which substance is the solute?", opts: ["Water", "Salt", "The container", "Air"], a: 1, why: "Salt is the substance that dissolves, so it is the solute. Water is the solvent." },
+          { q: "In osmosis, what moves across the membrane?", opts: ["Salt particles", "Sugar particles", "Water", "The whole cell"], a: 2, why: "Osmosis is specifically the movement of water across a membrane." },
+          { q: "Water moves toward the side with…", opts: ["higher solute concentration", "lower solute concentration", "more water", "a warmer temperature"], a: 0, why: "Water moves toward the side with more solute, which is the side with less water." },
+          { q: "A cell is placed in a hypotonic solution. What happens?", opts: ["Water moves out and the cell shrinks", "Water moves in and the cell swells", "Nothing happens", "Solute moves in and the cell shrinks"], a: 1, why: "Hypotonic means less solute outside, so water moves into the cell and it swells." },
+          { q: "Which statement describes a HYPERTONIC solution?", opts: ["It has less solute than the cell", "It has more solute than the cell", "It has the same solute as the cell", "It has no water"], a: 1, why: "“Hyper” means more: a hypertonic solution has more solute than the cell, so water leaves the cell." }] }
+      ] },
+    { letters: ["R", "I"], title: "Zoom In: How Osmosis Works", time: "7 min", goal: "Use a particle model to see which way water moves and why.",
+      blocks: [
+        { t: "text", html: `<h3>Water moves. Solute stays.</h3>
+          <p>A gummy bear is made of <b>gelatin</b> (a net of long protein strands) packed with <b>sugar</b>. That makes the inside of the bear a solution with a <b>very high solute concentration</b>, a lot like the inside of a cell.</p>
+          <p><b>Osmosis</b> is the diffusion of <b>water</b> across a selectively permeable barrier. Water moves from where there is <b>more water</b> (lower solute concentration) to where there is <b>less water</b> (higher solute concentration). The big sugar and salt particles can’t easily pass through, so <b>water does the moving</b>.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:8px 0">
+            <div style="border:3px solid #2b7de9;border-radius:14px;padding:8px 10px"><b>Hypotonic solution</b><br>LESS solute (MORE water) than the bear.<br>Water moves <b>IN</b>. Bear <b>swells</b>.</div>
+            <div style="border:3px solid #8a54e0;border-radius:14px;padding:8px 10px"><b>Isotonic solution</b><br>SAME concentration as the bear.<br><b>No net</b> water movement. Bear stays the same.</div>
+            <div style="border:3px solid #f08a24;border-radius:14px;padding:8px 10px"><b>Hypertonic solution</b><br>MORE solute (LESS water) than the bear.<br>Water moves <b>OUT</b>. Bear <b>shrinks</b>.</div></div>
+          <p class="callout"><b>Tip:</b> “Hypo-” means under (less solute). “Hyper-” means over (more solute). “Iso-” means equal. We always compare the <b>solution</b> to the <b>bear</b> (or cell).</p>` },
+        { t: "osmodel", title: "Zoom In: The Membrane Model", inside: 14 },
+        { t: "fill", icon: "", label: "model frames", title: "Compare the concentrations", how: "Use the model to finish each sentence.", max: 4,
+          items: [
+            { pic: "", parts: ["When the solution has FEWER solute particles than the bear, it has a ", B(["higher", "lower"], 0), " water concentration, so water moves ", B(["into", "out of"], 0), " the bear."] },
+            { pic: "", parts: ["When the solution has MORE solute particles than the bear, it is ", B(["hypertonic", "hypotonic"], 0), " and water moves ", B(["out of", "into"], 0), " the bear."] },
+            { pic: "", parts: ["The solute particles ", B(["stayed on their side", "crossed the membrane"], 0), " because they are ", B(["too big", "too small"], 0), " to pass through."] },
+            { pic: "", parts: ["When both sides have the same concentration, the solution is ", B(["isotonic", "hypertonic"], 0), " and there is ", B(["no net", "a lot of"], 0), " water movement."] }],
+          why: "Water always moves toward the side with MORE solute (less water). The solute particles in this model can’t cross." }
+      ] },
+    { letters: ["I", "W"], title: "Predict", time: "4 min", goal: "Predict what each gummy bear will do after 24 hours.",
+      blocks: [
+        { t: "gummylab", mode: "predict", title: "Make your predictions" },
+        { t: "write", label: "prediction reasoning", title: "Explain one prediction", rows: 4, min: 20,
+          prompt: "Pick ONE beaker. Explain why you think that bear will grow, shrink, or stay the same. Compare the solute concentration of the solution to the bear.<br><span class=\"mu small\">Word bank: water · solute · concentration · higher · lower · into · out of · hypotonic · hypertonic · isotonic</span>",
+          frames: ["I predict the bear in ___ will ___ because…", "The solution has a ___ solute concentration than the bear,", "so water will move ___ the bear."], starter: "I predict the bear in ",
+          checks: [{ label: "Names a solution", re: /water|salt|syrup|sugar/i }, { label: "Compares concentration", re: /concentrat|solute|more|less|higher|lower/i }, { label: "Says which way water moves", re: /into|out of|in |out |no net/i }] }
+      ] },
+    { letters: ["I", "O"], title: "Run the Lab: Soak and Weigh", time: "11 min", goal: "Soak the bears for 24 hours, weigh each one, and record your data.",
+      blocks: [
+        { t: "text", html: `<div class="callout"><b>Your mission:</b> 1) Press <b>Start the 24-hour soak</b> and watch. 2) Tap <b>Weigh</b> under each beaker and read the scale. 3) Type the end mass. 4) Calculate the % change: <b>(end − start) ÷ start × 100</b>, rounded to a whole number. 5) Choose which way water moved and whether the solution was hypotonic, hypertonic, or isotonic compared to the bear.<br><b>Example:</b> 2.00 g → 2.50 g: (2.50 − 2.00) ÷ 2.00 × 100 = <b>25%</b>. 2.00 g → 1.80 g: (1.80 − 2.00) ÷ 2.00 × 100 = <b>−10%</b>.</div>` },
+        { t: "gummylab", mode: "run", title: "Gummy Bear Soak", max: 6 }
+      ] },
+    { letters: ["O", "R"], title: "Graph & Analyze", time: "9 min", goal: "Graph your results, compare concentrations, and sort WATER language from SOLUTE language.",
+      blocks: [
+        { t: "osgraph", title: "Build the Graph: % Change in Mass", max: 3 },
+        { t: "fill", icon: "", label: "graph frames", title: "Read your graph", how: "Choose the words that make each sentence true.", max: 4,
+          items: [
+            { pic: "", parts: ["The bear in ", B(["distilled water", "corn syrup", "salt water"], 0), " had the largest gain. Distilled water has a ", B(["lower", "higher"], 0), " solute concentration than the bear, so it is ", B(["hypotonic", "hypertonic", "isotonic"], 0), "."] },
+            { pic: "", parts: ["The bears in salt water and corn syrup ", B(["lost", "gained"], 0), " mass because those solutions are ", B(["hypertonic", "hypotonic"], 0), ". Water moved ", B(["out of", "into"], 0), " the bears."] },
+            { pic: "", parts: ["The bear-matched syrup bear barely changed (+1%) because the concentrations were ", B(["about equal", "very different"], 0), ", so the solution was ", B(["isotonic", "hypotonic"], 0), "."] },
+            { pic: "", parts: ["The tap water bear grew a little ", B(["less", "more"], 0), " than the distilled water bear because tap water has a few dissolved ", B(["minerals (solutes)", "gummy bears"], 0), "."] }],
+          why: "The more the solution’s concentration differs from the bear’s, the more water moves. Hypotonic → water in → gain. Hypertonic → water out → loss. Isotonic → no net change." },
+        { t: "sort", label: "water vs solute sort", title: "Water or solute? Sort each statement by what it describes.", zones: ["Describes WATER moving", "Describes SOLUTE particles"], colors: ["#2b7de9", "#f08a24"],
+          tiles: [["Water moved into the bear by osmosis.", 0], ["Water left the bear and went into the salt water.", 0], ["Water moves from higher water concentration to lower water concentration.", 0], ["The bear swelled because water entered it.", 0],
+            ["Sugar molecules are too big to pass through the gelatin network.", 1], ["Salt particles are dissolved in the water outside the bear.", 1], ["The bear has a higher solute concentration than distilled water.", 1], ["Solute particles stayed trapped inside the bear.", 1]],
+          why: "In osmosis, the WATER is what moves across the barrier. Solute particles (sugar, salt) set up the concentration difference, but they don’t cross in this model." },
+        { t: "partner", title: "Talk it out", how: "Explain to a partner why the corn syrup bear shrank. You MUST say what moved (water), which way, and compare the two concentrations.", got: "My partner explained it by saying…", change: "One word I will add to be more precise (water, solute, concentration, hypertonic…)" }
+      ] },
+    { letters: ["W"], title: "CER: Why Did the Bears Change?", time: "5 min", goal: "Build a claim, evidence, and reasoning paragraph using your lab data.",
+      blocks: [
+        { t: "cerg", title: "CER Builder", q: "<b>Question:</b> Why did the gummy bear in distilled water grow, while the gummy bear in corn syrup shrank?", claimA: 1, need: 3,
+          claims: ["The bears absorbed the sugar and salt from the solutions.", "Water moved by osmosis from higher water concentration to lower water concentration: into the bear in distilled water, and out of the bear in corn syrup.", "The bear in water chose to drink, and the bear in syrup chose not to."],
+          evidence: [["The bear in distilled water went from 2.40 g to 5.76 g, a <b>+140%</b> change.", true],
+            ["The bear in corn syrup went from 2.50 g to 2.20 g, a <b>−12%</b> change.", true],
+            ["The bear in bear-matched syrup changed by only about <b>+1%</b>.", true],
+            ["All six gummy bears were different colors.", false],
+            ["The beakers sat on the counter for 24 hours.", false]],
+          words: ["osmosis", "water", "solute", "concentration", "higher", "lower", "hypotonic", "hypertonic", "isotonic", "into", "out of", "mass"],
+          frames: ["Distilled water has a ___ solute concentration than the bear, so…", "Corn syrup has a ___ solute concentration than the bear, so…", "Water moves from ___ water concentration to ___ water concentration.", "The bears do not choose; the concentrations decide…"],
+          must: ["osmosis|water", "concentration|solute", "hypotonic|hypertonic|into|out"] }
+      ] },
+    { letters: ["O", "R", "I"], title: "Closure: Real Cells", time: "5 min", goal: "Apply osmosis to red blood cells and plant cells.",
+      blocks: [
+        { t: "text", html: `<h3>New example: red blood cells</h3>
+          <p>Your red blood cells are surrounded by a real <b>cell membrane</b> that lets water through. Inside, the cell has about the same solute concentration as <b>0.9% salt water</b>. Look at what happens in three solutions:</p>
+          <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;margin:6px 0">
+            <div style="text-align:center;font-weight:800;font-size:.85rem">${RBC("swell")}<br>Pure water<br>swells and can burst</div>
+            <div style="text-align:center;font-weight:800;font-size:.85rem">${RBC("normal")}<br>0.9% salt water<br>normal shape</div>
+            <div style="text-align:center;font-weight:800;font-size:.85rem">${RBC("shrink")}<br>3% salt water<br>shrivels</div></div>
+          <p><b>Plant cells</b> have a strong cell wall. In fresh water they fill up and become firm (that’s why grocery stores mist vegetables). In salty soil, water leaves the cells and the plant <b>wilts</b>.</p>` },
+        { t: "fill", icon: "", label: "cell frames", title: "Apply it to real cells", max: 4,
+          items: [
+            { pic: RBC("swell"), parts: ["In pure water, the solution is ", B(["hypotonic", "hypertonic"], 0), ", so water moves ", B(["into", "out of"], 0), " the red blood cell."] },
+            { pic: RBC("shrink"), parts: ["In 3% salt water, the solution is ", B(["hypertonic", "isotonic"], 0), ", so the cell ", B(["shrinks", "swells"], 0), "."] },
+            { pic: "", parts: ["Hospital IV bags use 0.9% salt water because it is ", B(["isotonic", "hypotonic"], 0), " to blood cells, so there is ", B(["no net", "a large"], 0), " water movement."] },
+            { pic: "", parts: ["A plant in very salty soil wilts because water moves ", B(["out of", "into"], 0), " its cells toward the ", B(["higher solute", "lower solute"], 0), " concentration."] }],
+          why: "Real cells follow the same rule as the bears: water moves toward the higher solute concentration." },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "A bear goes from 2.00 g to 3.00 g. What is the percent change?", opts: ["+1%", "+33%", "+50%", "+150%"], a: 2, why: "(3.00 − 2.00) ÷ 2.00 × 100 = 50%." },
+          { q: "Salt is sprinkled on a slug. Which statement uses the MOST accurate language?", opts: ["The salt sucks the slug dry.", "Water moves out of the slug’s cells toward the higher solute concentration outside.", "Salt moves into the slug and pushes water out.", "The slug decides to give up its water."], a: 1, why: "In osmosis, WATER moves toward the higher solute concentration. Solutes don’t “suck,” and organisms don’t choose." },
+          { q: "A freshwater fish lives in water with a LOWER solute concentration than its cells. Which way does water tend to move?", opts: ["Into the fish’s cells", "Out of the fish’s cells", "No movement at all", "Only salt moves"], a: 0, why: "The water is hypotonic to the fish’s cells, so water tends to move in. Freshwater fish get rid of extra water by making lots of dilute urine." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-osmosis.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

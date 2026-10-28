@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Lab: Yeast Balloons | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   MINI LAB (≈ 25 min): Yeast Balloons
+   Connects: Macromolecules (carbohydrates) · Enzymes · Cellular Respiration
+   Students “feed” yeast different carbohydrates at different temperatures,
+   measure CO2, and explain the results with all three units.
+   ===================================================================== */
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "mini-yeast", subject: "Biology", short: "Mini Lab: Yeast Balloons", color: "#e08a00", emoji: "🎈", time: "≈ 25 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Mini Lab: Yeast Balloons (Macromolecules → Enzymes → Cellular Respiration)",
+  intro: "Bakers use yeast to make bread rise. Yeast cells break down sugar for energy and give off carbon dioxide gas. Which foods can yeast use, and what happens when it gets too cold or too hot? Use three units to explain your results.",
+  eq: "How do the type of carbohydrate and the temperature affect how much energy yeast can release?",
+  targets: {
+    R: "I can connect carbohydrate structure, enzymes, and cellular respiration.",
+    I: "I can measure CO₂ from yeast and identify the independent and dependent variables.",
+    O: "I can organize results in a data table and bar graph.",
+    W: "I can write a short CER that uses ideas from more than one unit."
+  },
+  teacher: `<p><b>Connects:</b> Macromolecules (monosaccharides, disaccharides, polysaccharides) · Enzymes (specificity, temperature, denaturing) · Cellular respiration and fermentation (CO₂ as a product).</p>
+    <p><b>The science:</b> Baker’s yeast (<i>Saccharomyces cerevisiae</i>) readily uses glucose and sucrose (its enzyme invertase splits sucrose into glucose and fructose). It cannot use lactose and uses starch very poorly, because it lacks the enzymes to break them down. Cold slows enzymes; temperatures around 60–70 °C kill yeast and denature its enzymes. Yeast makes CO₂ by both aerobic respiration and alcoholic fermentation.</p>
+    <p><b>Data:</b> CO₂ volumes (mL after 30 minutes) are SAMPLE data made up for practice that follow the real pattern.</p>`,
+  stations: [
+    { letters: ["R"], title: "Warm-Up: Food, Enzymes, Energy", time: "5 min", goal: "Review the three ideas you’ll need.",
+      blocks: [
+        { t: "warmup", title: "Three units, one balloon", read: [
+          "<b>Carbohydrates</b> come in different sizes. <b>Monosaccharides</b> like glucose are single sugars. <b>Disaccharides</b> like sucrose (table sugar) and lactose (milk sugar) are two sugars joined together. <b>Polysaccharides</b> like starch are long chains of many sugars.",
+          "Cells can only use single sugars for <b>cellular respiration</b>. Bigger carbohydrates must first be broken apart by <b>enzymes</b>. Each enzyme fits only certain molecules, like a key in a lock, and enzymes work best at certain temperatures.",
+          "During respiration and fermentation, yeast breaks down glucose to release energy and gives off <b>carbon dioxide (CO₂)</b> gas. More CO₂ means more sugar was broken down."],
+          vocab: [["monosaccharide", "monosacárido", "A single sugar, like glucose."], ["disaccharide", "disacárido", "Two sugars joined, like sucrose or lactose."], ["polysaccharide", "polisacárido", "A long chain of sugars, like starch."], ["enzyme", "enzima", "A protein that speeds up a reaction; it fits specific molecules."], ["denature", "desnaturalizar", "When heat or acid changes an enzyme’s shape so it stops working."], ["cellular respiration", "respiración celular", "Breaking down glucose to release energy; makes CO₂."]],
+          table: { cap: "Carbohydrates in this lab", head: ["Food", "Type", "Made of"], rows: [["Glucose", "Monosaccharide", "1 sugar"], ["Sucrose (table sugar)", "Disaccharide", "Glucose + fructose"], ["Lactose (milk sugar)", "Disaccharide", "Glucose + galactose"], ["Starch", "Polysaccharide", "Hundreds of glucose units"]] } },
+        { t: "visual", v: "carbs", title: "Picture it: the carbohydrates in this lab", cap: "One ring = one sugar. Yeast can only use single sugars, or sugars it has an enzyme to split." },
+        { t: "quiz", label: "warm-up check", title: "Quick check", items: [
+          { q: "What gas fills the balloon?", opts: ["Oxygen", "Carbon dioxide", "Nitrogen", "Helium"], a: 1, why: "Yeast releases CO₂ as it breaks down sugar." },
+          { q: "Why must starch be broken down before yeast can use it?", opts: ["Starch is a protein", "Cells use single sugars for respiration, and starch is a long chain", "Starch is already glucose", "Starch is a gas"], a: 1, why: "Only single sugars can enter respiration. Enzymes must split big carbohydrates first." }] }
+      ] },
+    { letters: ["O"], title: "Connect the Units", time: "3 min", goal: "Sort each idea into the unit it comes from.",
+      blocks: [
+        { t: "sort", label: "units sort", title: "Which unit does each idea come from?", zones: ["Macromolecules", "Enzymes", "Cellular Respiration"], colors: ["#e08a00", "#8a54e0", "#1aa36f"],
+          tiles: [["Starch is a polysaccharide made of many glucose units.", 0], ["Sucrose is a disaccharide.", 0], ["Invertase splits sucrose into glucose and fructose.", 1], ["High heat changes an enzyme’s shape.", 1], ["Glucose is broken down to release energy.", 2], ["CO₂ is a product.", 2]],
+          why: "The food (macromolecules) must be broken down (enzymes) before energy can be released (respiration)." }
+      ] },
+    { letters: ["I", "O"], title: "Balloon Lab", time: "8 min", goal: "Test each flask and record how much CO₂ the yeast made.",
+      blocks: [
+        { t: "minisim", title: "Yeast flasks: CO₂ after 30 minutes (sample data)", how: "Each flask has the same amount of yeast and water. Tap ▶ Test to measure the CO₂ collected in the balloon. Record the volume and the main reason for the result.", scene: "balloon", measure: "CO₂ collected", unit: "mL", top: 60, color: "#e08a00", tol: 0.5, max: 4, label: "balloon data",
+          col: { head: "Main reason", opts: ["Yeast can use this sugar", "Yeast lacks the enzyme to break it down", "Too cold: enzymes slow down", "Too hot: yeast killed, enzymes denatured", "Control: no food"] },
+          conds: [
+            { k: "w", name: "Water only (40 °C)", val: 0, pick: 4, liquid: "#dcebf5" }, { k: "glu", name: "Glucose (40 °C)", val: 48, pick: 0 }, { k: "suc", name: "Sucrose (40 °C)", val: 44, pick: 0 },
+            { k: "sta", name: "Starch (40 °C)", val: 5, pick: 1 }, { k: "lac", name: "Lactose (40 °C)", val: 1, pick: 1 }, { k: "cold", name: "Glucose (4 °C, fridge)", val: 9, pick: 2, liquid: "#cfe3f7" }, { k: "hot", name: "Glucose (70 °C)", val: 0, pick: 3, liquid: "#f7c9a8" }] },
+        { t: "fill", label: "variables frames", title: "Name the variables", max: 2,
+          items: [{ parts: ["The independent variables are the ", B(["amount of CO₂", "type of carbohydrate and the temperature"], 1), ". The dependent variable is the ", B(["amount of CO₂", "amount of yeast"], 0), ". The water-only flask is the ", B(["control", "hypothesis"], 0), "."] }],
+          why: "We change the food and temperature, and we measure the CO₂. The water-only flask shows what happens with no food." }
+      ] },
+    { letters: ["I", "W"], title: "Analyze + Mini CER", time: "6 min", goal: "Explain the results with all three units.",
+      blocks: [
+        { t: "fill", label: "analysis frames", title: "Explain the results", max: 3,
+          items: [
+            { parts: ["Sucrose made almost as much CO₂ as glucose because yeast has an enzyme that ", B(["splits sucrose into single sugars", "turns sucrose into starch"], 0), "."] },
+            { parts: ["Lactose made almost no CO₂ because yeast ", B(["has too much lactase", "does not have the enzyme to break down lactose"], 1), "."] },
+            { parts: ["At 70 °C, no CO₂ was made because the heat ", B(["denatured the enzymes and killed the yeast", "made the enzymes work faster"], 0), ". At 4 °C, CO₂ was low because enzymes ", B(["work slowly in the cold", "are destroyed by cold"], 0), "."] }],
+          why: "Food type matters because enzymes are specific. Temperature matters because enzymes slow in the cold and denature in high heat." },
+        { t: "cerg", title: "Mini CER", q: "<b>Question:</b> Why did the yeast make lots of CO₂ with glucose but almost none with starch or lactose?", claimA: 1, need: 2,
+          claims: ["Starch and lactose are poisonous to yeast.", "Yeast can only respire single sugars; it lacks the enzymes to break down lactose and most starch, so it gets little glucose from them.", "Glucose is a protein.", "The balloons for starch and lactose had holes."],
+          evidence: [["Glucose made 48 mL of CO₂, but starch made only 5 mL and lactose only 1 mL.", true], ["Sucrose made 44 mL, because yeast has an enzyme that splits sucrose.", true], ["The flasks were made of glass.", false], ["All flasks were at the same temperature (40 °C) for this comparison.", true]],
+          words: ["enzyme", "glucose", "single sugar", "disaccharide", "polysaccharide", "break down", "cellular respiration", "CO₂", "energy", "specific"],
+          frames: ["Yeast made more CO₂ with glucose because…", "In my data, glucose made ___ mL, but…", "This is because enzymes…", "So less glucose was available for…"],
+          must: ["enzyme", "glucose|single sugar|monosacch", "break|split|digest", "respir|energy|CO"] },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "Bread dough rises faster in a warm kitchen than in a cold one. Why?", opts: ["Warm air is lighter", "Yeast enzymes work faster when warm, so more CO₂ is made", "Cold kills all yeast", "Warm air adds sugar"], a: 1, why: "Enzymes speed up as temperature rises (until it gets hot enough to denature them)." },
+          { q: "Which unit explains why lactose didn’t work?", opts: ["Enzymes: no enzyme fits lactose in baker’s yeast", "Ecology", "Cell division", "Genetics only"], a: 0, why: "Enzymes are specific. Without the right enzyme, lactose can’t be split into single sugars." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-visuals.js?v=2"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-minisim.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

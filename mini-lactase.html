@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Lab: Got Lactase? | TW Mustang Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cc-lesson.css?v=2">
+<link rel="stylesheet" href="tw-theme.css?v=1">
+</head>
+<body>
+<script>
+/* =====================================================================
+   MINI LAB (≈ 25 min): Got Lactase? (Lactose Intolerance)
+   Connects: Macromolecules & Enzymes · Genetics (gene expression,
+   mutation) · Evolution (natural selection in herding cultures)
+   Students test milk with lactase under different conditions using a
+   glucose test strip, then connect enzymes to genes and evolution.
+   ===================================================================== */
+const B = (o, a) => ({ o, a });
+window.CC = {
+  id: "mini-lactase", subject: "Biology", short: "Mini Lab: Got Lactase?", color: "#8a54e0", emoji: "🥛", time: "≈ 25 min",
+  kind: "Virtual Lab", brand: { name: "Interactive Lessons", home: "lessons", mark: "" },
+  title: "Mini Lab: Got Lactase? (Enzymes → Genetics → Evolution)",
+  intro: "Most adults in the world have trouble digesting milk, but some adults digest it easily all their lives. Test the enzyme lactase in the lab, then trace the difference back to a gene and to how human populations evolved.",
+  eq: "How does one enzyme connect what we eat, the genes we inherit, and how human populations evolved?",
+  targets: {
+    R: "I can explain how lactase breaks down lactose and why conditions affect enzymes.",
+    I: "I can use glucose test results as evidence of enzyme activity.",
+    O: "I can organize results to compare conditions.",
+    W: "I can write a short CER connecting enzymes, genes, and natural selection."
+  },
+  teacher: `<p><b>Connects:</b> Macromolecules and enzymes (lactose is a disaccharide; lactase is specific; temperature and pH affect shape) · Genetics (the LCT gene and a regulatory mutation that keeps it switched on) · Evolution (natural selection in populations that raised dairy animals).</p>
+    <p><b>The science:</b> Lactase splits lactose into glucose and galactose. Most mammals, and about two-thirds of people worldwide, make much less lactase after early childhood. In some populations with a long history of herding and drinking milk (for example in parts of Europe, East Africa, and the Middle East), mutations near the lactase gene keep it active into adulthood (“lactase persistence”). These mutations arose independently in different groups and became common through natural selection. Being lactose intolerant is normal and is not a disease.</p>
+    <p><b>Data:</b> Glucose readings (mg/dL on a test strip after 10 minutes) are SAMPLE data made up for practice that follow the real pattern.</p>`,
+  stations: [
+    { letters: ["R"], title: "Warm-Up: Milk Sugar and the Enzyme That Splits It", time: "5 min", goal: "Review lactose, lactase, and how enzymes work.",
+      blocks: [
+        { t: "warmup", title: "Lactose, lactase, and you", read: [
+          "<b>Lactose</b> is the sugar in milk. It is a <b>disaccharide</b>: glucose and galactose joined together. Your small intestine can only absorb single sugars, so lactose must be split first by the <b>enzyme lactase</b>.",
+          "Enzymes are proteins with a specific shape. The <b>active site</b> fits only certain molecules. Cold slows enzymes down. High heat or strong acid can <b>denature</b> them: their shape changes, so they stop working.",
+          "The instructions for lactase are in a gene called <b>LCT</b>. In most people, this gene is turned down after early childhood, so they make less lactase as adults. Undigested lactose is broken down by bacteria in the large intestine, which can cause gas and stomach pain. This is <b>lactose intolerance</b>."],
+          vocab: [["lactose", "lactosa", "The disaccharide sugar in milk."], ["lactase", "lactasa", "The enzyme that splits lactose into glucose and galactose."], ["active site", "sitio activo", "The part of an enzyme where its molecule fits."], ["denature", "desnaturalizar", "To change an enzyme’s shape so it stops working."], ["lactase persistence", "persistencia de la lactasa", "Making lactase all through adulthood."]],
+          table: { cap: "Enzyme names often end in “-ase”", head: ["Molecule", "Enzyme"], rows: [["Lactose", "Lactase"], ["Sucrose", "Sucrase"], ["Maltose", "Maltase"], ["Proteins", "Protease"]] } },
+        { t: "visual", v: "lactase", title: "Picture it: lactase is like a lock and key", cap: "The lactose fits the enzyme’s active site and is split. If the enzyme’s shape changes, the lactose no longer fits." },
+        { t: "quiz", label: "warm-up check", title: "Quick check", items: [
+          { q: "What does lactase do?", opts: ["Makes lactose", "Splits lactose into glucose and galactose", "Turns milk into protein", "Adds sugar to milk"], a: 1, why: "Lactase breaks the bond between the two sugars in lactose." },
+          { q: "Why can a test strip that detects GLUCOSE show whether lactase worked?", opts: ["Milk is made of glucose", "When lactase splits lactose, glucose is released", "Lactase is glucose", "Glucose makes milk white"], a: 1, why: "Plain milk has little free glucose. Glucose only appears if lactose is split." }] }
+      ] },
+    { letters: ["O"], title: "Connect the Units", time: "3 min", goal: "Sort each idea into the unit it comes from.",
+      blocks: [
+        { t: "sort", label: "units sort", title: "Which unit does each idea come from?", zones: ["Macromolecules & Enzymes", "Genetics", "Evolution"], colors: ["#8a54e0", "#2b7de9", "#1aa36f"],
+          tiles: [["Lactose is a disaccharide.", 0], ["Boiling denatures lactase.", 0], ["The LCT gene codes for lactase.", 1], ["A mutation keeps the lactase gene switched on in adults.", 1], ["In herding cultures, adults who could digest milk had more food and more children.", 2], ["Lactase persistence became common in some populations over thousands of years.", 2]],
+          why: "The enzyme (macromolecules) is coded by a gene (genetics), and the gene’s versions spread differently in different populations (evolution)." }
+      ] },
+    { letters: ["I", "O"], title: "Enzyme Lab: Test the Milk", time: "8 min", goal: "Test six tubes and record the glucose reading.",
+      blocks: [
+        { t: "minisim", title: "Glucose test strip after 10 minutes (sample data)", how: "Each tube has the same amount of milk. Tap ▶ Test to dip a glucose strip. Record the reading and the reason for the result.", scene: "strip", measure: "Glucose", unit: "mg/dL", top: 120, color: "#8a54e0", tol: 0.5, max: 4, label: "enzyme data",
+          col: { head: "Reason", opts: ["Lactase split the lactose", "No lactase was added", "Cold slowed the enzyme", "Boiling denatured the enzyme", "Strong acid changed the enzyme’s shape", "The lactose was already split at the factory"] },
+          conds: [
+            { k: "m", name: "Milk only (37 °C)", val: 0, pick: 1 }, { k: "ml", name: "Milk + lactase (37 °C)", val: 95, pick: 0 }, { k: "mc", name: "Milk + lactase (4 °C)", val: 22, pick: 2 },
+            { k: "mb", name: "Milk + boiled lactase", val: 0, pick: 3 }, { k: "ma", name: "Milk + lactase + strong acid", val: 6, pick: 4 }, { k: "lf", name: "“Lactose-free” milk only", val: 90, pick: 5 }] }
+      ] },
+    { letters: ["I", "W"], title: "Analyze + Mini CER", time: "6 min", goal: "Connect your enzyme results to genes and evolution.",
+      blocks: [
+        { t: "fill", label: "analysis frames", title: "What does the data show?", max: 3,
+          items: [
+            { parts: ["Lactase worked best at ", B(["4 °C", "37 °C (body temperature)", "100 °C"], 1), ", which makes sense because it works inside the human body."] },
+            { parts: ["“Lactose-free” milk already had glucose because the company added ", B(["lactase", "extra lactose"], 0), " at the factory."] },
+            { parts: ["Adults who are lactose intolerant make less lactase because their ", B(["LCT gene is turned down after childhood", "stomach is too small"], 0), ". In herding cultures, a mutation that kept it on spread by ", B(["natural selection", "the adults’ choice"], 0), "."] }],
+          why: "Enzymes need the right conditions. The amount of lactase depends on a gene, and the version of the gene that keeps lactase on became common where milk was an important food." },
+        { t: "cerg", title: "Mini CER", q: "<b>Question:</b> Why can some adults digest milk easily while most adults in the world cannot?", claimA: 2, need: 2,
+          claims: ["Adults who drink milk every day grow more lactase genes.", "Milk is different in every country.", "Some adults inherited a mutation that keeps their lactase gene switched on; it became common in herding populations because it helped people survive and reproduce.", "Lactose intolerance is caused by a virus."],
+          evidence: [["In my lab, milk with active lactase made 95 mg/dL of glucose, but milk with no lactase made 0.", true], ["Lactase activity is controlled by the LCT gene, which is turned down after childhood in most people.", true], ["Milk is white.", false], ["Lactase persistence is common in populations with a long history of raising dairy animals.", true]],
+          words: ["enzyme", "lactase", "lactose", "gene", "mutation", "inherit", "natural selection", "population", "digest", "glucose"],
+          frames: ["Some adults can digest milk because…", "In my lab, active lactase…", "The amount of lactase is controlled by…", "This trait became common in some populations because…"],
+          must: ["lactase|enzyme", "gene|mutation|inherit|LCT", "selection|surviv|reproduc|herd|population", "lactose|digest|glucose|milk"] },
+        { t: "quiz", label: "exit ticket", title: "Exit ticket", items: [
+          { q: "Boiled lactase didn’t work. Which unit explains why?", opts: ["Enzymes: heat changed the enzyme’s shape (denatured it)", "Ecology", "Cell division", "Photosynthesis"], a: 0, why: "An enzyme’s shape determines its function. Heat changes the shape." },
+          { q: "Did drinking milk CAUSE adults to develop lactase persistence?", opts: ["Yes, drinking milk changes your DNA", "No. The mutation happened by chance; in milk-drinking populations, people with it had an advantage, so it spread over generations", "Yes, but only in children", "No, it is caused by bacteria"], a: 1, why: "Like all natural selection, the variation came first. The environment (a diet with milk) made it an advantage." }] }
+      ] }
+  ]
+};
+</script>
+<script src="cc-bblab.js?v=7"></script>
+<script src="cc-visuals.js?v=2"></script>
+<script src="cc-protsyn.js?v=3"></script>
+<script src="cc-minisim.js?v=2"></script>
+<script src="cc-blocks2.js?v=1"></script>
+<script src="hub-config.js?v=3"></script>
+<script src="tw-theme.js?v=1"></script>
+<script src="cc-lesson.js?v=4"></script>
+</body>
+</html>

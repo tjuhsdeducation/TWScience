@@ -21,10 +21,15 @@
     .pp-sc{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin:8px 0}
     .pp-sc button{all:unset;cursor:pointer;border:3px solid var(--line);border-radius:16px;padding:8px 10px;background:var(--surface);display:grid;gap:2px;font-size:.86rem;line-height:1.3}
     .pp-sc button.on{border-color:var(--lc);background:color-mix(in srgb,var(--lc) 12%,var(--surface))}.pp-sc button.done::after{content:"✓ run";font-weight:800;color:#1d7a45;font-size:.78rem}
+    .pp-sc button:hover{border-color:var(--lc)}
+    .pp-step{margin:6px 0 0;font-size:.92rem}
+    .pp-run{width:100%;font-size:1.05rem;padding:12px 16px;margin-bottom:8px}.pp-run.go{animation:pppulse 1.6s ease-in-out infinite}
+    @keyframes pppulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--lc) 45%,transparent)}50%{box-shadow:0 0 0 8px transparent}}
     .pp-main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px;align-items:start}
     @media (max-width:860px){.pp-main{grid-template-columns:1fr}}
     .pp-plot{width:100%;height:auto;display:block;background:#fff;border:2px solid var(--line);border-radius:14px}
-    .pp-forest{border-radius:14px;background:linear-gradient(#dff3ff,#eaf8e6 55%,#cfe8c4);border:2px solid var(--line);padding:8px;min-height:120px;line-height:1.15;font-size:1.05rem;word-break:break-all}
+    .pp-forest{border-radius:14px;background:linear-gradient(#dff3ff,#eaf8e6 55%,#cfe8c4);border:2px solid var(--line);padding:8px;min-height:120px;line-height:1.5;font-size:1.05rem;word-break:break-all}
+    .pp-forest .row{min-height:1.5em}
     .pp-forest .lab{display:block;font:800 .78rem var(--body);color:#2b3b2b;margin-top:4px;word-break:normal}
     .pp-cnt{border:2px solid var(--line);border-radius:14px;padding:8px 10px;background:var(--soft);font-weight:800;display:grid;gap:3px;margin-top:8px}
     .pp-cnt input[type=range]{width:100%}
@@ -58,17 +63,18 @@
       g += `<path d="${dh}" fill="none" stroke="#e08a00" stroke-width="3"/><path d="${dl}" fill="none" stroke="#8a54e0" stroke-width="3" stroke-dasharray="${s.k === "none" ? "0" : "0"}"/>`; }
     return `<svg class="pp-plot" viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Graph of hare and lynx populations over 30 years">${g}</svg>`;
   }
-  const forest = (h, l) => `<div class="pp-forest">${"🐇".repeat(Math.max(0, Math.round(h / 12)))}<span class="lab">🐇 = about 12 thousand hares</span>${"🐈".repeat(Math.max(0, Math.round(l / 1.5)))}<span class="lab">🐈 = about 150 lynx</span></div>`;
+  const forest = (h, l) => `<div class="pp-forest"><div class="row">${"🐇".repeat(Math.max(0, Math.round(h / 12))) || "&nbsp;"}</div><span class="lab">🐇 = about 12 thousand hares</span><div class="row">${"🐈".repeat(Math.max(0, Math.round(l / 1.5))) || "&nbsp;"}</div><span class="lab">🐈 = about 150 lynx</span></div>`;
   function twoTap(btn, fn) { btn.onclick = () => { if (!btn.dataset.sure) { btn.dataset.sure = "1"; const t = btn.textContent; btn.textContent = "⚠️ Tap again to reset"; setTimeout(() => { if (btn.isConnected) { delete btn.dataset.sure; btn.textContent = t; } }, 4000); return; } fn(); }; }
   const NEED = [["nat", "h"], ["nat", "l"], ["none", "h"]];
   BT.ppsim = {
     html(b, st) {
       if (st.going && !window.__ppRunning) st.going = false;
+      if (!st.on) st.on = SC[0].k;                              /* start with the natural forest picked, so the Run button shows */
       const s = SC.find(x => x.k === st.on), ran = st.ran || {}, yy = s ? (ran[s.k] ? Y : 0) : 0, sv = st.sv ?? 0, cur = s && ran[s.k] ? s.data[sv] : s ? s.data[0] : [0, 0];
       let h = `<div class="pp"><h4>${b.title || "Forest Simulator: Hares and Lynx"}</h4><p class="mu small">${b.how || "Choose a scenario and run 30 years. Then slide the survey year to count the animals in any year."}</p>
-        <div class="pp-sc">${SC.map(x => `<button class="${st.on === x.k ? "on" : ""} ${ran[x.k] ? "done" : ""}" data-ppc="${x.k}" ${st.going ? "disabled" : ""}><b>${x.name}</b><span class="mu">${x.desc}</span></button>`).join("")}</div>
+        <p class="pp-step"><b>Step 1:</b> Tap a scenario. <b>Step 2:</b> Press ▶ Run 30 years.</p><div class="pp-sc">${SC.map(x => `<button type="button" class="${st.on === x.k ? "on" : ""} ${ran[x.k] ? "done" : ""}" data-ppc="${x.k}" ${st.going ? "disabled" : ""}><b>${st.on === x.k ? "✔ " : ""}${x.name}</b><span class="mu">${x.desc}</span></button>`).join("")}</div>
         <div class="pp-main"><div>${plot(s, yy)}</div><div>
-          ${s ? `<button class="btn" data-pprun ${ran[s.k] || st.going ? "disabled" : ""}>${ran[s.k] ? "✅ 30 years complete" : "▶ Run 30 years"}</button>` : `<p class="mu">👆 Choose a scenario to start.</p>`}
+          ${s ? `<button type="button" class="btn pp-run ${ran[s.k] ? "" : "go"}" data-pprun ${ran[s.k] || st.going ? "disabled" : ""}>${ran[s.k] ? "✅ 30 years complete" : "▶ Run 30 years: " + s.name}</button>` : `<p class="mu">👆 Choose a scenario to start.</p>`}
           <div data-ppf>${forest(cur[0], cur[1])}</div>
           <div class="pp-cnt">${s && ran[s.k] ? `<label>Survey year: <b data-ppy>${sv}</b><input type="range" min="0" max="${Y}" step="1" value="${sv}" data-ppsv aria-label="Survey year"></label>` : `<span>Survey year: <b data-ppy>${s ? (st.going ? "running" : 0) : "-"}</b></span>`}
             <span>🐇 Hares: <b data-pph>${s ? cur[0] : "-"}</b> thousand</span><span>🐈 Lynx: <b data-ppl>${s ? cur[1] : "-"}</b> hundred</span></div>
@@ -93,7 +99,7 @@
       const go = $("[data-pprun]", root);
       if (go) go.onclick = () => {
         const s = SC.find(x => x.k === st.on); if (!s) return;
-        st.going = true; window.__ppRunning = true; go.disabled = true; go.textContent = "Running…";
+        st.going = true; window.__ppRunning = true; go.disabled = true; go.classList.remove("go"); go.textContent = "Running… watch the forest and the graph";
         const t0 = performance.now(), dur = window.PP_FAST ? 200 : 7500;
         const step = now => {
           if (!root.isConnected) { window.__ppRunning = false; st.going = false; return; }

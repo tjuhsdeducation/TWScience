@@ -10,7 +10,7 @@
       exactly the same as the SCHOOLS list at the top of Code.gs.
    ===================================================================== */
 window.HUB_CONFIG = {
-  scriptUrl: "",
+  scriptUrl: "https://script.google.com/macros/s/AKfycbx9lgm_ZFD0vdL-KSwNIq-cB2srVu0zqpS5NOztp-vZcyGvu3hLLZQuA6pxyfcGegfq/exec",
   schools: {
     "Tulare Western": ["Kelsi Easley", "Kurt Airoso", "Alyssa Avina", "Taylor Custodio", "Joshua Gomes"]
   },
